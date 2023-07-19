@@ -1,0 +1,35 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration {
+    public function up(): void
+    {
+        Schema::create('events', function (Blueprint $table) {
+            $table->id();
+
+            $table->string('name', 10)->nullable()->index();
+            $table->char('typeID', 5)->nullable()->index();
+            $table->string('extra', 10);
+            $table->string('round', 3)->nullable();
+            $table->char('ageGroupID', 3)->nullable()->index();
+            $table->char('gender', 1)->nullable()->index();
+            $table->char('meetingID', 10)->nullable()->index();
+            $table->string('wind', 10)->nullable();
+            $table->text('note')->nullable();
+            $table->integer('distance')->nullable()->index();
+            $table->unsignedInteger('masterMultiEventID')->nullable();
+            $table->char('io', 1)->default('O')->index();
+            $table->smallInteger('heat')->unsigned()->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::dropIfExists('events');
+    }
+};
