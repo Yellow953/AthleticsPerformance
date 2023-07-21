@@ -1,0 +1,2 @@
+yellow: #ffdc11
+black: #1e2024
