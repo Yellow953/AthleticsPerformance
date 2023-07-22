@@ -1,0 +1,29 @@
+.logo-nav {
+  width: 100px;
+  height: auto;
+}
+
+.text-yellow {
+  color: #ffdc11;
+}
+.text-black {
+  color: #1e2024;
+}
+
+.bg-yellow {
+  background-color: #ffdc11;
+}
+.bg-black {
+  background-color: #1e2024;
+}
+.bg-gray {
+  background-color: #292c31;
+}
+
+.border-yellow {
+  border: 5px solid #ffdc11;
+}
+
+.rounded {
+  border-radius: 50%;
+}

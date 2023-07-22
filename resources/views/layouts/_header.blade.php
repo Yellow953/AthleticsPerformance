@@ -1,21 +1,20 @@
 <!-- HEADER DESKTOP-->
-<header class="header-desktop">
+<header class="header-desktop bg-black">
     <div class="section__content section__content--p30">
         <div class="container-fluid">
             <div class="header-wrap">
                 <form class="form-header" action="" method="POST">
-
                 </form>
                 <div class="header-button">
                     <div class="noti-wrap">
                     </div>
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
-                            <div class="image">
+                            <div class="image bg-white">
                                 <img src="{{asset('assets/images/default_profile.png')}}" />
                             </div>
                             <div class="content">
-                                <a class="js-acc-btn" href="/">{{auth()->user()->name}}</a>
+                                <a class="js-acc-btn text-white" href="/">{{auth()->user()->name}}</a>
                             </div>
                             <div class="account-dropdown js-dropdown">
                                 <div class="info clearfix">

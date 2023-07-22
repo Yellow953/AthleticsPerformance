@@ -35,16 +35,22 @@
     <!-- Main CSS-->
     <link href="{{asset('assets/css/theme.css')}}" rel="stylesheet" media="all">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.ico')}}">
+
+    {{-- Custom Css --}}
+    <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
+
 </head>
 
 <body class="animsition">
-    <div class="page-wrapper">
+    <div class="page-wrapper p-0">
         @include('layouts._mobile_header')
 
         @include('layouts._sidebar')
 
         <!-- PAGE CONTAINER-->
-        <div class="page-container">
+        <div class="page-container bg-gray">
             @include('layouts._header')
 
             @include('layouts._flash')
@@ -54,7 +60,6 @@
             </main>
         </div>
         <!-- END PAGE CONTAINER-->
-
     </div>
 
 
