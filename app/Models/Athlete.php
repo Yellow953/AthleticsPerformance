@@ -9,6 +9,8 @@ class Athlete extends Model
 {
     use HasFactory;
 
+    protected $connection = 'mysql';
+
     protected $guarded = [];
 
 }

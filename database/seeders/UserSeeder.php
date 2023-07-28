@@ -10,7 +10,7 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('users')->insert([
+        DB::connection('mysql')->table('users')->insert([
             'name' => 'test',
             'role' => 'admin',
             'email' => 'test@test.com',

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('meetings', function (Blueprint $table) {
+        Schema::connection('mysql')->create('meetings', function (Blueprint $table) {
             $table->id();
 
             $table->char('ageGroupID', 3)->index();
@@ -31,6 +31,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('meetings');
+        Schema::connection('mysql')->dropIfExists('meetings');
     }
 };

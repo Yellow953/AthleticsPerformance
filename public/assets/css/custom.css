@@ -27,3 +27,10 @@
 .rounded {
   border-radius: 50%;
 }
+.rounded-25 {
+  border-radius: 25px;
+}
+
+#data-table th {
+  color: white;
+}

@@ -1,0 +1,8 @@
+Migration
+connection('mysql')->
+
+Model
+protected $connection = 'mysql';
+
+php artisan migrate --database=mysql
+php artisan migrate --database=mysql_second

@@ -56,7 +56,12 @@
             @include('layouts._flash')
 
             <main class="py-4">
-                @yield('content')
+                <!-- MAIN CONTENT-->
+                <div class="main-content">
+                    <div class="section__content section__content--p30">
+                        @yield('content')
+                    </div>
+                </div>
             </main>
         </div>
         <!-- END PAGE CONTAINER-->

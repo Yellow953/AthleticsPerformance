@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('results', function (Blueprint $table) {
+        Schema::connection('mysql')->create('results', function (Blueprint $table) {
             $table->id();
 
             $table->unsignedInteger('eventID')->index();
@@ -29,6 +29,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('results');
+        Schema::connection('mysql')->dropIfExists('results');
     }
 };

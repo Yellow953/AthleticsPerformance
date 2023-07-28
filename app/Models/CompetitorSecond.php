@@ -5,11 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Result extends Model
+class CompetitorSecond extends Model
 {
     use HasFactory;
 
-    protected $connection = 'mysql';
+    protected $connection = 'mysql_second';
+
+    protected $table = 'competitors';
 
     protected $guarded = [];
 
