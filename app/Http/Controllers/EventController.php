@@ -14,13 +14,13 @@ class EventController extends Controller
 
     public function index()
     {
-        return view('events.index');
+        $events = Event::paginate(25);
+        return view('events.index', compact('events'));
     }
 
     public function new()
     {
-        $events = Event::paginate(25);
-        return view('events.new', compact('events'));
+        return view('events.new');
     }
 
     public function create(Request $request)
@@ -31,9 +31,9 @@ class EventController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Event::create([
+        Event::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/events')->with('success', 'Event successfully created!');
     }

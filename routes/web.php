@@ -46,12 +46,12 @@ Route::post('/record/{id}/update', [App\Http\Controllers\RecordController::class
 Route::get('/record/{id}/delete', [App\Http\Controllers\RecordController::class, 'destroy']);
 
 // Results
-Route::get('/results', [App\Http\Controllers\Result::class, 'index']);
-Route::get('/result/new', [App\Http\Controllers\Result::class, 'new']);
-Route::post('/result/create', [App\Http\Controllers\Result::class, 'create']);
-Route::get('/result/{id}/edit', [App\Http\Controllers\Result::class, 'edit']);
-Route::post('/result/{id}/update', [App\Http\Controllers\Result::class, 'update']);
-Route::get('/result/{id}/delete', [App\Http\Controllers\Result::class, 'destroy']);
+Route::get('/results', [App\Http\Controllers\ResultController::class, 'index']);
+Route::get('/result/new', [App\Http\Controllers\ResultController::class, 'new']);
+Route::post('/result/create', [App\Http\Controllers\ResultController::class, 'create']);
+Route::get('/result/{id}/edit', [App\Http\Controllers\ResultController::class, 'edit']);
+Route::post('/result/{id}/update', [App\Http\Controllers\ResultController::class, 'update']);
+Route::get('/result/{id}/delete', [App\Http\Controllers\ResultController::class, 'destroy']);
 
 // Home
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);

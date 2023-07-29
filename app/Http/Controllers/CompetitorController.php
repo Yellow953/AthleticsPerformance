@@ -31,9 +31,9 @@ class CompetitorController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Competitor::create([
+        Competitor::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/competitors')->with('success', 'Competitor successfully created!');
     }

@@ -31,9 +31,9 @@ class AthleteController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Athlete::create([
+        Athlete::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/athletes')->with('success', 'Athlete successfully created!');
     }

@@ -31,9 +31,9 @@ class RecordController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Record::create([
+        Record::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/records')->with('success', 'Record successfully created!');
     }

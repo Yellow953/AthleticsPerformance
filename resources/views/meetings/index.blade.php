@@ -55,6 +55,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        @forelse ($meetings as $meeting)
                         <tr class="tr-shadow">
                             <td>Lori Lynch</td>
                             <td>
@@ -84,6 +85,9 @@
                             </td>
                         </tr>
                         <tr class="spacer"></tr>
+                        @empty
+                        No Meetings Found ...
+                        @endforelse
                         <tr class="tr-shadow">
                             <td>Lori Lynch</td>
                             <td>

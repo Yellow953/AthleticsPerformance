@@ -31,9 +31,9 @@ class ResultController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Result::create([
+        Result::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/results')->with('success', 'Result successfully created!');
     }

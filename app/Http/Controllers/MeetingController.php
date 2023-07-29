@@ -31,9 +31,9 @@ class MeetingController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        Meeting::create([
+        Meeting::create(
             $request->all()
-        ]);
+        );
 
         return redirect('/meetings')->with('success', 'Meeting successfully created!');
     }
