@@ -46,7 +46,7 @@ class RecordController extends Controller
             return redirect('/records')->with('danger', 'Record not found!');
         }
 
-        return view('records.edit', compact('Record'));
+        return view('records.edit', compact('record'));
     }
 
     public function update(Request $request, $id)
@@ -81,5 +81,10 @@ class RecordController extends Controller
         $record->delete();
 
         return redirect()->back()->with('danger', 'Record successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }

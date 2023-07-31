@@ -25,6 +25,8 @@ return new class extends Migration {
             $table->tinyInteger('isNew')->default(1);
             $table->timestamp('createDate')->default(DB::raw('CURRENT_TIMESTAMP'));
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Competitor;
+use App\Models\CompetitorSecond;
 use Illuminate\Http\Request;
 
 class CompetitorController extends Controller
@@ -14,7 +15,14 @@ class CompetitorController extends Controller
 
     public function index()
     {
-        $competitors = Competitor::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $competitors = Competitor::where('name', 'LIKE', "%{$search}%")->paginate(25);
+        } else {
+            $competitors = Competitor::paginate(25);
+        }
+
         return view('competitors.index', compact('competitors'));
     }
 
@@ -46,7 +54,7 @@ class CompetitorController extends Controller
             return redirect('/competitors')->with('danger', 'Competitor not found!');
         }
 
-        return view('competitors.edit', compact('Competitor'));
+        return view('competitors.edit', compact('competitor'));
     }
 
     public function update(Request $request, $id)
@@ -81,5 +89,10 @@ class CompetitorController extends Controller
         $competitor->delete();
 
         return redirect()->back()->with('danger', 'Competitor successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }

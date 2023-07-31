@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->smallInteger('year');
             $table->char('ageGroupID', 3)->nullable()->index();
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

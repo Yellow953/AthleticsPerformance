@@ -24,6 +24,8 @@ return new class extends Migration {
             $table->char('io', 1)->default('O')->index();
             $table->smallInteger('heat')->unsigned()->nullable();
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

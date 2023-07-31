@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\MeetingSecond;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,14 @@ class MeetingController extends Controller
 
     public function index()
     {
-        $meetings = Meeting::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $meetings = Meeting::where('name', 'LIKE', "%{$search}%")->orWhere('shortName', 'LIKE', "%{$search}%")->paginate(25);
+        } else {
+            $meetings = Meeting::paginate(25);
+        }
+
         return view('meetings.index', compact('meetings'));
     }
 
@@ -81,5 +89,10 @@ class MeetingController extends Controller
         $meeting->delete();
 
         return redirect()->back()->with('danger', 'Meeting successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }

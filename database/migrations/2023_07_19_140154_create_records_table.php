@@ -31,6 +31,8 @@ return new class extends Migration {
             $table->decimal('resultValue', 7, 2)->nullable()->index();
             $table->unsignedInteger('resultID')->nullable();
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

@@ -18,5 +18,14 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        DB::connection('mysql')->table('users')->insert([
+            'name' => 'gaby el khoury',
+            'role' => 'admin',
+            'email' => 'gabyek@gmail.com',
+            'password' => Hash::make('qwe123'),
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Event;
+use App\Models\EventSecond;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -14,7 +15,14 @@ class EventController extends Controller
 
     public function index()
     {
-        $events = Event::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $events = Event::where('name', 'LIKE', "%{$search}%")->paginate(25);
+        } else {
+            $events = Event::paginate(25);
+        }
+
         return view('events.index', compact('events'));
     }
 
@@ -81,5 +89,10 @@ class EventController extends Controller
         $event->delete();
 
         return redirect()->back()->with('danger', 'Event successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }

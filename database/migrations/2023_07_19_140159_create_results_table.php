@@ -23,6 +23,8 @@ return new class extends Migration {
             $table->smallInteger('heat')->unsigned()->nullable();
             $table->tinyInteger('isActive')->default(1);
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

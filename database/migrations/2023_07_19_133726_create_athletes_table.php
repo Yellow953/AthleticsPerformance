@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->char('gender', 1)->index();
             $table->tinyInteger('showResult')->default(0);
 
+            $table->boolean('uploaded')->default(false);
+
             $table->timestamps();
         });
     }

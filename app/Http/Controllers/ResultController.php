@@ -46,7 +46,7 @@ class ResultController extends Controller
             return redirect('/results')->with('danger', 'Result not found!');
         }
 
-        return view('results.edit', compact('Result'));
+        return view('results.edit', compact('result'));
     }
 
     public function update(Request $request, $id)
@@ -81,5 +81,10 @@ class ResultController extends Controller
         $result->delete();
 
         return redirect()->back()->with('danger', 'Result successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }

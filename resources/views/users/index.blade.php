@@ -6,16 +6,15 @@
     <div class="row">
         <div class="col-md-12">
             <!-- DATA TABLE -->
-            <h3 class="title-5 m-b-35 text-primary">Athletes</h3>
+            <h3 class="title-5 m-b-35 text-primary">Users</h3>
             <div class="table-data__tool">
                 <div class="table-data__tool-left">
-                    <form action="/athletes" method="get" enctype="multipart/form-data">
+                    <form action="/users" method="get" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-8">
                                 <input type="text" name="search" id="search" class="form-control"
-                                    value="{{request()->query('search')}}"
-                                    placeholder="Search By First Name, Last Name ...">
+                                    value="{{request()->query('search')}}" placeholder="Search By Name, Email ...">
                             </div>
                             <div class="col-2">
                                 <button class="btn btn-primary mx-1" type="submit">
@@ -27,9 +26,9 @@
 
                 </div>
                 <div class="table-data__tool-right">
-                    <a class="btn btn-primary" href="/athlete/new">
-                        <i class="zmdi zmdi-plus mx-1"></i>Add Athlete</a>
-                    <a href="/athlete/export" class="btn btn-secondary mx-1">Export</a>
+                    <a class="btn btn-primary" href="/user/new">
+                        <i class="zmdi zmdi-plus mx-1"></i>Add User</a>
+                    <a href="/user/export" class="btn btn-secondary mx-1">Export</a>
                 </div>
             </div>
             <div class="table-responsive table-responsive-data2">
@@ -37,29 +36,30 @@
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Date of Birth</th>
-                            <th>Gender</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Date</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($athletes as $athlete)
+                        @forelse ($users as $user)
                         <tr class="tr-shadow">
-                            <td>{{ucwords($athlete->firstName)}} {{ucwords($athlete->lastName)}}</td>
+                            <td>{{ucwords($user->name)}}</td>
                             <td>
-                                <span class="block-email">{{$athlete->dateOfBirth}}</span>
+                                <span class="block-email">{{$user->email}}</span>
                             </td>
-                            <td>
-                                <span
-                                    class="block-email text-white {{ $athlete->gender == 'F' ? 'bg-danger' : ''}} {{ $athlete->gender == 'M' ? 'bg-primary' : ''}}">{{$athlete->gender}}</span>
+                            <td> <span
+                                    class="{{ $user->role == 'admin' ? 'status--process' : ''}}">{{ucwords($user->role)}}</span>
                             </td>
+                            <td>{{$user->created_at}}</td>
                             <td>
                                 <div class="table-data-feature">
-                                    <a class="item bg-warning" href="/athlete/{{$athlete->id}}/edit"
-                                        data-toggle="tooltip" data-placement="top" title="Edit">
+                                    <a class="item bg-warning" href="/user/{{$user->id}}/edit" data-toggle="tooltip"
+                                        data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/athlete/{{$athlete->id}}/destroy">
+                                    <form method="GET" action="/user/{{$user->id}}/destroy">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">
@@ -72,12 +72,11 @@
                         <tr class="spacer"></tr>
                         @empty
                         <tr>
-                            <td colspan="4">No Athletes Found ...</td>
+                            <td colspan="5">No Users Found ...</td>
                         </tr>
                         @endforelse
                         <tr>
-                            <td colspan="4">{{$athletes->appends(['search' => request()->query('search')])->links()}}
-                            </td>
+                            <td colspan="5">{{$users->appends(['search' => request()->query('search')])->links()}}</td>
                         </tr>
                     </tbody>
                 </table>

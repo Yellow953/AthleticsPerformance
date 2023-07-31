@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Athlete;
+use App\Models\AthleteSecond;
 use Illuminate\Http\Request;
 
 class AthleteController extends Controller
@@ -14,7 +15,14 @@ class AthleteController extends Controller
 
     public function index()
     {
-        $athletes = Athlete::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $athletes = Athlete::where('firstName', 'LIKE', "%{$search}%")->orWhere('lastName', 'LIKE', "%{$search}%")->paginate(25);
+        } else {
+            $athletes = Athlete::paginate(25);
+        }
+
         return view('athletes.index', compact('athletes'));
     }
 
@@ -46,7 +54,7 @@ class AthleteController extends Controller
             return redirect('/athletes')->with('danger', 'Athlete not found!');
         }
 
-        return view('athletes.edit', compact('Athlete'));
+        return view('athletes.edit', compact('athlete'));
     }
 
     public function update(Request $request, $id)
@@ -81,5 +89,10 @@ class AthleteController extends Controller
         $athlete->delete();
 
         return redirect()->back()->with('danger', 'Athlete successfully deleted!');
+    }
+
+    public function export()
+    {
+
     }
 }
