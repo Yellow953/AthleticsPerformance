@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroupSecond;
 use App\Models\Event;
 use App\Models\EventSecond;
+use App\Models\EventTypeSecond;
+use App\Models\GenderSecond;
+use App\Models\IOSecond;
+use App\Models\Meeting;
+use App\Models\RoundSecond;
 use Illuminate\Http\Request;
 
 class EventController extends Controller
@@ -28,7 +34,15 @@ class EventController extends Controller
 
     public function new()
     {
-        return view('events.new');
+        $meetings = Meeting::all();
+        $rounds = RoundSecond::all();
+        $event_types = EventTypeSecond::all();
+        $age_groups = AgeGroupSecond::all();
+        $ios = IOSecond::all();
+        $genders = GenderSecond::all();
+
+        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'ios', 'genders');
+        return view('events.new', $data);
     }
 
     public function create(Request $request)
@@ -49,12 +63,19 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::find($id);
+        $meetings = Meeting::all();
+        $rounds = RoundSecond::all();
+        $event_types = EventTypeSecond::all();
+        $age_groups = AgeGroupSecond::all();
+        $ios = IOSecond::all();
+        $genders = GenderSecond::all();
 
         if (!$event) {
             return redirect('/events')->with('danger', 'Event not found!');
         }
 
-        return view('events.edit', compact('event'));
+        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'ios', 'genders', 'event');
+        return view('events.edit', $data);
     }
 
     public function update(Request $request, $id)

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroupSecond;
 use App\Models\MeetingSecond;
 use App\Models\Meeting;
+use App\Models\MeetingTypeSecond;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
@@ -28,7 +30,11 @@ class MeetingController extends Controller
 
     public function new()
     {
-        return view('meetings.new');
+        $age_groups = AgeGroupSecond::all();
+        $meeting_types = MeetingTypeSecond::all();
+
+        $data = compact('age_groups', 'meeting_types');
+        return view('meetings.new', $data);
     }
 
     public function create(Request $request)
@@ -49,12 +55,15 @@ class MeetingController extends Controller
     public function edit($id)
     {
         $meeting = Meeting::find($id);
+        $age_groups = AgeGroupSecond::all();
+        $meeting_types = MeetingTypeSecond::all();
 
         if (!$meeting) {
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        return view('meetings.edit', compact('meeting'));
+        $data = compact('meeting', 'age_groups', 'meeting_types');
+        return view('meetings.edit', $data);
     }
 
     public function update(Request $request, $id)

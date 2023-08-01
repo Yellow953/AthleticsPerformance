@@ -16,129 +16,154 @@
             <div class="card-body card-block">
                 <form action="/event/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Text Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" placeholder="Text"
-                                class="form-control">
-                            <small class="form-text text-muted">This is a help text</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="email-input" class=" form-control-label">Email Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="email" id="email-input" name="email-input" placeholder="Enter Email"
-                                class="form-control">
-                            <small class="help-block form-text">Please enter your email</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="password-input" class=" form-control-label">Password</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="password" id="password-input" name="password-input" placeholder="Password"
-                                class="form-control">
-                            <small class="help-block form-text">Please enter a complex password</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="disabled-input" class=" form-control-label">Disabled Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled"
-                                disabled="" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="textarea-input" class=" form-control-label">Textarea</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..."
-                                class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="select" class=" form-control-label">Select</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <select name="select" id="select" class="form-control">
-                                <option value="0">Please select</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label class=" form-control-label">Radios</label>
-                        </div>
-                        <div class="col col-md-9">
-                            <div class="form-check">
-                                <div class="radio">
-                                    <label for="radio1" class="form-check-label ">
-                                        <input type="radio" id="radio1" name="radios" value="option1"
-                                            class="form-check-input">Option 1
-                                    </label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class="form-control-label">Name</label>
                                 </div>
-                                <div class="radio">
-                                    <label for="radio2" class="form-check-label ">
-                                        <input type="radio" id="radio2" name="radios" value="option2"
-                                            class="form-check-input">Option 2
-                                    </label>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="name" name="name" placeholder="Name" class="form-control"
+                                        value="{{old('name')}}">
                                 </div>
-                                <div class="radio">
-                                    <label for="radio3" class="form-check-label ">
-                                        <input type="radio" id="radio3" name="radios" value="option3"
-                                            class="form-check-input">Option 3
-                                    </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="meetingID" class="form-control-label">Meeting</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="meetingID" id="meetingID" class="form-control">
+                                        @foreach ($meetings as $meeting)
+                                        <option value="{{$meeting->ID}}">{{$meeting->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="typeID" class="form-control-label">Event Type</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="typeID" id="typeID" class="form-control">
+                                        @foreach ($event_types as $event_type)
+                                        <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="ageGroupID" class="form-control-label">Age Group</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="ageGroupID" id="ageGroupID" class="form-control">
+                                        @foreach ($age_groups as $age_group)
+                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="extra" class="form-control-label">Extra</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="extra" name="extra" placeholder="Extra" class="form-control"
+                                        value="{{old('extra')}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="round" class="form-control-label">Round</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="round" id="round" class="form-control">
+                                        @foreach ($rounds as $round)
+                                        <option value="{{$round->ID}}">{{$round->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="gender" class="form-control-label">Gender</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="gender" id="gender" class="form-control">
+                                        @foreach ($genders as $gender)
+                                        <option value="{{$gender->gender}}">{{$gender->gender}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="io" class="form-control-label">IO</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="io" id="io" class="form-control">
+                                        @foreach ($ios as $io)
+                                        <option value="{{$io->io}}">{{$io->io}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="wind" class="form-control-label">Wind</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="wind" name="wind" placeholder="Wind" class="form-control"
+                                        value="{{old('wind')}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="note" class="form-control-label">Note</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="note" name="note" placeholder="Note" class="form-control"
+                                        value="{{old('note')}}">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row form-group">
                         <div class="col col-md-3">
-                            <label class=" form-control-label">Checkboxes</label>
-                        </div>
-                        <div class="col col-md-9">
-                            <div class="form-check">
-                                <div class="checkbox">
-                                    <label for="checkbox1" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox1" name="checkbox1" value="option1"
-                                            class="form-check-input">Option 1
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label for="checkbox2" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox2" name="checkbox2" value="option2"
-                                            class="form-check-input"> Option 2
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label for="checkbox3" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox3" name="checkbox3" value="option3"
-                                            class="form-check-input"> Option 3
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="file-input" class=" form-control-label">File input</label>
+                            <label for="distance" class="form-control-label">Distance</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="file" id="file-input" name="file-input" class="form-control-file">
+                            <input type="number" id="distance" name="distance" placeholder="Distance"
+                                class="form-control" value="{{old('distance')}}">
                         </div>
                     </div>
+
                     <div class="row form-group">
                         <div class="offset-9 col-3">
                             <button type="submit" class="btn btn-primary">Create Event</button>

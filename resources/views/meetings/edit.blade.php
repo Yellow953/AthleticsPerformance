@@ -17,90 +17,145 @@
                 <form action="/meeting/{{$meeting->id}}/update" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="text-input" class=" form-control-label">Text Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="text-input" name="text-input" placeholder="Text"
-                                class="form-control">
-                            <small class="form-text text-muted">This is a help text</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="email-input" class=" form-control-label">Email Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="email" id="email-input" name="email-input" placeholder="Enter Email"
-                                class="form-control">
-                            <small class="help-block form-text">Please enter your email</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="password-input" class=" form-control-label">Password</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="password" id="password-input" name="password-input" placeholder="Password"
-                                class="form-control">
-                            <small class="help-block form-text">Please enter a complex password</small>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="disabled-input" class=" form-control-label">Disabled Input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="text" id="disabled-input" name="disabled-input" placeholder="Disabled"
-                                disabled="" class="form-control">
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="textarea-input" class=" form-control-label">Textarea</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <textarea name="textarea-input" id="textarea-input" rows="9" placeholder="Content..."
-                                class="form-control"></textarea>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="select" class=" form-control-label">Select</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <select name="select" id="select" class="form-control">
-                                <option value="0">Please select</option>
-                                <option value="1">Option #1</option>
-                                <option value="2">Option #2</option>
-                                <option value="3">Option #3</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label class=" form-control-label">Radios</label>
-                        </div>
-                        <div class="col col-md-9">
-                            <div class="form-check">
-                                <div class="radio">
-                                    <label for="radio1" class="form-check-label ">
-                                        <input type="radio" id="radio1" name="radios" value="option1"
-                                            class="form-check-input">Option 1
-                                    </label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="ageGroupID" class=" form-control-label">Age Group*</label>
                                 </div>
-                                <div class="radio">
-                                    <label for="radio2" class="form-check-label ">
-                                        <input type="radio" id="radio2" name="radios" value="option2"
-                                            class="form-check-input">Option 2
-                                    </label>
+                                <div class="col-12 col-md-9">
+                                    <select name="ageGroupID" id="ageGroupID" class="form-control" required>
+                                        @foreach ($age_groups as $age_group)
+                                        <option value="{{$age_group->ID}}" {{$meeting->ageGroupID == $age_group->ID ?
+                                            'selected' : ''}}>{{$age_group->ID}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="radio">
-                                    <label for="radio3" class="form-check-label ">
-                                        <input type="radio" id="radio3" name="radios" value="option3"
-                                            class="form-check-input">Option 3
-                                    </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="name" class=" form-control-label">Name</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="name" name="name" placeholder="Name"
+                                        value="{{$meeting->name}}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="shortName" class=" form-control-label">Short Name*</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="shortName" name="shortName" placeholder="Short Name" required
+                                        value="{{$meeting->shortName}}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="startDate" class=" form-control-label">Start Date</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="date" id="startDate" name="startDate" value="{{$meeting->startDate}}"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="endDate" class=" form-control-label">End Date</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="date" id="endDate" name="endDate" value="{{$meeting->endDate}}"
+                                        class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="venue" class="form-control-label">Venue</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="venue" name="venue" placeholder="Venue"
+                                        value="{{$meeting->venue}}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="country" class=" form-control-label">Country</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="country" id="country" class="form-control">
+                                        @foreach (Helper::Countries() as $key => $country)
+                                        <option value="{{$key}}" {{$meeting->country == $key ? 'selected' :
+                                            ''}}>{{$country}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="typeID" class=" form-control-label">Meeting Types</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="typeID" id="typeID" class="form-control">
+                                        @foreach ($meeting_types as $meeting_type)
+                                        <option value="{{$meeting_type->ID}}" {{$meeting->typeID == $meeting_type->ID ?
+                                            'selected' : ''}}>{{$meeting_type->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="subgroup" class="form-control-label">Sub Group*</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="text" id="subgroup" name="subgroup" placeholder="Sub Group" required
+                                        value="{{$meeting->subgroup}}" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="picture" class=" form-control-label">Picture</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="file" id="picture" name="picture" class="form-control-file">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="picture2" class=" form-control-label">Picture2</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="file" id="picture2" name="picture2" class="form-control-file">
                                 </div>
                             </div>
                         </div>
@@ -132,14 +187,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="file-input" class=" form-control-label">File input</label>
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <input type="file" id="file-input" name="file-input" class="form-control-file">
-                        </div>
-                    </div>
+
                     <div class="row form-group">
                         <div class="offset-9 col-3">
                             <button type="submit" class="btn btn-primary">Update Meeting</button>
