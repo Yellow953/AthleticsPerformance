@@ -163,6 +163,15 @@
                                 class="form-control" value="{{old('distance')}}">
                         </div>
                     </div>
+                    <div class="row form-group px-4">
+                        <div class="col-6">
+                            <div class="checkbox">
+                                <label for="heat" class="form-check-label ">
+                                    <input type="checkbox" id="heat" name="heat" class="form-check-input">Heat
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row form-group">
                         <div class="offset-9 col-3">

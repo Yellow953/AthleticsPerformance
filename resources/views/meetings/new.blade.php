@@ -156,30 +156,19 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label class=" form-control-label">Checkboxes</label>
+                    <div class="row form-group px-4">
+                        <div class="col-6">
+                            <div class="checkbox">
+                                <label for="isActive" class="form-check-label ">
+                                    <input type="checkbox" id="isActive" name="isActive" class="form-check-input">Active
+                                </label>
+                            </div>
                         </div>
-                        <div class="col col-md-9">
-                            <div class="form-check">
-                                <div class="checkbox">
-                                    <label for="checkbox1" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox1" name="checkbox1" value="option1"
-                                            class="form-check-input">Option 1
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label for="checkbox2" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox2" name="checkbox2" value="option2"
-                                            class="form-check-input"> Option 2
-                                    </label>
-                                </div>
-                                <div class="checkbox">
-                                    <label for="checkbox3" class="form-check-label ">
-                                        <input type="checkbox" id="checkbox3" name="checkbox3" value="option3"
-                                            class="form-check-input"> Option 3
-                                    </label>
-                                </div>
+                        <div class="col-6">
+                            <div class="checkbox">
+                                <label for="isNew" class="form-check-label ">
+                                    <input type="checkbox" id="isNew" name="isNew" class="form-check-input">New
+                                </label>
                             </div>
                         </div>
                     </div>
