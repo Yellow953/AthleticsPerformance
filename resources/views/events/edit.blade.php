@@ -32,10 +32,11 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="meetingID" class="form-control-label">Meeting</label>
+                                    <label for="meetingID" class="form-control-label">Meeting*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="meetingID" id="meetingID" class="form-control">
+                                    <select name="meetingID" id="meetingID" class="form-control" required>
+                                        <option>Select Meeting</option>
                                         @foreach ($meetings as $meeting)
                                         <option value="{{$meeting->ID}}" {{$event->meetingID == $meeting->ID ?
                                             'selected' : ''}}>{{$meeting->name}}</option>
@@ -81,7 +82,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="extra" class="form-control-label">Extra</label>
+                                    <label for="extra" class="form-control-label">Extra*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="extra" name="extra" placeholder="Extra" class="form-control"
@@ -114,8 +115,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="gender" id="gender" class="form-control">
                                         @foreach ($genders as $gender)
-                                        <option value="{{$gender->gender}}">{{$gender->gender}} {{$event->gender ==
-                                            $gender->gender ? 'selected' : ''}}</option>
+                                        <option value="{{$gender->gender}}" {{$event->gender ==
+                                            $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -124,7 +125,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="io" class="form-control-label">IO</label>
+                                    <label for="io" class="form-control-label">IO*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="io" id="io" class="form-control">

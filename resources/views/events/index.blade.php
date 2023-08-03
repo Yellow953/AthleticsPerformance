@@ -50,8 +50,8 @@
                                 <span class="block-email">{{$event->meetingID}}</span>
                             </td>
                             <td>
-                                Distance: {{$event->destance}}
-                                AgeGroup: {{$event->ageGroupID}}
+                                Distance: {{$event->distance}} <br>
+                                AgeGroup: {{$event->ageGroupID}} <br>
                                 Type: {{$event->typeID}}
                             </td>
                             <td>{{$event->created_at}}</td>

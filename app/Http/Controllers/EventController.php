@@ -48,13 +48,16 @@ class EventController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'extra' => 'required',
+            'io' => 'required',
         ]);
 
+        $data = $request->except('heat');
+        $heat = $request->boolean('heat');
+        $data['heat'] = $heat;
+
         Event::create(
-            $request->all()
+            $data
         );
 
         return redirect('/events')->with('success', 'Event successfully created!');
@@ -81,9 +84,8 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'extra' => 'required',
+            'io' => 'required',
         ]);
 
         $event = Event::find($id);
@@ -92,9 +94,13 @@ class EventController extends Controller
             return redirect('/events')->with('danger', 'Event not found!');
         }
 
-        $event->update([
-            $request->all()
-        ]);
+        $data = $request->except('heat');
+        $heat = $request->boolean('heat');
+        $data['heat'] = $heat;
+
+        $event->update(
+            $data
+        );
 
         return redirect('/events')->with('warning', 'Event successfully updated!');
     }
