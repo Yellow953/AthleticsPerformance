@@ -6,6 +6,7 @@ use App\Models\AgeGroupSecond;
 use App\Models\MeetingSecond;
 use App\Models\Meeting;
 use App\Models\MeetingTypeSecond;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class MeetingController extends Controller
@@ -40,13 +41,25 @@ class MeetingController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'ageGroupID' => 'required',
+            'shortName' => 'required',
+            'subgroup' => 'required',
+            'typeID' => 'required',
+            'startDate' => 'required|date'
         ]);
 
+        $formattedDate = Carbon::parse($request->startDate)->format('ymd');
+        $id = $request->typeID . $formattedDate;
+
+        $data = $request->except('isActive', 'isNew');
+        $isActive = $request->boolean('isActive');
+        $isNew = $request->boolean('isNew');
+        $data['isActive'] = $isActive;
+        $data['isNew'] = $isNew;
+        $data['IDSecond'] = $id;
+
         Meeting::create(
-            $request->all()
+            $data
         );
 
         return redirect('/meetings')->with('success', 'Meeting successfully created!');
@@ -62,16 +75,18 @@ class MeetingController extends Controller
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        $data = compact('meeting', 'age_groups', 'meeting_types');
+        $data = compact('age_groups', 'meeting_types', 'meeting');
         return view('meetings.edit', $data);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'ageGroupID' => 'required',
+            'shortName' => 'required',
+            'subgroup' => 'required',
+            'typeID' => 'required',
+            'startDate' => 'required|date'
         ]);
 
         $meeting = Meeting::find($id);
@@ -80,9 +95,22 @@ class MeetingController extends Controller
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        $meeting->update([
-            $request->all()
-        ]);
+        $data = $request->except('isNew', 'isActive');
+        $isActive = $request->boolean('isActive');
+        $isNew = $request->boolean('isNew');
+        $data['isActive'] = $isActive;
+        $data['isNew'] = $isNew;
+
+        if ($request->typeID != $meeting->typeID) {
+            $formattedDate = Carbon::parse($request->startDate)->format('ymd');
+            $id = $request->typeID . $formattedDate;
+
+            $data['IDSecond'] = $id;
+        }
+
+        $meeting->update(
+            $data
+        );
 
         return redirect('/meetings')->with('warning', 'Meeting successfully updated!');
     }

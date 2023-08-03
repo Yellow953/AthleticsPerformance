@@ -60,11 +60,11 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="startDate" class=" form-control-label">Start Date</label>
+                                    <label for="startDate" class=" form-control-label">Start Date*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="date" id="startDate" name="startDate" value="{{old('startDate')}}"
-                                        class="form-control">
+                                        required class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -111,10 +111,10 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="typeID" class=" form-control-label">Meeting Types</label>
+                                    <label for="typeID" class=" form-control-label">Meeting Type*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="typeID" id="typeID" class="form-control">
+                                    <select name="typeID" id="typeID" class="form-control" required>
                                         @foreach ($meeting_types as $meeting_type)
                                         <option value="{{$meeting_type->ID}}">{{$meeting_type->name}}</option>
                                         @endforeach

@@ -62,11 +62,11 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="startDate" class=" form-control-label">Start Date</label>
+                                    <label for="startDate" class=" form-control-label">Start Date*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="date" id="startDate" name="startDate" value="{{$meeting->startDate}}"
-                                        class="form-control">
+                                        required class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -114,10 +114,10 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="typeID" class=" form-control-label">Meeting Types</label>
+                                    <label for="typeID" class=" form-control-label">Meeting Type*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="typeID" id="typeID" class="form-control">
+                                    <select name="typeID" id="typeID" class="form-control" required>
                                         @foreach ($meeting_types as $meeting_type)
                                         <option value="{{$meeting_type->ID}}" {{$meeting->typeID == $meeting_type->ID ?
                                             'selected' : ''}}>{{$meeting_type->name}}</option>
@@ -173,7 +173,7 @@
                         <div class="col-6">
                             <div class="checkbox">
                                 <label for="isNew" class="form-check-label ">
-                                    <input type="checkbox" id="isNew" name="isNew" {{$meeting->isActive ? 'checked' :
+                                    <input type="checkbox" id="isNew" name="isNew" {{$meeting->isNew ? 'checked' :
                                     ''}}
                                     class="form-check-input">New
                                 </label>

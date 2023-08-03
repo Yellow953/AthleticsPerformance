@@ -46,8 +46,8 @@
                         <tr class="tr-shadow">
                             <td>
                                 <br>
-                                {{ucwords($meeting->name)}} <br>
-                                ({{$meeting->shortName}})
+                                {{$meeting->shortName}}<br>
+                                {{ucwords($meeting->name)}}
                             </td>
                             <td>
                                 <span class="block-email m-1">{{$meeting->startDate}}</span>

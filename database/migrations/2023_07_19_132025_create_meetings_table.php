@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::connection('mysql')->create('meetings', function (Blueprint $table) {
             $table->id();
+            $table->char('IDSecond', 10)->collation('latin1_swedish_ci');
 
             $table->char('ageGroupID', 3)->index();
             $table->string('name', 50)->nullable();
