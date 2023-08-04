@@ -14,7 +14,14 @@ class ResultController extends Controller
 
     public function index()
     {
-        $results = Result::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $results = Result::orderBy('created_at', 'DESC')->paginate(25);
+        } else {
+            $results = Result::orderBy('created_at', 'DESC')->paginate(25);
+        }
+
         return view('results.index', compact('results'));
     }
 
@@ -63,9 +70,9 @@ class ResultController extends Controller
             return redirect('/results')->with('danger', 'Result not found!');
         }
 
-        $result->update([
+        $result->update(
             $request->all()
-        ]);
+        );
 
         return redirect('/results')->with('warning', 'Result successfully updated!');
     }

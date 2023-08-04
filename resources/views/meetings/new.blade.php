@@ -24,8 +24,9 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
+                                        <option>Select Age Group</option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}">{{$age_group->ID}}</option>
+                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -84,21 +85,22 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="venue" class="form-control-label">Venue</label>
+                                    <label for="venue" class="form-control-label">Venue*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="venue" name="venue" placeholder="Venue"
-                                        value="{{old('venue')}}" class="form-control">
+                                        value="{{old('venue')}}" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="country" class=" form-control-label">Country</label>
+                                    <label for="country" class=" form-control-label">Country*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="country" id="country" class="form-control">
+                                    <select name="country" id="country" class="form-control" required>
+                                        <option>Select Country</option>
                                         @foreach (Helper::Countries() as $key => $country)
                                         <option value="{{$key}}">{{$country}}</option>
                                         @endforeach
@@ -115,6 +117,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
+                                        <option>Select Meeting Type</option>
                                         @foreach ($meeting_types as $meeting_type)
                                         <option value="{{$meeting_type->ID}}">{{$meeting_type->name}}</option>
                                         @endforeach
@@ -138,7 +141,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="picture" class=" form-control-label">Picture</label>
+                                    <label for="picture" class=" form-control-label">Picture1</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="file" id="picture" name="picture" class="form-control-file">

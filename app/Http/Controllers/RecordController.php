@@ -14,7 +14,14 @@ class RecordController extends Controller
 
     public function index()
     {
-        $records = Record::paginate(25);
+        $search = request()->query('search');
+
+        if ($search) {
+            $records = Record::orderBy('created_at', 'DESC')->paginate(25);
+        } else {
+            $records = Record::orderBy('created_at', 'DESC')->paginate(25);
+        }
+
         return view('records.index', compact('records'));
     }
 
@@ -63,9 +70,9 @@ class RecordController extends Controller
             return redirect('/records')->with('danger', 'Record not found!');
         }
 
-        $record->update([
+        $record->update(
             $request->all()
-        ]);
+        );
 
         return redirect('/records')->with('warning', 'Record successfully updated!');
     }

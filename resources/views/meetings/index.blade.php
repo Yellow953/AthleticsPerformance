@@ -45,9 +45,16 @@
                         @forelse ($meetings as $meeting)
                         <tr class="tr-shadow">
                             <td>
-                                <br>
-                                {{$meeting->shortName}}<br>
-                                {{ucwords($meeting->name)}}
+                                <div class="row">
+                                    <div class="col-3 my-auto">
+                                        <img src="{{asset($meeting->image ?? '/assets/images/no_img.png')}}" alt="">
+                                    </div>
+                                    <div class="col-9 my-auto">
+                                        {{$meeting->shortName}}<br>
+                                        {{ucwords($meeting->name)}}
+                                    </div>
+                                </div>
+
                             </td>
                             <td>
                                 <span class="block-email m-1">{{$meeting->startDate}}</span>

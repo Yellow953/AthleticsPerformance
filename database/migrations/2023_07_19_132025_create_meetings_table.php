@@ -22,8 +22,8 @@ return new class extends Migration {
             $table->string('subgroup', 15);
             $table->string('picture', 20)->nullable();
             $table->string('picture2', 20)->nullable();
-            $table->tinyInteger('isActive')->default(1);
-            $table->tinyInteger('isNew')->default(1);
+            $table->tinyInteger('isActive')->default(0);
+            $table->tinyInteger('isNew')->default(0);
             $table->timestamp('createDate')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->boolean('uploaded')->default(false);

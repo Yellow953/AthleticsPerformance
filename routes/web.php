@@ -68,5 +68,8 @@ Route::get('/user/{id}/edit', [App\Http\Controllers\UserController::class, 'edit
 Route::post('/user/{id}/update', [App\Http\Controllers\UserController::class, 'update']);
 Route::get('/user/{id}/destroy', [App\Http\Controllers\UserController::class, 'destroy']);
 
+// Reports
+Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index']);
+
 // Home
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);

@@ -23,7 +23,7 @@ class MeetingController extends Controller
         if ($search) {
             $meetings = Meeting::where('name', 'LIKE', "%{$search}%")->orWhere('shortName', 'LIKE', "%{$search}%")->paginate(25);
         } else {
-            $meetings = Meeting::paginate(25);
+            $meetings = Meeting::orderBy('created_at', 'DESC')->paginate(25);
         }
 
         return view('meetings.index', compact('meetings'));
@@ -31,7 +31,7 @@ class MeetingController extends Controller
 
     public function new()
     {
-        $age_groups = AgeGroupSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
         $meeting_types = MeetingTypeSecond::all();
 
         $data = compact('age_groups', 'meeting_types');
@@ -45,18 +45,36 @@ class MeetingController extends Controller
             'shortName' => 'required',
             'subgroup' => 'required',
             'typeID' => 'required',
-            'startDate' => 'required|date'
+            'startDate' => 'required|date',
+            'venue' => 'required',
+            'country' => 'required',
         ]);
 
         $formattedDate = Carbon::parse($request->startDate)->format('ymd');
         $id = $request->typeID . $formattedDate;
 
-        $data = $request->except('isActive', 'isNew');
+        $data = $request->except('isActive', 'isNew', 'image', 'image2');
         $isActive = $request->boolean('isActive');
         $isNew = $request->boolean('isNew');
         $data['isActive'] = $isActive;
         $data['isNew'] = $isNew;
         $data['IDSecond'] = $id;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move('uploads/meetings/', $filename);
+            $data['image'] = '/uploads/meetings/' . $filename;
+        }
+
+        if ($request->hasFile('image2')) {
+            $file = $request->file('image2');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move('uploads/meetings/', $filename);
+            $data['image2'] = '/uploads/meetings/' . $filename;
+        }
 
         Meeting::create(
             $data
@@ -68,7 +86,7 @@ class MeetingController extends Controller
     public function edit($id)
     {
         $meeting = Meeting::find($id);
-        $age_groups = AgeGroupSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
         $meeting_types = MeetingTypeSecond::all();
 
         if (!$meeting) {
@@ -86,7 +104,9 @@ class MeetingController extends Controller
             'shortName' => 'required',
             'subgroup' => 'required',
             'typeID' => 'required',
-            'startDate' => 'required|date'
+            'startDate' => 'required|date',
+            'venue' => 'required',
+            'country' => 'required',
         ]);
 
         $meeting = Meeting::find($id);
@@ -95,11 +115,27 @@ class MeetingController extends Controller
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        $data = $request->except('isNew', 'isActive');
+        $data = $request->except('isNew', 'isActive', 'image', 'image2');
         $isActive = $request->boolean('isActive');
         $isNew = $request->boolean('isNew');
         $data['isActive'] = $isActive;
         $data['isNew'] = $isNew;
+
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move('uploads/meetings/', $filename);
+            $data['image'] = '/uploads/meetings/' . $filename;
+        }
+
+        if ($request->hasFile('image2')) {
+            $file = $request->file('image2');
+            $ext = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $ext;
+            $file->move('uploads/meetings/', $filename);
+            $data['image2'] = '/uploads/meetings/' . $filename;
+        }
 
         if ($request->typeID != $meeting->typeID) {
             $formattedDate = Carbon::parse($request->startDate)->format('ymd');

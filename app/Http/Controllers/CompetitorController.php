@@ -20,7 +20,7 @@ class CompetitorController extends Controller
         if ($search) {
             $competitors = Competitor::where('name', 'LIKE', "%{$search}%")->paginate(25);
         } else {
-            $competitors = Competitor::paginate(25);
+            $competitors = Competitor::orderBy('created_at', 'DESC')->paginate(25);
         }
 
         return view('competitors.index', compact('competitors'));
@@ -71,9 +71,9 @@ class CompetitorController extends Controller
             return redirect('/competitors')->with('danger', 'Competitor not found!');
         }
 
-        $competitor->update([
+        $competitor->update(
             $request->all()
-        ]);
+        );
 
         return redirect('/competitors')->with('warning', 'Competitor successfully updated!');
     }

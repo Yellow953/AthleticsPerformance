@@ -34,3 +34,7 @@
 #data-table th {
   color: white;
 }
+
+.tr-shadow td {
+  max-width: 250px;
+}

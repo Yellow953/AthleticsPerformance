@@ -26,7 +26,7 @@ class EventController extends Controller
         if ($search) {
             $events = Event::where('name', 'LIKE', "%{$search}%")->paginate(25);
         } else {
-            $events = Event::paginate(25);
+            $events = Event::orderBy('created_at', 'DESC')->paginate(25);
         }
 
         return view('events.index', compact('events'));
@@ -34,10 +34,10 @@ class EventController extends Controller
 
     public function new()
     {
-        $meetings = Meeting::all();
+        $meetings = Meeting::orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::all();
         $event_types = EventTypeSecond::all();
-        $age_groups = AgeGroupSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
         $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
@@ -48,13 +48,17 @@ class EventController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'extra' => 'required',
+            'typeID' => 'required',
+            'ageGroupID' => 'required',
+            'round' => 'required',
+            'gender' => 'required',
             'io' => 'required',
         ]);
 
-        $data = $request->except('heat');
+        $data = $request->except('heat', 'extra');
         $heat = $request->boolean('heat');
         $data['heat'] = $heat;
+        $data['extra'] = $request->extra ?? '';
 
         Event::create(
             $data
@@ -66,10 +70,10 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::find($id);
-        $meetings = Meeting::all();
+        $meetings = Meeting::orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::all();
         $event_types = EventTypeSecond::all();
-        $age_groups = AgeGroupSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
         $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
@@ -84,7 +88,10 @@ class EventController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'extra' => 'required',
+            'typeID' => 'required',
+            'ageGroupID' => 'required',
+            'round' => 'required',
+            'gender' => 'required',
             'io' => 'required',
         ]);
 

@@ -27,7 +27,7 @@
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
                                         @foreach ($age_groups as $age_group)
                                         <option value="{{$age_group->ID}}" {{$meeting->ageGroupID == $age_group->ID ?
-                                            'selected' : ''}}>{{$age_group->ID}}</option>
+                                            'selected' : ''}}>{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -86,21 +86,21 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="venue" class="form-control-label">Venue</label>
+                                    <label for="venue" class="form-control-label">Venue*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="venue" name="venue" placeholder="Venue"
-                                        value="{{$meeting->venue}}" class="form-control">
+                                        value="{{$meeting->venue}}" class="form-control" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="country" class=" form-control-label">Country</label>
+                                    <label for="country" class=" form-control-label">Country*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="country" id="country" class="form-control">
+                                    <select name="country" id="country" class="form-control" required>
                                         @foreach (Helper::Countries() as $key => $country)
                                         <option value="{{$key}}" {{$meeting->country == $key ? 'selected' :
                                             ''}}>{{$country}}</option>
@@ -142,7 +142,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="picture" class=" form-control-label">Picture</label>
+                                    <label for="picture" class=" form-control-label">Picture1</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="file" id="picture" name="picture" class="form-control-file">

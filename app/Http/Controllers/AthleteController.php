@@ -20,7 +20,7 @@ class AthleteController extends Controller
         if ($search) {
             $athletes = Athlete::where('firstName', 'LIKE', "%{$search}%")->orWhere('lastName', 'LIKE', "%{$search}%")->paginate(25);
         } else {
-            $athletes = Athlete::paginate(25);
+            $athletes = Athlete::orderBy('created_at', 'DESC')->paginate(25);
         }
 
         return view('athletes.index', compact('athletes'));
@@ -71,9 +71,9 @@ class AthleteController extends Controller
             return redirect('/athletes')->with('danger', 'Athlete not found!');
         }
 
-        $athlete->update([
+        $athlete->update(
             $request->all()
-        ]);
+        );
 
         return redirect('/athletes')->with('warning', 'Athlete successfully updated!');
     }
