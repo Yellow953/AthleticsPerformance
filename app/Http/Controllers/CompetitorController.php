@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroupSecond;
+use App\Models\Athlete;
 use App\Models\Competitor;
 use App\Models\CompetitorSecond;
+use App\Models\GenderSecond;
+use App\Models\TeamSecond;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Carbon\Carbon;
 
 class CompetitorController extends Controller
 {
@@ -28,15 +35,23 @@ class CompetitorController extends Controller
 
     public function new()
     {
-        return view('competitors.new');
+        $genders = GenderSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $teams = TeamSecond::all();
+        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
+
+        $data = compact('genders', 'age_groups', 'teams', 'athletes');
+        return view('competitors.new', $data);
     }
 
     public function create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'athleteID' => 'required',
+            'name' => 'required',
+            'ageGroupID' => 'required',
+            'teamID' => 'required',
+            'year' => 'required'
         ]);
 
         Competitor::create(
@@ -49,20 +64,25 @@ class CompetitorController extends Controller
     public function edit($id)
     {
         $competitor = Competitor::find($id);
+        $genders = GenderSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $teams = TeamSecond::all();
+        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
 
         if (!$competitor) {
             return redirect('/competitors')->with('danger', 'Competitor not found!');
         }
 
-        return view('competitors.edit', compact('competitor'));
+        $data = compact('genders', 'age_groups', 'teams', 'athletes', 'competitor');
+        return view('competitors.edit', $data);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'athleteID' => 'required',
+            'name' => 'required',
+            'ageGroupID' => 'required'
         ]);
 
         $competitor = Competitor::find($id);
@@ -93,6 +113,37 @@ class CompetitorController extends Controller
 
     public function export()
     {
+        $data = Competitor::select('id', 'athleteID', 'name', 'gender', 'teamID', 'ageGroupID', 'year', 'created_at')->get();
 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray(['ID', 'Athlete', 'name', 'Gender', 'Team', 'Age Group', 'Year', 'Created At'], null, 'A1');
+
+        $rows = 2;
+
+        foreach ($data as $d) {
+            $sheet->fromArray([
+                $d->id,
+                $d->athleteID,
+                $d->name,
+                $d->gender,
+                $d->teamID,
+                $d->year,
+                $d->ageGroupID,
+                $d->created_at ?? Carbon::now(),
+            ], null, 'A' . $rows);
+
+            $rows++;
+        }
+
+        $fileName = "Competitors.xls";
+        $writer = new Xls($spreadsheet);
+        $writer->save($fileName);
+
+        return response()->file($fileName, [
+            'Content-Type' => 'application/xls',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ]);
     }
 }

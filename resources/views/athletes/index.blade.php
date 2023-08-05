@@ -51,7 +51,7 @@
                             </td>
                             <td>
                                 <span
-                                    class="block-email text-white {{ $athlete->gender == 'F' ? 'bg-danger' : ''}} {{ $athlete->gender == 'M' ? 'bg-primary' : ''}}">{{$athlete->gender}}</span>
+                                    class="block-email text-black {{ $athlete->gender == 'F' ? 'bg-danger' : ''}} {{ $athlete->gender == 'M' ? 'bg-primary' : ''}}">{{$athlete->gender}}</span>
                             </td>
                             <td>
                                 <div class="table-data-feature">

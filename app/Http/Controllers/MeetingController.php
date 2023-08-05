@@ -8,6 +8,8 @@ use App\Models\Meeting;
 use App\Models\MeetingTypeSecond;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
 
 class MeetingController extends Controller
 {
@@ -166,6 +168,45 @@ class MeetingController extends Controller
 
     public function export()
     {
+        $data = Meeting::select('id', 'IDSecond', 'ageGroupID', 'name', 'shortName', 'startDate', 'endDate', 'venue', 'country', 'typeID', 'subgroup', 'picture', 'picture2', 'isActive', 'isNew', 'created_at')->get();
 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray(['ID', 'ID Second', 'Age Group', 'Name', 'Short Name', 'Start Date', 'End Date', 'Venue', 'Country', 'Type ID', 'Sub Group', 'Picture', 'Picture2', 'isActive', 'isNew', 'Created At'], null, 'A1');
+
+        $rows = 2;
+
+        foreach ($data as $d) {
+            $sheet->fromArray([
+                $d->id,
+                $d->IDSecond,
+                $d->ageGroupID,
+                $d->name,
+                $d->shortName,
+                $d->startDate,
+                $d->endDate,
+                $d->venue,
+                $d->country,
+                $d->typeID,
+                $d->subgroup,
+                $d->picture,
+                $d->picture2,
+                $d->isActive,
+                $d->isNew,
+                $d->created_at ?? Carbon::now(),
+            ], null, 'A' . $rows);
+
+            $rows++;
+        }
+
+        $fileName = "Meeting.xls";
+        $writer = new Xls($spreadsheet);
+        $writer->save($fileName);
+
+        return response()->file($fileName, [
+            'Content-Type' => 'application/xls',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ]);
     }
 }

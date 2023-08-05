@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -94,6 +97,34 @@ class UserController extends Controller
 
     public function export()
     {
+        $data = User::select('id', 'name', 'email', 'role', 'created_at')->get();
 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray(['ID', 'Name', 'Email', 'Role', 'Created At'], null, 'A1');
+
+        $rows = 2;
+
+        foreach ($data as $d) {
+            $sheet->fromArray([
+                $d->id,
+                $d->name,
+                $d->email,
+                $d->role,
+                $d->created_at ?? Carbon::now(),
+            ], null, 'A' . $rows);
+
+            $rows++;
+        }
+
+        $fileName = "Users.xls";
+        $writer = new Xls($spreadsheet);
+        $writer->save($fileName);
+
+        return response()->file($fileName, [
+            'Content-Type' => 'application/xls',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ]);
     }
 }

@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Athlete;
 use App\Models\AthleteSecond;
+use App\Models\GenderSecond;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Carbon\Carbon;
 
 class AthleteController extends Controller
 {
@@ -28,19 +32,24 @@ class AthleteController extends Controller
 
     public function new()
     {
-        return view('athletes.new');
+        $genders = GenderSecond::all();
+
+        return view('athletes.new', compact('genders'));
     }
 
     public function create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'gender' => 'required',
         ]);
 
+        $data = $request->except('showResult');
+        $data['showResult'] = $request->boolean('showResult');
+
         Athlete::create(
-            $request->all()
+            $data
         );
 
         return redirect('/athletes')->with('success', 'Athlete successfully created!');
@@ -49,21 +58,26 @@ class AthleteController extends Controller
     public function edit($id)
     {
         $athlete = Athlete::find($id);
+        $genders = GenderSecond::all();
 
         if (!$athlete) {
             return redirect('/athletes')->with('danger', 'Athlete not found!');
         }
 
-        return view('athletes.edit', compact('athlete'));
+        $data = compact('athlete', 'genders');
+        return view('athletes.edit', $data);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'firstName' => 'required',
+            'lastName' => 'required',
+            'gender' => 'required',
         ]);
+
+        $data = $request->except('showResult');
+        $data['showResult'] = $request->boolean('showResult');
 
         $athlete = Athlete::find($id);
 
@@ -72,7 +86,7 @@ class AthleteController extends Controller
         }
 
         $athlete->update(
-            $request->all()
+            $data
         );
 
         return redirect('/athletes')->with('warning', 'Athlete successfully updated!');
@@ -93,6 +107,36 @@ class AthleteController extends Controller
 
     public function export()
     {
+        $data = Athlete::select('id', 'firstname', 'lastName', 'gender', 'dateOfBirth', 'showResult', 'created_at')->get();
 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray(['ID', 'firstName', 'lastName', 'Gender', 'Date of Birth', 'Show Result', 'Created At'], null, 'A1');
+
+        $rows = 2;
+
+        foreach ($data as $d) {
+            $sheet->fromArray([
+                $d->id,
+                $d->firstName,
+                $d->lastName,
+                $d->gender,
+                $d->dateOfBirth,
+                $d->showResult,
+                $d->created_at ?? Carbon::now(),
+            ], null, 'A' . $rows);
+
+            $rows++;
+        }
+
+        $fileName = "Athletes.xls";
+        $writer = new Xls($spreadsheet);
+        $writer->save($fileName);
+
+        return response()->file($fileName, [
+            'Content-Type' => 'application/xls',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ]);
     }
 }

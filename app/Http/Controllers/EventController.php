@@ -11,6 +11,9 @@ use App\Models\IOSecond;
 use App\Models\Meeting;
 use App\Models\RoundSecond;
 use Illuminate\Http\Request;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
@@ -127,6 +130,43 @@ class EventController extends Controller
 
     public function export()
     {
+        $data = Event::select('id', 'name', 'typeID', 'extra', 'round', 'ageGroupID', 'gender', 'meetingID', 'wind', 'note', 'distance', 'io', 'heat', 'created_at')->get();
 
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        $sheet->fromArray(['ID', 'Name', 'Type ID', 'Extra', 'Round', 'Age Group', 'Gender', 'Meeting ID', 'Wind', 'Note', 'distance', 'io', 'heat', 'Created At'], null, 'A1');
+
+        $rows = 2;
+
+        foreach ($data as $d) {
+            $sheet->fromArray([
+                $d->id,
+                $d->name,
+                $d->typeID,
+                $d->extra,
+                $d->round,
+                $d->ageGroupID,
+                $d->gender,
+                $d->meetingID,
+                $d->wind,
+                $d->note,
+                $d->distance,
+                $d->io,
+                $d->heat,
+                $d->created_at ?? Carbon::now(),
+            ], null, 'A' . $rows);
+
+            $rows++;
+        }
+
+        $fileName = "Events.xls";
+        $writer = new Xls($spreadsheet);
+        $writer->save($fileName);
+
+        return response()->file($fileName, [
+            'Content-Type' => 'application/xls',
+            'Content-Disposition' => "attachment; filename={$fileName}",
+        ]);
     }
 }
