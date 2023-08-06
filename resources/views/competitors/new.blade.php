@@ -35,7 +35,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="athleteID" name="athleteID" required class="form-control">
-                                        <option>Select Athlete</option>
                                         @foreach ($athletes as $athlete)
                                         <option value="{{$athlete->id}}">{{$athlete->firstName}} {{$athlete->lastName}}
                                         </option>
@@ -64,7 +63,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="gender" name="gender" class="form-control" required>
-                                        <option>Select Gender</option>
                                         @foreach ($genders as $gender)
                                         <option value="{{$gender->gender}}">{{$gender->gender}}</option>
                                         @endforeach
@@ -81,7 +79,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="teamID" name="teamID" class="form-control" required>
-                                        <option>Select Team</option>
                                         @foreach ($teams as $team)
                                         <option value="{{$team->ID}}">{{$team->name}}</option>
                                         @endforeach
@@ -96,7 +93,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="ageGroupID" name="ageGroupID" class="form-control" required>
-                                        <option>Select Age Group</option>
                                         @foreach ($age_groups as $age_group)
                                         <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach

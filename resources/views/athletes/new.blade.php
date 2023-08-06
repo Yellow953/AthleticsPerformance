@@ -59,7 +59,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="gender" name="gender" required class="form-control">
-                                        <option>Select Gender</option>
                                         @foreach ($genders as $gender)
                                         <option value="{{$gender->gender}}">{{$gender->gender}}</option>
                                         @endforeach

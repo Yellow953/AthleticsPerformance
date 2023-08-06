@@ -35,9 +35,8 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="meetingID" id="meetingID" class="form-control" required>
-                                        <option>Select Meeting</option>
                                         @foreach ($meetings as $meeting)
-                                        <option value="{{$meeting->ID}}">{{$meeting->name}}</option>
+                                        <option value="{{$meeting->IDSecond}}">{{$meeting->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -52,7 +51,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
-                                        <option>Select Event Type</option>
                                         @foreach ($event_types as $event_type)
                                         <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
                                         @endforeach
@@ -67,7 +65,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
-                                        <option>Select Age Group</option>
                                         @foreach ($age_groups as $age_group)
                                         <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
@@ -112,7 +109,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="gender" id="gender" class="form-control" required>
-                                        <option>Selecy Gender</option>
                                         @foreach ($genders as $gender)
                                         <option value="{{$gender->gender}}">{{$gender->gender}}</option>
                                         @endforeach

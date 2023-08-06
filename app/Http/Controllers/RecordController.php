@@ -2,7 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroupSecond;
+use App\Models\Athlete;
+use App\Models\EventTypeSecond;
+use App\Models\GenderSecond;
+use App\Models\IOSecond;
 use App\Models\Record;
+use App\Models\Result;
+use App\Models\TeamSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -20,7 +27,7 @@ class RecordController extends Controller
         $search = request()->query('search');
 
         if ($search) {
-            $records = Record::orderBy('created_at', 'DESC')->paginate(25);
+            $records = Record::where('competitor', 'LIKE', "%{$search}%")->paginate(25);
         } else {
             $records = Record::orderBy('created_at', 'DESC')->paginate(25);
         }
@@ -30,7 +37,16 @@ class RecordController extends Controller
 
     public function new()
     {
-        return view('records.new');
+        $ios = IOSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $genders = GenderSecond::all();
+        $teams = TeamSecond::all();
+        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
+        $results = Result::orderBy('created_at', 'DESC')->get();
+        $event_types = EventTypeSecond::all();
+
+        $data = compact('ios', 'age_groups', 'genders', 'teams', 'athletes', 'results', 'event_types');
+        return view('records.new', $data);
     }
 
     public function create(Request $request)
@@ -41,8 +57,12 @@ class RecordController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
+        $data = $request->except('current');
+        $data['current'] = $request->boolean('current');
+        $data['extra'] = $request->extra ?? '';
+
         Record::create(
-            $request->all()
+            $data
         );
 
         return redirect('/records')->with('success', 'Record successfully created!');
@@ -51,12 +71,20 @@ class RecordController extends Controller
     public function edit($id)
     {
         $record = Record::find($id);
+        $ios = IOSecond::all();
+        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $genders = GenderSecond::all();
+        $teams = TeamSecond::all();
+        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
+        $results = Result::orderBy('created_at', 'DESC')->get();
+        $event_types = EventTypeSecond::all();
 
         if (!$record) {
             return redirect('/records')->with('danger', 'Record not found!');
         }
 
-        return view('records.edit', compact('record'));
+        $data = compact('ios', 'age_groups', 'genders', 'teams', 'athletes', 'results', 'record', 'event_types');
+        return view('records.edit', $data);
     }
 
     public function update(Request $request, $id)
@@ -73,8 +101,12 @@ class RecordController extends Controller
             return redirect('/records')->with('danger', 'Record not found!');
         }
 
+        $data = $request->except('current', 'extra');
+        $data['current'] = $request->boolean('current');
+        $data['extra'] = $request->extra ?? '';
+
         $record->update(
-            $request->all()
+            $data
         );
 
         return redirect('/records')->with('warning', 'Record successfully updated!');
@@ -95,31 +127,45 @@ class RecordController extends Controller
 
     public function export()
     {
-        $data = Competitor::select('id', 'athleteID', 'name', 'gender', 'teamID', 'ageGroupID', 'year', 'created_at')->get();
+        $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'competitor', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray(['ID', 'Athlete', 'name', 'Gender', 'Team', 'Age Group', 'Year', 'Created At'], null, 'A1');
+        $sheet->fromArray(['ID', 'Date', 'Venue', 'IO', 'Age Group ID', 'Gender', 'Type ID', 'Name', 'Extra', 'Competitor', 'Team ID', 'Result', 'Note', 'Wind', 'Date2', 'Current', 'Distance', 'Athlete ID', 'Points', 'Result Value', 'Result ID', 'Created At'], null, 'A1');
 
         $rows = 2;
 
         foreach ($data as $d) {
             $sheet->fromArray([
                 $d->id,
-                $d->athleteID,
-                $d->name,
-                $d->gender,
-                $d->teamID,
-                $d->year,
+                $d->date,
+                $d->venue,
+                $d->io,
                 $d->ageGroupID,
+                $d->gender,
+                $d->typeID,
+                $d->name,
+                $d->extra,
+                $d->competitor,
+                $d->teamID,
+                $d->result,
+                $d->note,
+                $d->wind,
+                $d->date2,
+                $d->current,
+                $d->distance,
+                $d->athleteID,
+                $d->points,
+                $d->resultValue,
+                $d->resultID,
                 $d->created_at ?? Carbon::now(),
             ], null, 'A' . $rows);
 
             $rows++;
         }
 
-        $fileName = "Competitors.xls";
+        $fileName = "Records.xls";
         $writer = new Xls($spreadsheet);
         $writer->save($fileName);
 

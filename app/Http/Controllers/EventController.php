@@ -104,9 +104,10 @@ class EventController extends Controller
             return redirect('/events')->with('danger', 'Event not found!');
         }
 
-        $data = $request->except('heat');
+        $data = $request->except('heat', 'extra');
         $heat = $request->boolean('heat');
         $data['heat'] = $heat;
+        $data['extra'] = $request->extra ?? '';
 
         $event->update(
             $data

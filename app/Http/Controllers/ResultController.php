@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competitor;
 use App\Models\Result;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -30,7 +32,11 @@ class ResultController extends Controller
 
     public function new()
     {
-        return view('results.new');
+        $events = Event::orderBy('created_at', 'DESC')->get();
+        $competitors = Competitor::orderBy('created_at', 'DESC')->get();
+
+        $data = compact('events', 'competitors');
+        return view('results.new', $data);
     }
 
     public function create(Request $request)
@@ -41,8 +47,12 @@ class ResultController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
+        $data = $request->except('isHand', 'isActive');
+        $data['isHand'] = $request->boolean('isHand');
+        $data['isActive'] = $request->boolean('isActive');
+
         Result::create(
-            $request->all()
+            $data
         );
 
         return redirect('/results')->with('success', 'Result successfully created!');
@@ -51,12 +61,15 @@ class ResultController extends Controller
     public function edit($id)
     {
         $result = Result::find($id);
+        $events = Event::orderBy('created_at', 'DESC')->get();
+        $competitors = Competitor::orderBy('created_at', 'DESC')->get();
 
         if (!$result) {
             return redirect('/results')->with('danger', 'Result not found!');
         }
 
-        return view('results.edit', compact('result'));
+        $data = compact('result', 'events', 'competitors');
+        return view('results.edit', $data);
     }
 
     public function update(Request $request, $id)
@@ -73,8 +86,12 @@ class ResultController extends Controller
             return redirect('/results')->with('danger', 'Result not found!');
         }
 
+        $data = $request->except('isHand', 'isActive');
+        $data['isHand'] = $request->boolean('isHand');
+        $data['isActive'] = $request->boolean('isActive');
+
         $result->update(
-            $request->all()
+            $data
         );
 
         return redirect('/results')->with('warning', 'Result successfully updated!');
@@ -95,31 +112,37 @@ class ResultController extends Controller
 
     public function export()
     {
-        $data = Competitor::select('id', 'athleteID', 'name', 'gender', 'teamID', 'ageGroupID', 'year', 'created_at')->get();
+        $data = Result::select('id', 'eventID', 'competitorID', 'result', 'isHand', 'position', 'wind', 'note', 'points', 'resultValue', 'recordStatus', 'heat', 'isActive', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray(['ID', 'Athlete', 'name', 'Gender', 'Team', 'Age Group', 'Year', 'Created At'], null, 'A1');
+        $sheet->fromArray(['ID', 'Event ID', 'Competitor ID', 'Result', 'isHand', 'Position', 'Wind', 'Note', 'Points', 'Result Value', 'Record Status', 'Heat', 'isActive', 'Created At'], null, 'A1');
 
         $rows = 2;
 
         foreach ($data as $d) {
             $sheet->fromArray([
                 $d->id,
-                $d->athleteID,
-                $d->name,
-                $d->gender,
-                $d->teamID,
-                $d->year,
-                $d->ageGroupID,
+                $d->eventID,
+                $d->competitorID,
+                $d->result,
+                $d->isHand,
+                $d->position,
+                $d->wind,
+                $d->note,
+                $d->points,
+                $d->resultValue,
+                $d->recordStatus,
+                $d->heat,
+                $d->isActive,
                 $d->created_at ?? Carbon::now(),
             ], null, 'A' . $rows);
 
             $rows++;
         }
 
-        $fileName = "Competitors.xls";
+        $fileName = "Results.xls";
         $writer = new Xls($spreadsheet);
         $writer->save($fileName);
 

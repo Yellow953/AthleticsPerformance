@@ -24,7 +24,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
-                                        <option>Select Age Group</option>
                                         @foreach ($age_groups as $age_group)
                                         <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
@@ -100,7 +99,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="country" id="country" class="form-control" required>
-                                        <option>Select Country</option>
                                         @foreach (Helper::Countries() as $key => $country)
                                         <option value="{{$key}}">{{$country}}</option>
                                         @endforeach
@@ -117,7 +115,6 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
-                                        <option>Select Meeting Type</option>
                                         @foreach ($meeting_types as $meeting_type)
                                         <option value="{{$meeting_type->ID}}">{{$meeting_type->name}}</option>
                                         @endforeach
