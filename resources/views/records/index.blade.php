@@ -35,6 +35,9 @@
                 <table class="table table-data2" id="data-table">
                     <thead>
                         <tr>
+                            <th>Competitor</th>
+                            <th>Result</th>
+                            <th>Info</th>
                             <th>Date</th>
                             <th></th>
                         </tr>
@@ -42,7 +45,28 @@
                     <tbody>
                         @forelse ($records as $record)
                         <tr class="tr-shadow">
-                            <td>{{$record->created_at}}</td>
+                            <td class="text-center">
+                                {{ucwords($record->competitor)}} <br>
+                                Athlete: {{$record->athleteID}}
+                                <span
+                                    class="block-email text-white mx-3 {{ $record->gender == 'F' ? 'bg-danger' : ''}} {{ $record->gender == 'M' ? 'bg-primary' : ''}}">{{$record->gender}}</span>
+                            </td>
+                            <td>
+                                Distance: {{$record->distance}} <br>
+                                Result: {{$record->result}} <br>
+                                Points: {{$record->points}} <br>
+                                ResultValue: {{$record->resultValue}}
+                            </td>
+                            <td>
+                                Venue: {{$record->venue}} <br>
+                                Team: {{$record->teamID}} <br>
+                                Type: {{$record->typeID}} <br>
+                                AgeGroup: {{$record->ageGroupID}}
+                            </td>
+                            <td>
+                                <span class="block-email m-1">{{$record->date}}</span>
+                                <span class="block-email m-1">{{$record->date2}}</span>
+                            </td>
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-warning" href="/record/{{$record->id}}/edit" data-toggle="tooltip"

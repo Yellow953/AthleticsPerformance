@@ -35,6 +35,9 @@
                 <table class="table table-data2" id="data-table">
                     <thead>
                         <tr>
+                            <th>Event</th>
+                            <th>Competitor</th>
+                            <th>Result</th>
                             <th>Date</th>
                             <th></th>
                         </tr>
@@ -42,6 +45,18 @@
                     <tbody>
                         @forelse ($results as $result)
                         <tr class="tr-shadow">
+                            <td>{{$result->eventID}}</td>
+                            <td>{{$result->competitorID}}</td>
+                            <td>
+                                <div class="row">
+                                    <div class="col-md-6">Position: {{$result->position}}</div>
+                                    <div class="col-md-6">Result: {{$result->result}}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">Points: {{$result->points}}</div>
+                                    <div class="col-md-6">Result Value: {{$result->resultValue}}</div>
+                                </div>
+                            </td>
                             <td>{{$result->created_at}}</td>
                             <td>
                                 <div class="table-data-feature">
