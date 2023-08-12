@@ -45,7 +45,8 @@
                     <tbody>
                         @forelse ($athletes as $athlete)
                         <tr class="tr-shadow">
-                            <td>{{ucwords($athlete->firstName)}} {{ucwords($athlete->lastName)}}</td>
+                            <td>{{ucwords($athlete->firstName)}} {{ucwords($athlete->middleName)}}
+                                {{ucwords($athlete->lastName)}}</td>
                             <td>
                                 <span class="block-email">{{$athlete->dateOfBirth}}</span>
                             </td>

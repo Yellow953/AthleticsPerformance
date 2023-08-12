@@ -11,10 +11,12 @@ return new class extends Migration {
             $table->id();
 
             $table->string('firstName', 20)->index();
+            $table->string('middleName')->index()->nullable();
             $table->string('lastName', 50)->index();
             $table->date('dateOfBirth')->nullable();
             $table->char('gender', 1)->index();
             $table->tinyInteger('showResult')->default(0);
+            $table->tinyInteger('exactDate')->default(0);
 
             $table->boolean('uploaded')->default(false);
 

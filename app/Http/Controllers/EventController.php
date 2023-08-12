@@ -67,7 +67,7 @@ class EventController extends Controller
             $data
         );
 
-        return redirect('/events')->with('success', 'Event successfully created!');
+        return redirect()->back()->with('success', 'Event successfully created!');
     }
 
     public function edit($id)
@@ -113,7 +113,7 @@ class EventController extends Controller
             $data
         );
 
-        return redirect('/events')->with('warning', 'Event successfully updated!');
+        return redirect()->back()->with('warning', 'Event successfully updated!');
     }
 
     public function destroy($id)

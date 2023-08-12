@@ -43,10 +43,12 @@ class AthleteController extends Controller
             'firstName' => 'required',
             'lastName' => 'required',
             'gender' => 'required',
+            'dateOfBirth' => 'required',
         ]);
 
-        $data = $request->except('showResult');
+        $data = $request->except('showResult', 'exactDate');
         $data['showResult'] = $request->boolean('showResult');
+        $data['exactDate'] = $request->boolean('exactDate');
 
         Athlete::create(
             $data
@@ -74,10 +76,12 @@ class AthleteController extends Controller
             'firstName' => 'required',
             'lastName' => 'required',
             'gender' => 'required',
+            'dateOfBirth' => 'required',
         ]);
 
-        $data = $request->except('showResult');
+        $data = $request->except('showResult', 'exactDate');
         $data['showResult'] = $request->boolean('showResult');
+        $data['exactDate'] = $request->boolean('exactDate');
 
         $athlete = Athlete::find($id);
 
@@ -107,12 +111,12 @@ class AthleteController extends Controller
 
     public function export()
     {
-        $data = Athlete::select('id', 'firstname', 'lastName', 'gender', 'dateOfBirth', 'showResult', 'created_at')->get();
+        $data = Athlete::select('id', 'firstName', 'middleName', 'lastName', 'gender', 'dateOfBirth', 'showResult', 'exactDate', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray(['ID', 'firstName', 'lastName', 'Gender', 'Date of Birth', 'Show Result', 'Created At'], null, 'A1');
+        $sheet->fromArray(['ID', 'firstName', 'middleName', 'lastName', 'Gender', 'Date of Birth', 'Show Result', 'Exact Date', 'Created At'], null, 'A1');
 
         $rows = 2;
 
@@ -120,10 +124,12 @@ class AthleteController extends Controller
             $sheet->fromArray([
                 $d->id,
                 $d->firstName,
+                $d->middleName,
                 $d->lastName,
                 $d->gender,
                 $d->dateOfBirth,
                 $d->showResult,
+                $d->exactDate,
                 $d->created_at ?? Carbon::now(),
             ], null, 'A' . $rows);
 

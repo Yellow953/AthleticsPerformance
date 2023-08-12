@@ -13,6 +13,7 @@ Route::post('/meeting/create', [App\Http\Controllers\MeetingController::class, '
 Route::get('/meeting/{id}/edit', [App\Http\Controllers\MeetingController::class, 'edit']);
 Route::post('/meeting/{id}/update', [App\Http\Controllers\MeetingController::class, 'update']);
 Route::get('/meeting/{id}/destroy', [App\Http\Controllers\MeetingController::class, 'destroy']);
+Route::get('/meeting/{id}/events', [App\Http\Controllers\MeetingController::class, 'events']);
 
 // Events
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index']);

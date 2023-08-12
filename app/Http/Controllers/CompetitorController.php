@@ -47,11 +47,10 @@ class CompetitorController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'athleteID' => 'required',
             'name' => 'required',
             'ageGroupID' => 'required',
             'teamID' => 'required',
-            'year' => 'required'
+            'year' => 'required|numeric|min:1900'
         ]);
 
         Competitor::create(
@@ -80,9 +79,10 @@ class CompetitorController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'athleteID' => 'required',
             'name' => 'required',
-            'ageGroupID' => 'required'
+            'ageGroupID' => 'required',
+            'teamID' => 'required',
+            'year' => 'required|numeric|min:1900'
         ]);
 
         $competitor = Competitor::find($id);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
+use App\Models\Event;
 use App\Models\MeetingSecond;
 use App\Models\Meeting;
 use App\Models\MeetingTypeSecond;
@@ -208,5 +209,14 @@ class MeetingController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function events($id)
+    {
+        $meeting = Meeting::find($id);
+        $events = Event::where('meetingID', $meeting->IDSecond)->get();
+
+        $data = compact('meeting', 'events');
+        return view('meetings.events', $data);
     }
 }

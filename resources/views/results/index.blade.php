@@ -27,7 +27,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <a class="btn btn-primary" href="/result/new">
-                        <i class="zmdi zmdi-plus mx-1"></i>Add Record</a>
+                        <i class="zmdi zmdi-plus mx-1"></i>Add Result</a>
                     <a href="/result/export" class="btn btn-secondary mx-1">Export</a>
                 </div>
             </div>
