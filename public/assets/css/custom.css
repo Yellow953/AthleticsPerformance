@@ -91,3 +91,7 @@
 #events-table td {
   padding: 5px;
 }
+
+.clickable-row {
+  cursor: pointer;
+}

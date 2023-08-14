@@ -219,4 +219,34 @@ class MeetingController extends Controller
         $data = compact('meeting', 'events');
         return view('meetings.events', $data);
     }
+
+    public function upload()
+    {
+        $meetings = Meeting::where('uploaded', false)->get();
+
+        foreach ($meetings as $meeting) {
+            MeetingSecond::create([
+                'ID' => $meeting->IDSecond,
+                'ageGroupID' => $meeting->agegroupID,
+                'name' => $meeting->name,
+                'shortName' => $meeting->shortName,
+                'startDate' => $meeting->startDate,
+                'endDate' => $meeting->endDate,
+                'venue' => $meeting->venue,
+                'country' => $meeting->country,
+                'typeID' => $meeting->typeID,
+                'subgroup' => $meeting->subgroup,
+                'picture' => $meeting->picture,
+                'picture2' => $meeting->picture,
+                'isActive' => $meeting->isActive,
+                'isNew' => $meeting->isNew,
+                'createDate' => $meeting->created_at,
+            ]);
+
+            $meeting->uploaded = true;
+            $meeting->save();
+        }
+
+        return redirect()->back()->with('success', 'Meetings uploaded successfully...');
+    }
 }

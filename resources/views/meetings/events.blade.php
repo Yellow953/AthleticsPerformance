@@ -3,6 +3,11 @@
 @section('content')
 
 <div class="container">
+    <a href="/meetings" class="mb-3">
+        <h3 class="text-white">
+            < Back</h3>
+    </a>
+
     <div class="row">
         <div class="col-md-12">
             <div class="card bg-primary">
@@ -56,7 +61,7 @@
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
-                            <tr>
+                            <tr class="clickable-row" onclick="window.location.href = '/events'">
                                 <td>{{$event->name}}</td>
                                 <td>{{$event->typeID}}</td>
                                 <td>{{$event->extra}}</td>

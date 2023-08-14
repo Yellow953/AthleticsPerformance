@@ -47,6 +47,7 @@ class AthleteController extends Controller
         ]);
 
         $data = $request->except('showResult', 'exactDate');
+        $data['id'] = AthleteSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         $data['showResult'] = $request->boolean('showResult');
         $data['exactDate'] = $request->boolean('exactDate');
 
@@ -144,5 +145,27 @@ class AthleteController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function upload()
+    {
+        $athletes = Athlete::where('uploaded', false)->get();
+
+        foreach ($athletes as $athlete) {
+            AthleteSecond::create([
+                'firstName' => $athlete->firstName,
+                'middleName' => $athlete->middleName,
+                'lastName' => $athlete->lastName,
+                'dateOfBirth' => $athlete->dateOfBirth,
+                'gender' => $athlete->gender,
+                'exactDate' => $athlete->exactDate,
+                'showResult' => $athlete->showResult,
+            ]);
+
+            $athlete->uploaded = true;
+            $athlete->save();
+        }
+
+        return redirect()->back()->with('success', 'Athletes uploaded successfully...');
     }
 }

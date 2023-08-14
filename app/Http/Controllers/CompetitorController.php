@@ -53,9 +53,10 @@ class CompetitorController extends Controller
             'year' => 'required|numeric|min:1900'
         ]);
 
-        Competitor::create(
-            $request->all()
-        );
+        Competitor::create([
+            'id' => CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + 1,
+            $request->all(),
+        ]);
 
         return redirect('/competitors')->with('success', 'Competitor successfully created!');
     }
@@ -145,5 +146,26 @@ class CompetitorController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function upload()
+    {
+        $competitors = Competitor::where('uploaded', false)->get();
+
+        foreach ($competitors as $competitor) {
+            CompetitorSecond::create([
+                'name' => $competitor->name,
+                'athleteID' => $competitor->athleteID,
+                'gender' => $competitor->gender,
+                'teamID' => $competitor->teamID,
+                'year' => $competitor->year,
+                'ageGroupID' => $competitor->ageGroupID,
+            ]);
+
+            $competitor->uploaded = true;
+            $competitor->save();
+        }
+
+        return redirect()->back()->with('success', 'Competitors uploaded successfully...');
     }
 }

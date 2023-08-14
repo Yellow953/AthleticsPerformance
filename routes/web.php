@@ -7,7 +7,8 @@ Auth::routes(['register' => false]);
 
 // Meetings
 Route::get('/meetings', [App\Http\Controllers\MeetingController::class, 'index']);
-Route::get('/meeting/export', [App\Http\Controllers\MeetingController::class, 'export']);
+Route::get('/meetings/export', [App\Http\Controllers\MeetingController::class, 'export']);
+Route::get('/meetings/upload', [App\Http\Controllers\MeetingController::class, 'upload']);
 Route::get('/meeting/new', [App\Http\Controllers\MeetingController::class, 'new']);
 Route::post('/meeting/create', [App\Http\Controllers\MeetingController::class, 'create']);
 Route::get('/meeting/{id}/edit', [App\Http\Controllers\MeetingController::class, 'edit']);
@@ -17,7 +18,8 @@ Route::get('/meeting/{id}/events', [App\Http\Controllers\MeetingController::clas
 
 // Events
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index']);
-Route::get('/event/export', [App\Http\Controllers\EventController::class, 'export']);
+Route::get('/events/export', [App\Http\Controllers\EventController::class, 'export']);
+Route::get('/events/upload', [App\Http\Controllers\EventController::class, 'upload']);
 Route::get('/event/new', [App\Http\Controllers\EventController::class, 'new']);
 Route::post('/event/create', [App\Http\Controllers\EventController::class, 'create']);
 Route::get('/event/{id}/edit', [App\Http\Controllers\EventController::class, 'edit']);
@@ -26,7 +28,8 @@ Route::get('/event/{id}/destroy', [App\Http\Controllers\EventController::class, 
 
 // Competitors
 Route::get('/competitors', [App\Http\Controllers\CompetitorController::class, 'index']);
-Route::get('/competitor/export', [App\Http\Controllers\CompetitorController::class, 'export']);
+Route::get('/competitors/export', [App\Http\Controllers\CompetitorController::class, 'export']);
+Route::get('/competitors/upload', [App\Http\Controllers\CompetitorController::class, 'upload']);
 Route::get('/competitor/new', [App\Http\Controllers\CompetitorController::class, 'new']);
 Route::post('/competitor/create', [App\Http\Controllers\CompetitorController::class, 'create']);
 Route::get('/competitor/{id}/edit', [App\Http\Controllers\CompetitorController::class, 'edit']);
@@ -35,7 +38,8 @@ Route::get('/competitor/{id}/destroy', [App\Http\Controllers\CompetitorControlle
 
 // Athletes
 Route::get('/athletes', [App\Http\Controllers\AthleteController::class, 'index']);
-Route::get('/athlete/export', [App\Http\Controllers\AthleteController::class, 'export']);
+Route::get('/athletes/export', [App\Http\Controllers\AthleteController::class, 'export']);
+Route::get('/athletes/upload', [App\Http\Controllers\AthleteController::class, 'upload']);
 Route::get('/athlete/new', [App\Http\Controllers\AthleteController::class, 'new']);
 Route::post('/athlete/create', [App\Http\Controllers\AthleteController::class, 'create']);
 Route::get('/athlete/{id}/edit', [App\Http\Controllers\AthleteController::class, 'edit']);
@@ -44,7 +48,8 @@ Route::get('/athlete/{id}/destroy', [App\Http\Controllers\AthleteController::cla
 
 // Records
 Route::get('/records', [App\Http\Controllers\RecordController::class, 'index']);
-Route::get('/record/export', [App\Http\Controllers\RecordController::class, 'export']);
+Route::get('/records/export', [App\Http\Controllers\RecordController::class, 'export']);
+Route::get('/records/upload', [App\Http\Controllers\RecordController::class, 'upload']);
 Route::get('/record/new', [App\Http\Controllers\RecordController::class, 'new']);
 Route::post('/record/create', [App\Http\Controllers\RecordController::class, 'create']);
 Route::get('/record/{id}/edit', [App\Http\Controllers\RecordController::class, 'edit']);
@@ -53,7 +58,8 @@ Route::get('/record/{id}/destroy', [App\Http\Controllers\RecordController::class
 
 // Results
 Route::get('/results', [App\Http\Controllers\ResultController::class, 'index']);
-Route::get('/result/export', [App\Http\Controllers\ResultController::class, 'export']);
+Route::get('/results/export', [App\Http\Controllers\ResultController::class, 'export']);
+Route::get('/results/upload', [App\Http\Controllers\ResultController::class, 'upload']);
 Route::get('/result/new', [App\Http\Controllers\ResultController::class, 'new']);
 Route::post('/result/create', [App\Http\Controllers\ResultController::class, 'create']);
 Route::get('/result/{id}/edit', [App\Http\Controllers\ResultController::class, 'edit']);
@@ -62,7 +68,7 @@ Route::get('/result/{id}/destroy', [App\Http\Controllers\ResultController::class
 
 // Users
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);
-Route::get('/user/export', [App\Http\Controllers\UserController::class, 'export']);
+Route::get('/users/export', [App\Http\Controllers\UserController::class, 'export']);
 Route::get('/user/new', [App\Http\Controllers\UserController::class, 'new']);
 Route::post('/user/create', [App\Http\Controllers\UserController::class, 'create']);
 Route::get('/user/{id}/edit', [App\Http\Controllers\UserController::class, 'edit']);

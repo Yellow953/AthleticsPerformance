@@ -60,6 +60,7 @@ class EventController extends Controller
 
         $data = $request->except('heat', 'extra');
         $heat = $request->boolean('heat');
+        $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         $data['heat'] = $heat;
         $data['extra'] = $request->extra ?? '';
 
@@ -169,5 +170,33 @@ class EventController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function upload()
+    {
+        $events = Event::where('uploaded', false)->get();
+
+        foreach ($events as $event) {
+            EventSecond::create([
+                'name' => $event->name,
+                'typeID' => $event->typeID,
+                'extra' => $event->extra,
+                'round' => $event->round,
+                'ageGroupID' => $event->ageGroupID,
+                'gender' => $event->gender,
+                'meetingID' => $event->meetingID,
+                'wind' => $event->wind,
+                'note' => $event->note,
+                'distance' => $event->distance,
+                'io' => $event->io,
+                'heat' => $event->heat,
+                'createDate' => $event->created_at,
+            ]);
+
+            $event->uploaded = true;
+            $event->save();
+        }
+
+        return redirect()->back()->with('success', 'Events uploaded successfully...');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Competitor;
 use App\Models\Result;
 use App\Models\Event;
+use App\Models\ResultSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -48,6 +49,7 @@ class ResultController extends Controller
         ]);
 
         $data = $request->except('isHand', 'isActive');
+        $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         $data['isHand'] = $request->boolean('isHand');
         $data['isActive'] = $request->boolean('isActive');
 
@@ -150,5 +152,33 @@ class ResultController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function upload()
+    {
+        $results = Result::where('uploaded', false)->get();
+
+        foreach ($results as $result) {
+            ResultSecond::create([
+                'eventID' => $result->eventID,
+                'competitorID' => $result->competitorID,
+                'result' => $result->result,
+                'isHand' => $result->isHand,
+                'position' => $result->position,
+                'note' => $result->note,
+                'wind' => $result->wind,
+                'points' => $result->points,
+                'resultValue' => $result->resultValue,
+                'recordStatus' => $result->recordStatus,
+                'heat' => $result->heat,
+                'isActive' => $result->isActive,
+                'createDate' => $result->created_at,
+            ]);
+
+            $result->uploaded = true;
+            $result->save();
+        }
+
+        return redirect()->back()->with('success', 'Results uploaded successfully...');
     }
 }

@@ -8,6 +8,7 @@ use App\Models\EventTypeSecond;
 use App\Models\GenderSecond;
 use App\Models\IOSecond;
 use App\Models\Record;
+use App\Models\RecordSecond;
 use App\Models\Result;
 use App\Models\TeamSecond;
 use Illuminate\Http\Request;
@@ -27,7 +28,7 @@ class RecordController extends Controller
         $search = request()->query('search');
 
         if ($search) {
-            $records = Record::where('competitor', 'LIKE', "%{$search}%")->paginate(25);
+            $records = Record::where('record', 'LIKE', "%{$search}%")->paginate(25);
         } else {
             $records = Record::orderBy('created_at', 'DESC')->paginate(25);
         }
@@ -58,6 +59,7 @@ class RecordController extends Controller
         ]);
 
         $data = $request->except('current');
+        $data['id'] = RecordSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         $data['current'] = $request->boolean('current');
         $data['extra'] = $request->extra ?? '';
 
@@ -127,7 +129,7 @@ class RecordController extends Controller
 
     public function export()
     {
-        $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'competitor', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();
+        $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'record', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -147,7 +149,7 @@ class RecordController extends Controller
                 $d->typeID,
                 $d->name,
                 $d->extra,
-                $d->competitor,
+                $d->record,
                 $d->teamID,
                 $d->result,
                 $d->note,
@@ -173,5 +175,41 @@ class RecordController extends Controller
             'Content-Type' => 'application/xls',
             'Content-Disposition' => "attachment; filename={$fileName}",
         ]);
+    }
+
+    public function upload()
+    {
+        $records = Record::where('uploaded', false)->get();
+
+        foreach ($records as $record) {
+            RecordSecond::create([
+                'date' => $record->date,
+                'venue' => $record->venue,
+                'io' => $record->io,
+                'ageGroupID' => $record->ageGroupID,
+                'gender' => $record->gender,
+                'typeID' => $record->typeID,
+                'name' => $record->name,
+                'extra' => $record->extra,
+                'competitor' => $record->competitor,
+                'teamID' => $record->teamID,
+                'result' => $record->result,
+                'note' => $record->note,
+                'wind' => $record->wind,
+                'date2' => $record->date2,
+                'current' => $record->current,
+                'distance' => $record->distance,
+                'athleteID' => $record->athleteID,
+                'points' => $record->points,
+                'resultValue' => $record->resultValue,
+                'resultID' => $record->resultID,
+                'createDate' => $record->created_at,
+            ]);
+
+            $record->uploaded = true;
+            $record->save();
+        }
+
+        return redirect()->back()->with('success', 'Records uploaded successfully...');
     }
 }
