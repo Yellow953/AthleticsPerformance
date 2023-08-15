@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
+use App\Models\Competitor;
 use App\Models\Event;
 use App\Models\EventSecond;
 use App\Models\EventTypeSecond;
 use App\Models\GenderSecond;
 use App\Models\IOSecond;
 use App\Models\Meeting;
+use App\Models\Result;
 use App\Models\RoundSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -58,10 +60,8 @@ class EventController extends Controller
             'io' => 'required',
         ]);
 
-        $data = $request->except('heat', 'extra');
-        $heat = $request->boolean('heat');
-        $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + 1;
-        $data['heat'] = $heat;
+        $data = $request->except('extra');
+        $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + Event::where('uploaded', 0)->count() + 1;
         $data['extra'] = $request->extra ?? '';
 
         Event::create(
@@ -105,9 +105,7 @@ class EventController extends Controller
             return redirect('/events')->with('danger', 'Event not found!');
         }
 
-        $data = $request->except('heat', 'extra');
-        $heat = $request->boolean('heat');
-        $data['heat'] = $heat;
+        $data = $request->except('extra');
         $data['extra'] = $request->extra ?? '';
 
         $event->update(
@@ -198,5 +196,15 @@ class EventController extends Controller
         }
 
         return redirect()->back()->with('success', 'Events uploaded successfully...');
+    }
+
+    public function results($id)
+    {
+        $event = Event::findOrFail($id);
+        $results = Result::where('eventID', $event->id)->get();
+        $competitors = Competitor::all();
+
+        $data = compact('event', 'results', 'competitors');
+        return view('events.results', $data);
     }
 }

@@ -25,6 +25,7 @@ Route::post('/event/create', [App\Http\Controllers\EventController::class, 'crea
 Route::get('/event/{id}/edit', [App\Http\Controllers\EventController::class, 'edit']);
 Route::post('/event/{id}/update', [App\Http\Controllers\EventController::class, 'update']);
 Route::get('/event/{id}/destroy', [App\Http\Controllers\EventController::class, 'destroy']);
+Route::get('/event/{id}/results', [App\Http\Controllers\EventController::class, 'results']);
 
 // Competitors
 Route::get('/competitors', [App\Http\Controllers\CompetitorController::class, 'index']);

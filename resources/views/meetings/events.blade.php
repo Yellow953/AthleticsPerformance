@@ -61,7 +61,7 @@
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
-                            <tr class="clickable-row" onclick="window.location.href = '/events'">
+                            <tr class="clickable-row" onclick="window.location.href = '/event/{{$event->id}}/results'">
                                 <td>{{$event->name}}</td>
                                 <td>{{$event->typeID}}</td>
                                 <td>{{$event->extra}}</td>
@@ -72,7 +72,7 @@
                                 <td>{{$event->note}}</td>
                                 <td>{{$event->distance}}</td>
                                 <td>{{$event->io}}</td>
-                                <td>{{ $event->heat != 0 ? 'true' : 'false' }}</td>
+                                <td>{{$event->heat}}</td>
                                 <td>{{$event->created_at}}</td>
                             </tr>
                             @empty
@@ -95,13 +95,13 @@
                                             placeholder="Age Group ID" required></td>
                                     <td><input type="text" class="form-control" name="gender" placeholder="Gender"
                                             required></td>
-                                    <td><input type="text" class="form-control" name="wind" placeholder="Wind"></td>
+                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="distance"
                                             placeholder="Distance"></td>
                                     <td><input type="text" class="form-control" name="io" placeholder="I/O" required>
                                     </td>
-                                    <td><input type="checkbox" class="form-control" name="heat"></td>
+                                    <td><input type="tnumber" class="form-control" name="heat" placeholder="Heat"></td>
                                     <td><button type="submit" class="btn btn-primary">Create</button></td>
                                 </tr>
                             </form>

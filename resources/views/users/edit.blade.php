@@ -36,6 +36,17 @@
                         </div>
                     </div>
                     <div class="row form-group">
+                        <div class="col col-md-3">
+                            <label for="role" class=" form-control-label">Role</label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <select name="role" id="role" class="form-control">
+                                <option value="user" {{$user->role == "user" ? 'selected' : ''}}>User</option>
+                                <option value="admin" {{$user->role == "admin" ? 'selected' : ''}}>Admin</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row form-group">
                         <div class="offset-9 col-3">
                             <button type="submit" class="btn btn-primary">Update User</button>
                         </div>

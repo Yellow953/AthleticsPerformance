@@ -49,7 +49,7 @@ class ResultController extends Controller
         ]);
 
         $data = $request->except('isHand', 'isActive');
-        $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + Result::where('uploaded', 0)->count() + 1;
         $data['isHand'] = $request->boolean('isHand');
         $data['isActive'] = $request->boolean('isActive');
 
@@ -57,7 +57,7 @@ class ResultController extends Controller
             $data
         );
 
-        return redirect('/results')->with('success', 'Result successfully created!');
+        return redirect()->back()->with('success', 'Result successfully created!');
     }
 
     public function edit($id)

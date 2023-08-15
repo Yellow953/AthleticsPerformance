@@ -155,21 +155,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <div class="col col-md-3">
-                            <label for="distance" class="form-control-label">Distance</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="distance" class="form-control-label">Distance</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="distance" name="distance" placeholder="Distance"
+                                        class="form-control" value="{{old('distance') ?? 0}}">
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-12 col-md-9">
-                            <input type="number" id="distance" name="distance" placeholder="Distance"
-                                class="form-control" value="{{old('distance') ?? 0}}">
-                        </div>
-                    </div>
-                    <div class="row form-group px-4">
-                        <div class="col-6">
-                            <div class="checkbox">
-                                <label for="heat" class="form-check-label ">
-                                    <input type="checkbox" id="heat" name="heat" class="form-check-input">Heat
-                                </label>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="heat" class="form-control-label">Heat</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <input type="number" id="heat" name="heat" placeholder="Heat" class="form-control"
+                                        value="{{old('heat')}}">
+                                </div>
                             </div>
                         </div>
                     </div>

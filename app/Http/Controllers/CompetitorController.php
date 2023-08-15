@@ -53,10 +53,11 @@ class CompetitorController extends Controller
             'year' => 'required|numeric|min:1900'
         ]);
 
-        Competitor::create([
-            'id' => CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + 1,
-            $request->all(),
-        ]);
+        $request['id'] = CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + Competitor::where('uploaded', 0)->count() + 1;
+
+        Competitor::create(
+            $request->all()
+        );
 
         return redirect('/competitors')->with('success', 'Competitor successfully created!');
     }

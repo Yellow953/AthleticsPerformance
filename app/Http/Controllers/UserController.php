@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('admin');
     }
 
     public function index()
@@ -45,6 +45,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
             'password' => Hash::make($request->password),
         ]);
 

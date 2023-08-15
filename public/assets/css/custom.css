@@ -88,10 +88,16 @@
 }
 
 #events-table th,
-#events-table td {
+#events-table td,
+#results-table th,
+#results-table td {
   padding: 5px;
 }
 
 .clickable-row {
   cursor: pointer;
+}
+
+#competitors-combobox {
+  width: 200px;
 }

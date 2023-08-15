@@ -76,7 +76,7 @@
                             </td>
                             <td>
                                 <span
-                                    class="block-email text-white {{ $competitor->gender == 'F' ? 'bg-danger' : ''}} {{ $competitor->gender == 'M' ? 'bg-primary' : ''}}">{{$competitor->gender}}</span>
+                                    class="block-email text-dark {{ $competitor->gender == 'F' ? 'bg-danger' : ''}} {{ $competitor->gender == 'M' ? 'bg-primary' : ''}}">{{$competitor->gender}}</span>
                             </td>
                             <td>
                                 AgeGroup: {{$competitor->ageGroupID}} <br>
