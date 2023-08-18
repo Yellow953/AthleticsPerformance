@@ -56,11 +56,11 @@
                         <div class="col-md-9 my-auto">
                             <div class="row form-group">
                                 <div class="col col-md-3 my-auto">
-                                    <label for="dateOfBirth" class=" form-control-label">Date Of Birth*</label>
+                                    <label for="dateOfBirth" class=" form-control-label">Date Of Birth</label>
                                 </div>
                                 <div class="col-12 col-md-9 my-auto">
                                     <input type="date" id="dateOfBirth" name="dateOfBirth"
-                                        value="{{$athlete->dateOfBirth}}" class="form-control" required>
+                                        value="{{$athlete->dateOfBirth}}" class="form-control">
                                 </div>
                             </div>
                         </div>

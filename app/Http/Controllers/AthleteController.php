@@ -43,7 +43,6 @@ class AthleteController extends Controller
             'firstName' => 'required',
             'lastName' => 'required',
             'gender' => 'required',
-            'dateOfBirth' => 'required',
         ]);
 
         $data = $request->except('showResult', 'exactDate');
@@ -77,7 +76,6 @@ class AthleteController extends Controller
             'firstName' => 'required',
             'lastName' => 'required',
             'gender' => 'required',
-            'dateOfBirth' => 'required',
         ]);
 
         $data = $request->except('showResult', 'exactDate');
