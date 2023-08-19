@@ -158,6 +158,10 @@ class ResultController extends Controller
     {
         $results = Result::where('uploaded', false)->get();
 
+        if ($results->count() == 0) {
+            return redirect()->back()->with('warning', 'All Results are uptodate!');
+        }
+
         foreach ($results as $result) {
             ResultSecond::create([
                 'eventID' => $result->eventID,

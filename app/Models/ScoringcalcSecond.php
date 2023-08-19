@@ -15,4 +15,6 @@ class ScoringcalcSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

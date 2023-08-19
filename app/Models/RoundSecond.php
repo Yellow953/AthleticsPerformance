@@ -15,4 +15,6 @@ class RoundSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

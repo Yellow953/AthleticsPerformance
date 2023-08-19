@@ -15,4 +15,6 @@ class AgeGroupSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

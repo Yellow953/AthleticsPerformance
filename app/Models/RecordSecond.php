@@ -15,4 +15,6 @@ class RecordSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

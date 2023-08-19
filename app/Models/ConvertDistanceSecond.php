@@ -15,4 +15,6 @@ class ConvertDistanceSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

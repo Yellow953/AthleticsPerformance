@@ -149,6 +149,10 @@ class AthleteController extends Controller
     {
         $athletes = Athlete::where('uploaded', false)->get();
 
+        if ($athletes->count() == 0) {
+            return redirect()->back()->with('warning', 'All Atletes are uptodate!');
+        }
+
         foreach ($athletes as $athlete) {
             AthleteSecond::create([
                 'firstName' => $athlete->firstName,

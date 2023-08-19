@@ -15,4 +15,6 @@ class EvdistSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

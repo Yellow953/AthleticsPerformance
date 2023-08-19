@@ -15,4 +15,6 @@ class TeamSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

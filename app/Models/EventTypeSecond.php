@@ -15,4 +15,6 @@ class EventTypeSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

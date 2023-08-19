@@ -15,4 +15,6 @@ class ConvertEventExtraSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

@@ -181,6 +181,10 @@ class RecordController extends Controller
     {
         $records = Record::where('uploaded', false)->get();
 
+        if ($records->count() == 0) {
+            return redirect()->back()->with('warning', 'All Records are uptodate!');
+        }
+
         foreach ($records as $record) {
             RecordSecond::create([
                 'date' => $record->date,

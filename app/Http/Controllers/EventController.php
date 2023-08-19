@@ -174,6 +174,10 @@ class EventController extends Controller
     {
         $events = Event::where('uploaded', false)->get();
 
+        if ($events->count() == 0) {
+            return redirect()->back()->with('warning', 'All Events are uptodate!');
+        }
+
         foreach ($events as $event) {
             EventSecond::create([
                 'name' => $event->name,

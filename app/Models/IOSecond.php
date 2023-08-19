@@ -15,4 +15,6 @@ class IOSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

@@ -153,6 +153,10 @@ class CompetitorController extends Controller
     {
         $competitors = Competitor::where('uploaded', false)->get();
 
+        if ($competitors->count() == 0) {
+            return redirect()->back()->with('warning', 'All Competitors are uptodate!');
+        }
+
         foreach ($competitors as $competitor) {
             CompetitorSecond::create([
                 'name' => $competitor->name,

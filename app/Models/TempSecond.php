@@ -15,4 +15,6 @@ class TempSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }

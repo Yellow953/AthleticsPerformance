@@ -224,10 +224,14 @@ class MeetingController extends Controller
     {
         $meetings = Meeting::where('uploaded', false)->get();
 
+        if ($meetings->count() == 0) {
+            return redirect()->back()->with('warning', 'All Meetings are uptodate!');
+        }
+
         foreach ($meetings as $meeting) {
             MeetingSecond::create([
                 'ID' => $meeting->IDSecond,
-                'ageGroupID' => $meeting->agegroupID,
+                'ageGroupID' => $meeting->ageGroupID,
                 'name' => $meeting->name,
                 'shortName' => $meeting->shortName,
                 'startDate' => $meeting->startDate,

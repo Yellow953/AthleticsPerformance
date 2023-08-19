@@ -15,4 +15,6 @@ class MeetingSecond extends Model
 
     protected $guarded = [];
 
+    public $timestamps = false;
+
 }
