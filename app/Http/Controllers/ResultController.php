@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Competitor;
+use App\Models\CompetitorSecond;
 use App\Models\Result;
 use App\Models\Event;
 use App\Models\ResultSecond;
@@ -33,8 +33,8 @@ class ResultController extends Controller
 
     public function new()
     {
-        $events = Event::orderBy('created_at', 'DESC')->get();
-        $competitors = Competitor::orderBy('created_at', 'DESC')->get();
+        $events = Event::select('id', 'name')->orderBy('created_at', 'DESC')->get();
+        $competitors = CompetitorSecond::select('ID', 'name')->orderBy('ID', 'DESC')->get();
 
         $data = compact('events', 'competitors');
         return view('results.new', $data);
@@ -63,8 +63,8 @@ class ResultController extends Controller
     public function edit($id)
     {
         $result = Result::find($id);
-        $events = Event::orderBy('created_at', 'DESC')->get();
-        $competitors = Competitor::orderBy('created_at', 'DESC')->get();
+        $events = Event::select('id', 'name')->orderBy('created_at', 'DESC')->get();
+        $competitors = CompetitorSecond::select('ID', 'name')->orderBy('ID', 'DESC')->get();
 
         if (!$result) {
             return redirect('/results')->with('danger', 'Result not found!');

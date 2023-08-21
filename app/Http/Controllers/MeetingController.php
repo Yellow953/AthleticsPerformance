@@ -34,8 +34,8 @@ class MeetingController extends Controller
 
     public function new()
     {
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
-        $meeting_types = MeetingTypeSecond::all();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
+        $meeting_types = MeetingTypeSecond::select('ID', 'name')->get();
 
         $data = compact('age_groups', 'meeting_types');
         return view('meetings.new', $data);
@@ -89,8 +89,8 @@ class MeetingController extends Controller
     public function edit($id)
     {
         $meeting = Meeting::find($id);
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
-        $meeting_types = MeetingTypeSecond::all();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
+        $meeting_types = MeetingTypeSecond::select('ID', 'name')->get();
 
         if (!$meeting) {
             return redirect('/meetings')->with('danger', 'Meeting not found!');

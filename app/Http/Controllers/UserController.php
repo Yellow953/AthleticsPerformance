@@ -21,9 +21,9 @@ class UserController extends Controller
         $search = request()->query('search');
 
         if ($search) {
-            $users = User::where('name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->paginate(25);
+            $users = User::select('id', 'name', 'email', 'role', 'created_at')->where('name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->paginate(25);
         } else {
-            $users = User::paginate(25);
+            $users = User::select('id', 'name', 'email', 'role', 'created_at')->paginate(25);
         }
 
         return view('users.index', compact('users'));

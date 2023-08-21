@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
-use App\Models\Athlete;
+use App\Models\AthleteSecond;
 use App\Models\Competitor;
 use App\Models\CompetitorSecond;
 use App\Models\GenderSecond;
@@ -36,9 +36,9 @@ class CompetitorController extends Controller
     public function new()
     {
         $genders = GenderSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
-        $teams = TeamSecond::all();
-        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
+        $teams = TeamSecond::select('ID', 'name')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
 
         $data = compact('genders', 'age_groups', 'teams', 'athletes');
         return view('competitors.new', $data);
@@ -66,9 +66,9 @@ class CompetitorController extends Controller
     {
         $competitor = Competitor::find($id);
         $genders = GenderSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
-        $teams = TeamSecond::all();
-        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
+        $teams = TeamSecond::select('ID', 'name')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
 
         if (!$competitor) {
             return redirect('/competitors')->with('danger', 'Competitor not found!');

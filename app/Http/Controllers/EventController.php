@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
-use App\Models\Competitor;
+use App\Models\CompetitorSecond;
 use App\Models\Event;
 use App\Models\EventSecond;
 use App\Models\EventTypeSecond;
@@ -39,10 +39,10 @@ class EventController extends Controller
 
     public function new()
     {
-        $meetings = Meeting::orderBy('created_at', 'DESC')->get();
-        $rounds = RoundSecond::all();
-        $event_types = EventTypeSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $meetings = Meeting::select('IDSecond', 'name')->orderBy('created_at', 'DESC')->get();
+        $rounds = RoundSecond::select('ID', 'name')->get();
+        $event_types = EventTypeSecond::select('ID', 'name')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
@@ -74,10 +74,10 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::find($id);
-        $meetings = Meeting::orderBy('created_at', 'DESC')->get();
-        $rounds = RoundSecond::all();
-        $event_types = EventTypeSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $meetings = Meeting::select('IDSecond', 'name')->orderBy('created_at', 'DESC')->get();
+        $rounds = RoundSecond::select('ID', 'name')->get();
+        $event_types = EventTypeSecond::select('ID', 'name')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
@@ -206,7 +206,7 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
-        $competitors = Competitor::all();
+        $competitors = CompetitorSecond::select('ID', 'name')->get();
 
         $data = compact('event', 'results', 'competitors');
         return view('events.results', $data);

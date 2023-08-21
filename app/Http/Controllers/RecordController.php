@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
-use App\Models\Athlete;
+use App\Models\AthleteSecond;
 use App\Models\EventTypeSecond;
 use App\Models\GenderSecond;
 use App\Models\IOSecond;
@@ -39,12 +39,12 @@ class RecordController extends Controller
     public function new()
     {
         $ios = IOSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
-        $teams = TeamSecond::all();
-        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
-        $results = Result::orderBy('created_at', 'DESC')->get();
-        $event_types = EventTypeSecond::all();
+        $teams = TeamSecond::select('ID', 'name')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $results = Result::select('id')->orderBy('created_at', 'DESC')->get();
+        $event_types = EventTypeSecond::select('ID', 'name')->get();
 
         $data = compact('ios', 'age_groups', 'genders', 'teams', 'athletes', 'results', 'event_types');
         return view('records.new', $data);
@@ -74,12 +74,12 @@ class RecordController extends Controller
     {
         $record = Record::find($id);
         $ios = IOSecond::all();
-        $age_groups = AgeGroupSecond::orderBy('name')->get();
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
-        $teams = TeamSecond::all();
-        $athletes = Athlete::orderBy('created_at', 'DESC')->get();
-        $results = Result::orderBy('created_at', 'DESC')->get();
-        $event_types = EventTypeSecond::all();
+        $teams = TeamSecond::select('ID', 'name')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $results = Result::select('id')->orderBy('created_at', 'DESC')->get();
+        $event_types = EventTypeSecond::select('ID', 'name')->get();
 
         if (!$record) {
             return redirect('/records')->with('danger', 'Record not found!');
