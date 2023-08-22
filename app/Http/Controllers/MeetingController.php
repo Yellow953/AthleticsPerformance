@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
 use App\Models\Event;
+use App\Models\EventSecond;
 use App\Models\MeetingSecond;
 use App\Models\Meeting;
 use App\Models\MeetingTypeSecond;
@@ -246,6 +247,27 @@ class MeetingController extends Controller
                 'isNew' => $meeting->isNew,
                 'createDate' => $meeting->created_at,
             ]);
+
+            $events = Event::where('uploaded', false)->where('meetingID', $meeting->IDSecond)->get();
+            foreach ($events as $event) {
+                EventSecond::create([
+                    'name' => $event->name,
+                    'typeID' => $event->typeID,
+                    'extra' => $event->extra,
+                    'round' => $event->round,
+                    'ageGroupID' => $event->ageGroupID,
+                    'gender' => $event->gender,
+                    'meetingID' => $event->meetingID,
+                    'wind' => $event->wind,
+                    'note' => $event->note,
+                    'distance' => $event->distance,
+                    'io' => $event->io,
+                    'heat' => $event->heat,
+                    'createDate' => $event->created_at,
+                ]);
+
+                $event->update(['uploaded' => true]);
+            }
 
             $meeting->uploaded = true;
             $meeting->save();

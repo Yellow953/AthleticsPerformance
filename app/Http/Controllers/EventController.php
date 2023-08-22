@@ -10,6 +10,7 @@ use App\Models\EventTypeSecond;
 use App\Models\GenderSecond;
 use App\Models\IOSecond;
 use App\Models\Meeting;
+use App\Models\MeetingSecond;
 use App\Models\Result;
 use App\Models\RoundSecond;
 use Illuminate\Http\Request;
@@ -179,6 +180,30 @@ class EventController extends Controller
         }
 
         foreach ($events as $event) {
+            $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
+            $meeting_second = MeetingSecond::where('ID', $event->meetingID)->first();
+            if ($meeting->uploaded == false && $meeting_second == null) {
+                MeetingSecond::create([
+                    'ID' => $meeting->IDSecond,
+                    'ageGroupID' => $meeting->ageGroupID,
+                    'name' => $meeting->name,
+                    'shortName' => $meeting->shortName,
+                    'startDate' => $meeting->startDate,
+                    'endDate' => $meeting->endDate,
+                    'venue' => $meeting->venue,
+                    'country' => $meeting->country,
+                    'typeID' => $meeting->typeID,
+                    'subgroup' => $meeting->subgroup,
+                    'picture' => $meeting->picture,
+                    'picture2' => $meeting->picture,
+                    'isActive' => $meeting->isActive,
+                    'isNew' => $meeting->isNew,
+                    'createDate' => $meeting->created_at,
+                ]);
+
+                $meeting->update(['uploaded' => true]);
+            }
+
             EventSecond::create([
                 'name' => $event->name,
                 'typeID' => $event->typeID,
