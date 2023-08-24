@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
+
+use App\Models\Athlete;
 use App\Models\AthleteSecond;
 use App\Models\Competitor;
 use App\Models\CompetitorSecond;
@@ -158,6 +160,22 @@ class CompetitorController extends Controller
         }
 
         foreach ($competitors as $competitor) {
+            $athlete = Athlete::where('id', $competitor->athleteID)->first();
+            $athlete_second = AthleteSecond::where('ID', $competitor->athleteID)->first();
+            if ($athlete->uploaded == false && $athlete_second == null) {
+                AthleteSecond::create([
+                    'firstName' => $athlete->firstName,
+                    'middleName' => $athlete->middleName,
+                    'lastName' => $athlete->lastName,
+                    'dateOfBirth' => $athlete->dateOfBirth,
+                    'gender' => $athlete->gender,
+                    'exactDate' => $athlete->exactDate,
+                    'showResult' => $athlete->showResult,
+                ]);
+
+                $athlete->update(['uploaded' => true]);
+            }
+
             CompetitorSecond::create([
                 'name' => $competitor->name,
                 'athleteID' => $competitor->athleteID,
