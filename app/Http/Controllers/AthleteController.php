@@ -145,29 +145,52 @@ class AthleteController extends Controller
         ]);
     }
 
-    public function upload()
+    public function upload_all()
     {
         $athletes = Athlete::where('uploaded', false)->get();
 
-        if ($athletes->count() == 0) {
-            return redirect()->back()->with('warning', 'All Atletes are uptodate!');
+        if ($athletes->isEmpty()) {
+            return redirect()->back()->with('warning', 'All athletes are up-to-date!');
         }
 
         foreach ($athletes as $athlete) {
-            AthleteSecond::create([
-                'firstName' => $athlete->firstName,
-                'middleName' => $athlete->middleName,
-                'lastName' => $athlete->lastName,
-                'dateOfBirth' => $athlete->dateOfBirth,
-                'gender' => $athlete->gender,
-                'exactDate' => $athlete->exactDate,
-                'showResult' => $athlete->showResult,
-            ]);
+            AthleteSecond::create($athlete->only([
+                'firstName',
+                'middleName',
+                'lastName',
+                'dateOfBirth',
+                'gender',
+                'exactDate',
+                'showResult'
+            ]));
 
             $athlete->uploaded = true;
             $athlete->save();
         }
 
-        return redirect()->back()->with('success', 'Athletes uploaded successfully...');
+        return redirect()->back()->with('success', 'Athletes uploaded successfully.');
     }
+
+    public function upload_specific($id)
+    {
+        $athlete = Athlete::findOrFail($id);
+
+        if (!$athlete || $athlete->uploaded || AthleteSecond::find($id)) {
+            return redirect()->back()->with('warning', 'Athlete is already up-to-date or not found.');
+        }
+
+        AthleteSecond::create($athlete->only([
+            'firstName',
+            'middleName',
+            'lastName',
+            'dateOfBirth',
+            'gender',
+            'exactDate',
+            'showResult'
+        ]));
+
+        $athlete->update(['uploaded' => true]);
+        return redirect()->back()->with('success', 'Athlete uploaded successfully.');
+    }
+
 }

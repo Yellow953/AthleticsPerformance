@@ -221,58 +221,68 @@ class MeetingController extends Controller
         return view('meetings.events', $data);
     }
 
-    public function upload()
+    public function upload_all()
     {
         $meetings = Meeting::where('uploaded', false)->get();
 
-        if ($meetings->count() == 0) {
-            return redirect()->back()->with('warning', 'All Meetings are uptodate!');
+        if ($meetings->isEmpty()) {
+            return redirect()->back()->with('warning', 'All meetings are up-to-date!');
         }
 
         foreach ($meetings as $meeting) {
-            MeetingSecond::create([
-                'ID' => $meeting->IDSecond,
-                'ageGroupID' => $meeting->ageGroupID,
-                'name' => $meeting->name,
-                'shortName' => $meeting->shortName,
-                'startDate' => $meeting->startDate,
-                'endDate' => $meeting->endDate,
-                'venue' => $meeting->venue,
-                'country' => $meeting->country,
-                'typeID' => $meeting->typeID,
-                'subgroup' => $meeting->subgroup,
-                'picture' => $meeting->picture,
-                'picture2' => $meeting->picture,
-                'isActive' => $meeting->isActive,
-                'isNew' => $meeting->isNew,
-                'createDate' => $meeting->created_at,
-            ]);
-
-            $events = Event::where('uploaded', false)->where('meetingID', $meeting->IDSecond)->get();
-            foreach ($events as $event) {
-                EventSecond::create([
-                    'name' => $event->name,
-                    'typeID' => $event->typeID,
-                    'extra' => $event->extra,
-                    'round' => $event->round,
-                    'ageGroupID' => $event->ageGroupID,
-                    'gender' => $event->gender,
-                    'meetingID' => $event->meetingID,
-                    'wind' => $event->wind,
-                    'note' => $event->note,
-                    'distance' => $event->distance,
-                    'io' => $event->io,
-                    'heat' => $event->heat,
-                    'createDate' => $event->created_at,
-                ]);
-
-                $event->update(['uploaded' => true]);
-            }
-
-            $meeting->uploaded = true;
-            $meeting->save();
+            $this->upload_individual($meeting->ID);
         }
 
-        return redirect()->back()->with('success', 'Meetings uploaded successfully...');
+        return redirect()->back()->with('success', 'Meetings uploaded successfully.');
     }
+
+    public function upload_individual($id)
+    {
+        $meeting = Meeting::find($id);
+
+        if (!$meeting || $meeting->uploaded) {
+            return;
+        }
+
+        MeetingSecond::create($meeting->only([
+            'IDSecond',
+            'ageGroupID',
+            'name',
+            'shortName',
+            'startDate',
+            'endDate',
+            'venue',
+            'country',
+            'typeID',
+            'subgroup',
+            'picture',
+            'isActive',
+            'isNew',
+            'created_at'
+        ]));
+
+        $events = Event::where('uploaded', false)->where('meetingID', $meeting->IDSecond)->get();
+        foreach ($events as $event) {
+            EventSecond::create($event->only([
+                'name',
+                'typeID',
+                'extra',
+                'round',
+                'ageGroupID',
+                'gender',
+                'meetingID',
+                'wind',
+                'note',
+                'distance',
+                'io',
+                'heat',
+                'created_at'
+            ]));
+
+            $event->update(['uploaded' => true]);
+        }
+
+        $meeting->update(['uploaded' => true]);
+    }
+
 }

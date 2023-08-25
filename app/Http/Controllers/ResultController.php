@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Competitor;
 use App\Models\CompetitorSecond;
 use App\Models\Result;
 use App\Models\ResultSecond;
@@ -159,112 +160,181 @@ class ResultController extends Controller
         ]);
     }
 
-    public function upload()
+    public function upload_individual($id)
+    {
+        $result = Result::find($id);
+
+        if (!$result || $result->uploaded || ResultSecond::find($id)) {
+            return redirect()->back()->with('warning', 'Result is already up-to-date or does not exist.');
+        }
+
+        $event = $this->uploadEvent($result->eventID);
+        $competitor = $this->uploadCompetitor($result->competitorID);
+        $athlete = $this->uploadAthlete($competitor->athleteID);
+
+        if (!$event || !$competitor || !$athlete) {
+            return redirect()->back()->with('warning', 'Dependencies could not be uploaded.');
+        }
+
+        ResultSecond::create($result->only([
+            'eventID',
+            'competitorID',
+            'result',
+            'isHand',
+            'position',
+            'note',
+            'wind',
+            'points',
+            'resultValue',
+            'recordStatus',
+            'heat',
+            'isActive',
+            'created_at'
+        ]));
+
+        $result->update(['uploaded' => true]);
+
+        return redirect()->back()->with('success', 'Result and its dependencies uploaded successfully.');
+    }
+
+
+    public function upload_all()
     {
         $results = Result::where('uploaded', false)->get();
 
-        if ($results->count() == 0) {
-            return redirect()->back()->with('warning', 'All Results are uptodate!');
+        if ($results->isEmpty()) {
+            return redirect()->back()->with('warning', 'All results are up-to-date!');
         }
 
         foreach ($results as $result) {
-            $event = Event::where('id', $result->eventID)->first();
-            $event_second = EventSecond::where('ID', $result->eventID)->first();
-            if ($event->uploaded == false && $event_second == null) {
-                $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
-                $meeting_second = MeetingSecond::where('ID', $event->meetingID)->first();
-                if ($meeting->uploaded == false && $meeting_second == null) {
-                    MeetingSecond::create([
-                        'ID' => $meeting->IDSecond,
-                        'ageGroupID' => $meeting->ageGroupID,
-                        'name' => $meeting->name,
-                        'shortName' => $meeting->shortName,
-                        'startDate' => $meeting->startDate,
-                        'endDate' => $meeting->endDate,
-                        'venue' => $meeting->venue,
-                        'country' => $meeting->country,
-                        'typeID' => $meeting->typeID,
-                        'subgroup' => $meeting->subgroup,
-                        'picture' => $meeting->picture,
-                        'picture2' => $meeting->picture,
-                        'isActive' => $meeting->isActive,
-                        'isNew' => $meeting->isNew,
-                        'createDate' => $meeting->created_at,
-                    ]);
+            $event = $this->uploadEvent($result->eventID);
+            $competitor = $this->uploadCompetitor($result->competitorID);
+            $athlete = $this->uploadAthlete($competitor->athleteID);
 
-                    $meeting->update(['uploaded' => true]);
-                }
-
-                EventSecond::create([
-                    'name' => $event->name,
-                    'typeID' => $event->typeID,
-                    'extra' => $event->extra,
-                    'round' => $event->round,
-                    'ageGroupID' => $event->ageGroupID,
-                    'gender' => $event->gender,
-                    'meetingID' => $event->meetingID,
-                    'wind' => $event->wind,
-                    'note' => $event->note,
-                    'distance' => $event->distance,
-                    'io' => $event->io,
-                    'heat' => $event->heat,
-                    'createDate' => $event->created_at,
-                ]);
-
-                $event->update(['uploaded' => true]);
-            }
-
-            $competitor = Result::where('id', $result->competitorID)->first();
-            $competitor_second = ResultSecond::where('ID', $result->competitorID)->first();
-            if ($competitor->uploaded == false && $competitor_second == null) {
-                $athlete = Athlete::where('id', $competitor->athleteID)->first();
-                $athlete_second = AthleteSecond::where('ID', $competitor->athleteID)->first();
-                if ($athlete->uploaded == false && $athlete_second == null) {
-                    AthleteSecond::create([
-                        'firstName' => $athlete->firstName,
-                        'middleName' => $athlete->middleName,
-                        'lastName' => $athlete->lastName,
-                        'dateOfBirth' => $athlete->dateOfBirth,
-                        'gender' => $athlete->gender,
-                        'exactDate' => $athlete->exactDate,
-                        'showResult' => $athlete->showResult,
-                    ]);
-
-                    $athlete->update(['uploaded' => true]);
-                }
-
-                CompetitorSecond::create([
-                    'name' => $competitor->name,
-                    'athleteID' => $competitor->athleteID,
-                    'gender' => $competitor->gender,
-                    'teamID' => $competitor->teamID,
-                    'year' => $competitor->year,
-                    'ageGroupID' => $competitor->ageGroupID,
-                ]);
-
-                $competitor->uploaded = true;
-                $competitor->save();
-            }
-
-            ResultSecond::create([
-                'eventID' => $result->eventID,
-                'competitorID' => $result->competitorID,
-                'result' => $result->result,
-                'isHand' => $result->isHand,
-                'position' => $result->position,
-                'note' => $result->note,
-                'wind' => $result->wind,
-                'points' => $result->points,
-                'resultValue' => $result->resultValue,
-                'recordStatus' => $result->recordStatus,
-                'heat' => $result->heat,
-                'isActive' => $result->isActive,
-                'createDate' => $result->created_at,
-            ]);
+            ResultSecond::create($result->only([
+                'eventID',
+                'competitorID',
+                'result',
+                'isHand',
+                'position',
+                'note',
+                'wind',
+                'points',
+                'resultValue',
+                'recordStatus',
+                'heat',
+                'isActive',
+                'created_at'
+            ]));
 
             $result->update(['uploaded' => true]);
         }
 
         return redirect()->back()->with('success', 'Results uploaded successfully...');
     }
+
+    protected function uploadEvent($eventID)
+    {
+        $event = Event::find($eventID);
+
+        if (!$event || $event->uploaded || EventSecond::find($eventID)) {
+            return null;
+        }
+
+        $meeting = $this->uploadMeeting($event->meetingID);
+
+        EventSecond::create($event->only([
+            'name',
+            'typeID',
+            'extra',
+            'round',
+            'ageGroupID',
+            'gender',
+            'meetingID',
+            'wind',
+            'note',
+            'distance',
+            'io',
+            'heat',
+            'created_at'
+        ]));
+
+        $event->update(['uploaded' => true]);
+        return $event;
+    }
+
+    protected function uploadCompetitor($competitorID)
+    {
+        $competitor = Competitor::find($competitorID);
+
+        if (!$competitor || $competitor->uploaded || CompetitorSecond::find($competitorID)) {
+            return null;
+        }
+
+        $athlete = $this->uploadAthlete($competitor->athleteID);
+
+        CompetitorSecond::create($competitor->only([
+            'name',
+            'athleteID',
+            'gender',
+            'teamID',
+            'year',
+            'ageGroupID'
+        ]));
+
+        $competitor->update(['uploaded' => true]);
+        return $competitor;
+    }
+
+    protected function uploadAthlete($athleteID)
+    {
+        $athlete = Athlete::find($athleteID);
+
+        if (!$athlete || $athlete->uploaded || AthleteSecond::find($athleteID)) {
+            return null;
+        }
+
+        AthleteSecond::create($athlete->only([
+            'firstName',
+            'middleName',
+            'lastName',
+            'dateOfBirth',
+            'gender',
+            'exactDate',
+            'showResult'
+        ]));
+
+        $athlete->update(['uploaded' => true]);
+        return $athlete;
+    }
+
+    protected function uploadMeeting($meetingID)
+    {
+        $meeting = Meeting::find($meetingID);
+
+        if (!$meeting || $meeting->uploaded || MeetingSecond::find($meetingID)) {
+            return null;
+        }
+
+        MeetingSecond::create($meeting->only([
+            'IDSecond',
+            'ageGroupID',
+            'name',
+            'shortName',
+            'startDate',
+            'endDate',
+            'venue',
+            'country',
+            'typeID',
+            'subgroup',
+            'picture',
+            'isActive',
+            'isNew',
+            'created_at'
+        ]));
+
+        $meeting->update(['uploaded' => true]);
+        return $meeting;
+    }
+
 }
