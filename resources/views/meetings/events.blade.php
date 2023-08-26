@@ -61,7 +61,7 @@
                         </thead>
                         <tbody>
                             @forelse ($events as $event)
-                            <tr class="clickable-row" onclick="window.location.href = '/event/{{$event->id}}/results'">
+                            <tr class="clickable-row" data-event-id="{{ $event->id }}">
                                 <td>{{$event->name}}</td>
                                 <td>{{$event->typeID}}</td>
                                 <td>{{$event->extra}}</td>
@@ -80,7 +80,7 @@
                                 <td colspan="5">No Events for this specific Meeting yet......</td>
                             </tr>
                             @endforelse
-                            <form action="/event/create" method="post" enctype="multipart/form-data">
+                            <form id="createEventForm" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="meetingID" value="{{$meeting->IDSecond}}">
                                 <tr>
@@ -102,7 +102,8 @@
                                     <td><input type="text" class="form-control" name="io" placeholder="I/O" required>
                                     </td>
                                     <td><input type="tnumber" class="form-control" name="heat" placeholder="Heat"></td>
-                                    <td><button type="submit" class="btn btn-primary">Create</button></td>
+                                    <td><button type="submit" class="btn btn-primary"
+                                            id="createEventButton">Create</button></td>
                                 </tr>
                             </form>
                         </tbody>
@@ -112,5 +113,52 @@
         </div>
     </div>
 </div>
+
+{{-- Create live event --}}
+<script>
+    $(document).ready(function() {
+        $('#createEventButton').click(function(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+            
+            var formData = new FormData($('#createEventForm')[0]);
+            $.ajax({
+                url: '/event_create',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Assuming the server responds with the newly created event data in JSON format
+                    var newEvent = response.event;
+
+                    // Append the new event to the table
+                    var newRow = $('<tr class="clickable-row" onclick="window.location.href = \'/event/' + newEvent.id + '/results\'">');
+                    newRow.append('<td>' + newEvent.name + '</td>');
+                    newRow.append('<td>' + newEvent.typeID + '</td>');
+                    newRow.append('<td>' + newEvent.extra + '</td>');
+                    newRow.append('<td>' + newEvent.round + '</td>');
+                    newRow.append('<td>' + newEvent.ageGroupID + '</td>');
+                    newRow.append('<td>' + newEvent.gender + '</td>');
+                    newRow.append('<td>' + newEvent.wind  + '</td>');
+                    newRow.append('<td>' + newEvent.note + '</td>');
+                    newRow.append('<td>' + newEvent.distance +  '</td>');
+                    newRow.append('<td>' + newEvent.io + '</td>');
+                    newRow.append('<td>' + newEvent.heat + '</td>');
+                    newRow.append('<td>' + newEvent.created_at + '</td>');
+
+                    // Insert the new row before the form
+                    $('#events-table tbody tr:last-child').prev().before(newRow);
+
+
+                    // Clear the form fields
+                    $('#createEventForm')[0].reset();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection

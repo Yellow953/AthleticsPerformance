@@ -67,9 +67,13 @@ class RecordController extends Controller
         ]);
 
         $data = $request->except('current');
-        $data['id'] = RecordSecond::orderBy('ID', 'DESC')->first()->ID + Record::where('uploaded', 0)->count() + 1;
         $data['current'] = $request->boolean('current');
         $data['extra'] = $request->extra ?? '';
+        if (Record::where('uploaded', false)->count() == 0) {
+            $data['id'] = RecordSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Record::orderBy('ID', 'DESC')->first()->id + 1;
+        }
 
         Record::create(
             $data

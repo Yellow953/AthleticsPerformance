@@ -46,9 +46,13 @@ class AthleteController extends Controller
         ]);
 
         $data = $request->except('showResult', 'exactDate');
-        $data['id'] = AthleteSecond::orderBy('ID', 'DESC')->first()->ID + Athlete::where('uploaded', 0)->count() + 1;
         $data['showResult'] = $request->boolean('showResult');
         $data['exactDate'] = $request->boolean('exactDate');
+        if (Athlete::where('uploaded', false)->count() == 0) {
+            $data['id'] = AthleteSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Athlete::orderBy('ID', 'DESC')->first()->id + 1;
+        }
 
         Athlete::create(
             $data

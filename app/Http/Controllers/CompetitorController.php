@@ -55,7 +55,11 @@ class CompetitorController extends Controller
             'year' => 'required|numeric|min:1900'
         ]);
 
-        $request['id'] = CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + Competitor::where('uploaded', 0)->count() + 1;
+        if (Competitor::where('uploaded', false)->count() == 0) {
+            $request['id'] = CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $request['id'] = Competitor::orderBy('ID', 'DESC')->first()->id + 1;
+        }
 
         Competitor::create(
             $request->all()

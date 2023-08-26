@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
+use App\Models\CompetitorSecond;
 use App\Models\Event;
 use App\Models\EventSecond;
 use App\Models\MeetingSecond;
@@ -216,8 +217,9 @@ class MeetingController extends Controller
     {
         $meeting = Meeting::find($id);
         $events = Event::where('meetingID', $meeting->IDSecond)->get();
+        $competitors = CompetitorSecond::select('ID', 'name')->get();
 
-        $data = compact('meeting', 'events');
+        $data = compact('meeting', 'events', 'competitors');
         return view('meetings.events', $data);
     }
 
@@ -283,6 +285,32 @@ class MeetingController extends Controller
         }
 
         $meeting->update(['uploaded' => true]);
+    }
+
+    public function event_create(Request $request)
+    {
+        $request->validate([
+            'typeID' => 'required',
+            'ageGroupID' => 'required',
+            'round' => 'required',
+            'gender' => 'required',
+            'io' => 'required',
+        ]);
+
+        $data = $request->except('extra');
+        $data['extra'] = $request->extra ?? '';
+        if (Event::where('uploaded', false)->count() == 0) {
+            $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Event::orderBy('ID', 'DESC')->first()->id + 1;
+        }
+
+        $event = Event::create(
+            $data
+        );
+
+        // return redirect()->back()->with('success', 'Event successfully created!');
+        return response()->json(['event' => $event]);
     }
 
 }

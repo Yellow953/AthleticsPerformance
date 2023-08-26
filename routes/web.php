@@ -16,6 +16,7 @@ Route::get('/meeting/{id}/edit', [App\Http\Controllers\MeetingController::class,
 Route::post('/meeting/{id}/update', [App\Http\Controllers\MeetingController::class, 'update']);
 Route::get('/meeting/{id}/destroy', [App\Http\Controllers\MeetingController::class, 'destroy']);
 Route::get('/meeting/{id}/events', [App\Http\Controllers\MeetingController::class, 'events']);
+Route::post('/event_create', [App\Http\Controllers\MeetingController::class, 'event_create']);
 
 // Events
 Route::get('/events', [App\Http\Controllers\EventController::class, 'index']);
@@ -28,6 +29,8 @@ Route::get('/event/{id}/edit', [App\Http\Controllers\EventController::class, 'ed
 Route::post('/event/{id}/update', [App\Http\Controllers\EventController::class, 'update']);
 Route::get('/event/{id}/destroy', [App\Http\Controllers\EventController::class, 'destroy']);
 Route::get('/event/{id}/results', [App\Http\Controllers\EventController::class, 'results']);
+Route::get('/event/{id}/get_results', [App\Http\Controllers\EventController::class, 'get_results']);
+Route::post('/result_create', [App\Http\Controllers\EventController::class, 'result_create']);
 
 // Competitors
 Route::get('/competitors', [App\Http\Controllers\CompetitorController::class, 'index']);

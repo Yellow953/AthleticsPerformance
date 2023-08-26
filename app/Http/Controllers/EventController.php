@@ -12,6 +12,7 @@ use App\Models\IOSecond;
 use App\Models\Meeting;
 use App\Models\MeetingSecond;
 use App\Models\Result;
+use App\Models\ResultSecond;
 use App\Models\RoundSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -62,14 +63,19 @@ class EventController extends Controller
         ]);
 
         $data = $request->except('extra');
-        $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + Event::where('uploaded', 0)->count() + 1;
         $data['extra'] = $request->extra ?? '';
+        if (Event::where('uploaded', false)->count() == 0) {
+            $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Event::orderBy('ID', 'DESC')->first()->id + 1;
+        }
 
         Event::create(
             $data
         );
 
         return redirect()->back()->with('success', 'Event successfully created!');
+        // return response()->json(['event' => $event]);
     }
 
     public function edit($id)
@@ -247,4 +253,35 @@ class EventController extends Controller
         $event->update(['uploaded' => true]);
     }
 
+    public function get_results($id)
+    {
+        $event = Event::findOrFail($id);
+        $results = Result::where('eventID', $event->id)->get();
+
+        return response()->json(['results' => $results]);
+    }
+
+    public function result_create(Request $request)
+    {
+        $request->validate([
+            // 'title' => 'required|max:255',
+            // 'date' => 'required|date',
+            // 'location' => 'required|max:255',
+        ]);
+
+        $data = $request->except('isHand', 'isActive');
+        $data['isHand'] = $request->boolean('isHand');
+        $data['isActive'] = $request->boolean('isActive');
+        if (Result::where('uploaded', false)->count() == 0) {
+            $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Result::orderBy('ID', 'DESC')->first()->id + 1;
+        }
+
+        $result = Result::create(
+            $data
+        );
+
+        return response()->json(['result' => $result]);
+    }
 }

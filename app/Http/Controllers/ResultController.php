@@ -55,9 +55,13 @@ class ResultController extends Controller
         ]);
 
         $data = $request->except('isHand', 'isActive');
-        $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + Result::where('uploaded', 0)->count() + 1;
         $data['isHand'] = $request->boolean('isHand');
         $data['isActive'] = $request->boolean('isActive');
+        if (Result::where('uploaded', false)->count() == 0) {
+            $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + 1;
+        } else {
+            $data['id'] = Result::orderBy('ID', 'DESC')->first()->id + 1;
+        }
 
         Result::create(
             $data

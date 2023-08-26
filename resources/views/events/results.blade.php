@@ -87,7 +87,7 @@
                                 <td colspan="5">No Results for this specific Event yet......</td>
                             </tr>
                             @endforelse
-                            <form action="/result/create" method="post" enctype="multipart/form-data">
+                            <form id="createResultForm" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="eventID" value="{{$event->id}}">
                                 <tr>
@@ -108,7 +108,7 @@
                                         </div>
                                         <ul class="combobox-dropdown" id="competitors-combobox">
                                             @foreach ($competitors as $competitor)
-                                            <li data-value="{{$competitor->id}}">{{$competitor->name}}</li>
+                                            <li data-value="{{$competitor->ID}}">{{$competitor->name}}</li>
                                             @endforeach
                                         </ul>
                                         <input type="hidden" id="competitorID" name="competitorID">
@@ -129,7 +129,8 @@
                                     <td><input type="number" class="form-control" name="heat" placeholder="Heat"></td>
                                     <td><input type="checkbox" class="form-control" name="isHand"></td>
                                     <td><input type="checkbox" class="form-control" name="isActive"></td>
-                                    <td><button type="submit" class="btn btn-primary">Create</button></td>
+                                    <td><button type="submit" class="btn btn-primary"
+                                            id="createResultButton">Create</button></td>
                                 </tr>
                             </form>
                         </tbody>
@@ -195,5 +196,51 @@
     }
 </script>
 
+{{-- Create live result --}}
+<script>
+    $(document).ready(function() {
+        $('#createResultButton').click(function(event) {
+            event.preventDefault(); // Prevent form submission and page reload
+            
+            var formData = new FormData($('#createResultForm')[0]);
+            $.ajax({
+                url: '/result_create',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // Assuming the server responds with the newly created result data in JSON format
+                    var newResult = response.result;
+
+                    // Append the new result to the table
+                    var newRow = $('<tr>');
+                    newRow.append('<td>' + newResult.competitorID + '</td>');
+                    newRow.append('<td>' + newResult.position + '</td>');
+                    newRow.append('<td>' + newResult.result + '</td>');
+                    newRow.append('<td>' + newResult.points + '</td>');
+                    newRow.append('<td>' + newResult.resultValue + '</td>');
+                    newRow.append('<td>' + newResult.recordStatus + '</td>');
+                    newRow.append('<td>' + newResult.wind  + '</td>');
+                    newRow.append('<td>' + newResult.note + '</td>');
+                    newRow.append('<td>' + newResult.heat +  '</td>');
+                    newRow.append('<td>' + newResult.isHand + '</td>');
+                    newRow.append('<td>' + newResult.isActive + '</td>');
+                    newRow.append('<td>' + newResult.created_at + '</td>');
+
+                    // Insert the new row before the form
+                    $('#results-table tbody tr:last-child').prev().before(newRow);
+
+
+                    // Clear the form fields
+                    $('#createResultForm')[0].reset();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection
