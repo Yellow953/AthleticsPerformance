@@ -257,8 +257,9 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
+        $competitors = CompetitorSecond::select('ID', 'name')->get();
 
-        return response()->json(['results' => $results]);
+        return response()->json(['results' => $results, 'event' => $event, 'competitors' => $competitors]);
     }
 
     public function result_create(Request $request)
