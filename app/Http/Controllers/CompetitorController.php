@@ -70,7 +70,7 @@ class CompetitorController extends Controller
 
     public function edit($id)
     {
-        $competitor = Competitor::find($id);
+        $competitor = Competitor::findOrFail($id);
         $genders = GenderSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $teams = TeamSecond::select('ID', 'name')->get();
@@ -93,7 +93,7 @@ class CompetitorController extends Controller
             'year' => 'required|numeric|min:1900'
         ]);
 
-        $competitor = Competitor::find($id);
+        $competitor = Competitor::findOrFail($id);
 
         if (!$competitor) {
             return redirect('/competitors')->with('danger', 'Competitor not found!');
@@ -108,7 +108,7 @@ class CompetitorController extends Controller
 
     public function destroy($id)
     {
-        $competitor = Competitor::find($id);
+        $competitor = Competitor::findOrFail($id);
 
         if (!$competitor) {
             return redirect()->back()->with('danger', 'Competitor not found!');
@@ -164,38 +164,72 @@ class CompetitorController extends Controller
         }
 
         foreach ($competitors as $competitor) {
-            $this->upload_individual($competitor->id);
+            if (!$competitor || $competitor->uploaded) {
+                return;
+            }
+
+            $athlete = Athlete::find($competitor->athleteID);
+            $athlete_second = AthleteSecond::find($competitor->athleteID);
+
+            if (!$athlete->uploaded && !$athlete_second) {
+                AthleteSecond::create([
+                    'ID' => $athlete->id,
+                    'firstName' => $athlete->firstName,
+                    'middleName' => $athlete->middleName,
+                    'lastName' => $athlete->lastName,
+                    'dateOfBirth' => $athlete->dateOfBirth,
+                    'gender' => $athlete->gender,
+                    'exactDate' => $athlete->exactDate,
+                    'showResult' => $athlete->showResult
+                ]);
+
+                $athlete->update(['uploaded' => true]);
+            }
+
+            CompetitorSecond::create([
+                'ID' => $competitor->id,
+                'name' => $competitor->name,
+                'athleteID' => $competitor->athleteID,
+                'gender' => $competitor->gender,
+                'teamID' => $competitor->teamID,
+                'year' => $competitor->year,
+                'ageGroupID' => $competitor->ageGroupID,
+            ]);
+
+            $competitor->update(['uploaded' => true]);
         }
 
         return redirect()->back()->with('success', 'Competitors uploaded successfully.');
     }
 
-    public function upload_individual($id)
+    public function upload($id)
     {
-        $competitor = Competitor::find($id);
+        $competitor = Competitor::findOrFail($id);
 
         if (!$competitor || $competitor->uploaded) {
-            return;
+            return redirect()->back()->with('warning', 'Competitor already uploaded!');
         }
 
         $athlete = Athlete::find($competitor->athleteID);
         $athlete_second = AthleteSecond::find($competitor->athleteID);
 
         if (!$athlete->uploaded && !$athlete_second) {
-            AthleteSecond::create($athlete->only([
-                'firstName',
-                'middleName',
-                'lastName',
-                'dateOfBirth',
-                'gender',
-                'exactDate',
-                'showResult'
-            ]));
+            AthleteSecond::create([
+                'ID' => $athlete->id,
+                'firstName' => $athlete->firstName,
+                'middleName' => $athlete->middleName,
+                'lastName' => $athlete->lastName,
+                'dateOfBirth' => $athlete->dateOfBirth,
+                'gender' => $athlete->gender,
+                'exactDate' => $athlete->exactDate,
+                'showResult' => $athlete->showResult
+            ]);
 
             $athlete->update(['uploaded' => true]);
         }
 
         CompetitorSecond::create([
+            'ID' => $competitor->id,
             'name' => $competitor->name,
             'athleteID' => $competitor->athleteID,
             'gender' => $competitor->gender,
@@ -205,7 +239,7 @@ class CompetitorController extends Controller
         ]);
 
         $competitor->update(['uploaded' => true]);
+
+        return redirect()->back()->with('success', 'Competitor uploaded successfully!');
     }
-
-
 }

@@ -54,7 +54,7 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if (!$user) {
             return redirect('/users')->with('danger', 'User not found!');
@@ -70,7 +70,7 @@ class UserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if (!$user) {
             return redirect('/users')->with('danger', 'User not found!');
@@ -85,7 +85,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::find($id);
+        $user = User::findOrFail($id);
 
         if (!$user) {
             return redirect()->back()->with('danger', 'User not found!');

@@ -72,7 +72,7 @@ class ResultController extends Controller
 
     public function edit($id)
     {
-        $result = Result::find($id);
+        $result = Result::findOrFail($id);
         $events = Event::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $competitors = CompetitorSecond::select('ID', 'name')->orderBy('ID', 'DESC')->get();
 
@@ -92,7 +92,7 @@ class ResultController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        $result = Result::find($id);
+        $result = Result::findOrFail($id);
 
         if (!$result) {
             return redirect('/results')->with('danger', 'Result not found!');
@@ -111,7 +111,7 @@ class ResultController extends Controller
 
     public function destroy($id)
     {
-        $result = Result::find($id);
+        $result = Result::findOrFail($id);
 
         if (!$result) {
             return redirect()->back()->with('danger', 'Result not found!');
@@ -164,12 +164,12 @@ class ResultController extends Controller
         ]);
     }
 
-    public function upload_individual($id)
+    public function upload($id)
     {
-        $result = Result::find($id);
+        $result = Result::findOrFail($id);
 
         if (!$result || $result->uploaded || ResultSecond::find($id)) {
-            return redirect()->back()->with('warning', 'Result is already up-to-date or does not exist.');
+            return redirect()->back()->with('warning', 'Result already uploaded!');
         }
 
         $event = $this->uploadEvent($result->eventID);
@@ -180,25 +180,27 @@ class ResultController extends Controller
             return redirect()->back()->with('warning', 'Dependencies could not be uploaded.');
         }
 
-        ResultSecond::create($result->only([
-            'eventID',
-            'competitorID',
-            'result',
-            'isHand',
-            'position',
-            'note',
-            'wind',
-            'points',
-            'resultValue',
-            'recordStatus',
-            'heat',
-            'isActive',
-            'created_at'
-        ]));
+        ResultSecond::create([
+            'ID' => $result->id,
+            'eventID' => $result->eventID,
+            'competitorID' => $result->competitorID,
+            'result' => $result->result,
+            'isHand' => $result->isHand,
+            'position' => $result->position,
+            'note' => $result->note,
+            'wind' => $result->wind,
+            'points' => $result->points,
+            'resultValue' => $result->resultValue,
+            'recordStatus' => $result->recordStatus,
+            'heat' => $result->heat,
+            'isActive' => $result->isActive,
+            'createDate' => $result->created_at
+        ]);
+
 
         $result->update(['uploaded' => true]);
 
-        return redirect()->back()->with('success', 'Result and its dependencies uploaded successfully.');
+        return redirect()->back()->with('success', 'Result uploaded successfully!');
     }
 
 
@@ -215,21 +217,22 @@ class ResultController extends Controller
             $competitor = $this->uploadCompetitor($result->competitorID);
             $athlete = $this->uploadAthlete($competitor->athleteID);
 
-            ResultSecond::create($result->only([
-                'eventID',
-                'competitorID',
-                'result',
-                'isHand',
-                'position',
-                'note',
-                'wind',
-                'points',
-                'resultValue',
-                'recordStatus',
-                'heat',
-                'isActive',
-                'created_at'
-            ]));
+            ResultSecond::create([
+                'ID' => $result->id,
+                'eventID' => $result->eventID,
+                'competitorID' => $result->competitorID,
+                'result' => $result->result,
+                'isHand' => $result->isHand,
+                'position' => $result->position,
+                'note' => $result->note,
+                'wind' => $result->wind,
+                'points' => $result->points,
+                'resultValue' => $result->resultValue,
+                'recordStatus' => $result->recordStatus,
+                'heat' => $result->heat,
+                'isActive' => $result->isActive,
+                'createDate' => $result->created_at
+            ]);
 
             $result->update(['uploaded' => true]);
         }
@@ -247,21 +250,22 @@ class ResultController extends Controller
 
         $meeting = $this->uploadMeeting($event->meetingID);
 
-        EventSecond::create($event->only([
-            'name',
-            'typeID',
-            'extra',
-            'round',
-            'ageGroupID',
-            'gender',
-            'meetingID',
-            'wind',
-            'note',
-            'distance',
-            'io',
-            'heat',
-            'created_at'
-        ]));
+        EventSecond::create([
+            'ID' => $event->id,
+            'name' => $event->name,
+            'typeID' => $event->typeID,
+            'extra' => $event->extra,
+            'round' => $event->round,
+            'ageGroupID' => $event->ageGroupID,
+            'gender' => $event->gender,
+            'meetingID' => $event->meetingID,
+            'wind' => $event->wind,
+            'note' => $event->note,
+            'distance' => $event->distance,
+            'io' => $event->io,
+            'heat' => $event->heat,
+            'createDate' => $event->created_at
+        ]);
 
         $event->update(['uploaded' => true]);
         return $event;
@@ -277,14 +281,15 @@ class ResultController extends Controller
 
         $athlete = $this->uploadAthlete($competitor->athleteID);
 
-        CompetitorSecond::create($competitor->only([
-            'name',
-            'athleteID',
-            'gender',
-            'teamID',
-            'year',
-            'ageGroupID'
-        ]));
+        CompetitorSecond::create([
+            'ID' => $competitor->id,
+            'name' => $competitor->name,
+            'athleteID' => $competitor->athleteID,
+            'gender' => $competitor->gender,
+            'teamID' => $competitor->teamID,
+            'year' => $competitor->year,
+            'ageGroupID' => $competitor->ageGroupID,
+        ]);
 
         $competitor->update(['uploaded' => true]);
         return $competitor;
@@ -298,15 +303,16 @@ class ResultController extends Controller
             return null;
         }
 
-        AthleteSecond::create($athlete->only([
-            'firstName',
-            'middleName',
-            'lastName',
-            'dateOfBirth',
-            'gender',
-            'exactDate',
-            'showResult'
-        ]));
+        AthleteSecond::create([
+            'ID' => $athlete->id,
+            'firstName' => $athlete->firstName,
+            'middleName' => $athlete->middleName,
+            'lastName' => $athlete->lastName,
+            'dateOfBirth' => $athlete->dateOfBirth,
+            'gender' => $athlete->gender,
+            'exactDate' => $athlete->exactDate,
+            'showResult' => $athlete->showResult
+        ]);
 
         $athlete->update(['uploaded' => true]);
         return $athlete;
@@ -320,22 +326,22 @@ class ResultController extends Controller
             return null;
         }
 
-        MeetingSecond::create($meeting->only([
-            'IDSecond',
-            'ageGroupID',
-            'name',
-            'shortName',
-            'startDate',
-            'endDate',
-            'venue',
-            'country',
-            'typeID',
-            'subgroup',
-            'picture',
-            'isActive',
-            'isNew',
-            'created_at'
-        ]));
+        MeetingSecond::create([
+            'ID' => $meeting->IDSecond,
+            'ageGroupID' => $meeting->ageGroupID,
+            'name' => $meeting->name,
+            'shortName' => $meeting->shortName,
+            'startDate' => $meeting->startDate,
+            'endDate' => $meeting->endDate,
+            'venue' => $meeting->venue,
+            'country' => $meeting->country,
+            'typeID' => $meeting->typeID,
+            'subgroup' => $meeting->subgroup,
+            'picture' => $meeting->picture,
+            'isActive' => $meeting->isActive,
+            'isNew' => $meeting->isNew,
+            'createDate' => $meeting->created_at
+        ]);
 
         $meeting->update(['uploaded' => true]);
         return $meeting;

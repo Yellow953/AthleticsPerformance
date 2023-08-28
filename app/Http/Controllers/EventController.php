@@ -80,7 +80,7 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
         $meetings = Meeting::select('IDSecond', 'name')->orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
@@ -106,7 +106,7 @@ class EventController extends Controller
             'io' => 'required',
         ]);
 
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
 
         if (!$event) {
             return redirect('/events')->with('danger', 'Event not found!');
@@ -124,7 +124,7 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        $event = Event::find($id);
+        $event = Event::findOrFail($id);
 
         if (!$event) {
             return redirect()->back()->with('danger', 'Event not found!');
@@ -196,61 +196,108 @@ class EventController extends Controller
         }
 
         foreach ($events as $event) {
-            $this->upload_individual($event->id);
+            if (!$event || $event->uploaded) {
+                return;
+            }
+
+            $meeting = Meeting::find($event->meetingID);
+            $meeting_second = MeetingSecond::find($event->meetingID);
+
+            if (!$meeting->uploaded && !$meeting_second) {
+                MeetingSecond::create([
+                    'ID' => $meeting->IDSecond,
+                    'ageGroupID' => $meeting->ageGroupID,
+                    'name' => $meeting->name,
+                    'shortName' => $meeting->shortName,
+                    'startDate' => $meeting->startDate,
+                    'endDate' => $meeting->endDate,
+                    'venue' => $meeting->venue,
+                    'country' => $meeting->country,
+                    'typeID' => $meeting->typeID,
+                    'subgroup' => $meeting->subgroup,
+                    'picture' => $meeting->picture,
+                    'isActive' => $meeting->isActive,
+                    'isNew' => $meeting->isNew,
+                    'createDate' => $meeting->created_at
+                ]);
+
+                $meeting->update(['uploaded' => true]);
+            }
+
+            EventSecond::create([
+                'ID' => $event->id,
+                'name' => $event->name,
+                'typeID' => $event->typeID,
+                'extra' => $event->extra,
+                'round' => $event->round,
+                'ageGroupID' => $event->ageGroupID,
+                'gender' => $event->gender,
+                'meetingID' => $event->meetingID,
+                'wind' => $event->wind,
+                'note' => $event->note,
+                'distance' => $event->distance,
+                'io' => $event->io,
+                'heat' => $event->heat,
+                'createDate' => $event->created_at
+            ]);
+
+            $event->update(['uploaded' => true]);
         }
 
         return redirect()->back()->with('success', 'Events uploaded successfully.');
     }
 
-    public function upload_individual($eventID)
+    public function upload($eventID)
     {
-        $event = Event::find($eventID);
+        $event = Event::findOrFail($eventID);
 
         if (!$event || $event->uploaded) {
-            return;
+            return redirect()->back()->with('warning', 'Event already Uploaded!');
         }
 
         $meeting = Meeting::find($event->meetingID);
         $meeting_second = MeetingSecond::find($event->meetingID);
 
         if (!$meeting->uploaded && !$meeting_second) {
-            MeetingSecond::create($meeting->only([
-                'IDSecond',
-                'ageGroupID',
-                'name',
-                'shortName',
-                'startDate',
-                'endDate',
-                'venue',
-                'country',
-                'typeID',
-                'subgroup',
-                'picture',
-                'isActive',
-                'isNew',
-                'created_at'
-            ]));
+            MeetingSecond::create([
+                'ID' => $meeting->IDSecond,
+                'ageGroupID' => $meeting->ageGroupID,
+                'name' => $meeting->name,
+                'shortName' => $meeting->shortName,
+                'startDate' => $meeting->startDate,
+                'endDate' => $meeting->endDate,
+                'venue' => $meeting->venue,
+                'country' => $meeting->country,
+                'typeID' => $meeting->typeID,
+                'subgroup' => $meeting->subgroup,
+                'picture' => $meeting->picture,
+                'isActive' => $meeting->isActive,
+                'isNew' => $meeting->isNew,
+                'createDate' => $meeting->created_at
+            ]);
 
             $meeting->update(['uploaded' => true]);
         }
 
-        EventSecond::create($event->only([
-            'name',
-            'typeID',
-            'extra',
-            'round',
-            'ageGroupID',
-            'gender',
-            'meetingID',
-            'wind',
-            'note',
-            'distance',
-            'io',
-            'heat',
-            'created_at'
-        ]));
+        EventSecond::create([
+            'ID' => $event->id,
+            'name' => $event->name,
+            'typeID' => $event->typeID,
+            'extra' => $event->extra,
+            'round' => $event->round,
+            'ageGroupID' => $event->ageGroupID,
+            'gender' => $event->gender,
+            'meetingID' => $event->meetingID,
+            'wind' => $event->wind,
+            'note' => $event->note,
+            'distance' => $event->distance,
+            'io' => $event->io,
+            'heat' => $event->heat,
+            'createDate' => $event->created_at
+        ]);
 
         $event->update(['uploaded' => true]);
+        return redirect()->back()->with('success', 'Event uploaded successfully!');
     }
 
     public function get_results($id)

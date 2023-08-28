@@ -16,8 +16,6 @@ use App\Models\Meeting;
 use App\Models\MeetingSecond;
 use App\Models\Event;
 use App\Models\EventSecond;
-use App\Models\Competitor;
-use App\Models\CompetitorSecond;
 use App\Models\TeamSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -84,7 +82,7 @@ class RecordController extends Controller
 
     public function edit($id)
     {
-        $record = Record::find($id);
+        $record = Record::findOrFail($id);
         $ios = IOSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
@@ -109,7 +107,7 @@ class RecordController extends Controller
             // 'location' => 'required|max:255',
         ]);
 
-        $record = Record::find($id);
+        $record = Record::findOrFail($id);
 
         if (!$record) {
             return redirect('/records')->with('danger', 'Record not found!');
@@ -128,7 +126,7 @@ class RecordController extends Controller
 
     public function destroy($id)
     {
-        $record = Record::find($id);
+        $record = Record::findOrFail($id);
 
         if (!$record) {
             return redirect()->back()->with('danger', 'Record not found!');
@@ -189,12 +187,12 @@ class RecordController extends Controller
         ]);
     }
 
-    public function upload_individual($id)
+    public function upload($id)
     {
-        $record = Record::find($id);
+        $record = Record::findOrFail($id);
 
         if (!$record || $record->uploaded) {
-            return redirect()->back()->with('warning', 'Record not found or already uploaded.');
+            return redirect()->back()->with('warning', 'Record already uploaded!');
         }
 
         $athlete = $this->uploadAthlete($record->athleteID);
@@ -202,29 +200,31 @@ class RecordController extends Controller
         $event = $this->uploadEvent($result->eventID);
         $meeting = $this->uploadMeeting($event->meetingID);
 
-        RecordSecond::create($record->only([
-            'date',
-            'venue',
-            'io',
-            'ageGroupID',
-            'gender',
-            'typeID',
-            'name',
-            'extra',
-            'competitor',
-            'teamID',
-            'result',
-            'note',
-            'wind',
-            'date2',
-            'current',
-            'distance',
-            'athleteID',
-            'points',
-            'resultValue',
-            'resultID',
-            'created_at'
-        ]));
+        RecordSecond::create([
+            'ID' => $record->id,
+            'date' => $record->date,
+            'venue' => $record->venue,
+            'io' => $record->io,
+            'ageGroupID' => $record->ageGroupID,
+            'gender' => $record->gender,
+            'typeID' => $record->typeID,
+            'name' => $record->name,
+            'extra' => $record->extra,
+            'competitor' => $record->competitor,
+            'teamID' => $record->teamID,
+            'result' => $record->result,
+            'note' => $record->note,
+            'wind' => $record->wind,
+            'date2' => $record->date2,
+            'current' => $record->current,
+            'distance' => $record->distance,
+            'athleteID' => $record->athleteID,
+            'points' => $record->points,
+            'resultValue' => $record->resultValue,
+            'resultID' => $record->resultID,
+            'createDate' => $record->created_at
+        ]);
+
 
         $record->update(['uploaded' => true]);
 
@@ -245,29 +245,30 @@ class RecordController extends Controller
             $event = $this->uploadEvent($result->eventID);
             $meeting = $this->uploadMeeting($event->meetingID);
 
-            RecordSecond::create($record->only([
-                'date',
-                'venue',
-                'io',
-                'ageGroupID',
-                'gender',
-                'typeID',
-                'name',
-                'extra',
-                'competitor',
-                'teamID',
-                'result',
-                'note',
-                'wind',
-                'date2',
-                'current',
-                'distance',
-                'athleteID',
-                'points',
-                'resultValue',
-                'resultID',
-                'created_at'
-            ]));
+            RecordSecond::create([
+                'ID' => $record->id,
+                'date' => $record->date,
+                'venue' => $record->venue,
+                'io' => $record->io,
+                'ageGroupID' => $record->ageGroupID,
+                'gender' => $record->gender,
+                'typeID' => $record->typeID,
+                'name' => $record->name,
+                'extra' => $record->extra,
+                'competitor' => $record->competitor,
+                'teamID' => $record->teamID,
+                'result' => $record->result,
+                'note' => $record->note,
+                'wind' => $record->wind,
+                'date2' => $record->date2,
+                'current' => $record->current,
+                'distance' => $record->distance,
+                'athleteID' => $record->athleteID,
+                'points' => $record->points,
+                'resultValue' => $record->resultValue,
+                'resultID' => $record->resultID,
+                'createDate' => $record->created_at
+            ]);
 
             $record->update(['uploaded' => true]);
         }
@@ -283,15 +284,16 @@ class RecordController extends Controller
             return null;
         }
 
-        AthleteSecond::create($athlete->only([
-            'firstName',
-            'middleName',
-            'lastName',
-            'dateOfBirth',
-            'gender',
-            'exactDate',
-            'showResult'
-        ]));
+        AthleteSecond::create([
+            'ID' => $athlete->id,
+            'firstName' => $athlete->firstName,
+            'middleName' => $athlete->middleName,
+            'lastName' => $athlete->lastName,
+            'dateOfBirth' => $athlete->dateOfBirth,
+            'gender' => $athlete->gender,
+            'exactDate' => $athlete->exactDate,
+            'showResult' => $athlete->showResult
+        ]);
 
         $athlete->update(['uploaded' => true]);
         return $athlete;
@@ -307,21 +309,22 @@ class RecordController extends Controller
 
         $event = $this->uploadEvent($result->eventID);
 
-        ResultSecond::create($result->only([
-            'eventID',
-            'competitorID',
-            'result',
-            'isHand',
-            'position',
-            'note',
-            'wind',
-            'points',
-            'resultValue',
-            'recordStatus',
-            'heat',
-            'isActive',
-            'created_at'
-        ]));
+        ResultSecond::create([
+            'ID' => $result->id,
+            'eventID' => $result->eventID,
+            'competitorID' => $result->competitorID,
+            'result' => $result->result,
+            'isHand' => $result->isHand,
+            'position' => $result->position,
+            'note' => $result->note,
+            'wind' => $result->wind,
+            'points' => $result->points,
+            'resultValue' => $result->resultValue,
+            'recordStatus' => $result->recordStatus,
+            'heat' => $result->heat,
+            'isActive' => $result->isActive,
+            'createDate' => $result->created_at
+        ]);
 
         $result->update(['uploaded' => true]);
         return $result;
@@ -337,21 +340,22 @@ class RecordController extends Controller
 
         $meeting = $this->uploadMeeting($event->meetingID);
 
-        EventSecond::create($event->only([
-            'name',
-            'typeID',
-            'extra',
-            'round',
-            'ageGroupID',
-            'gender',
-            'meetingID',
-            'wind',
-            'note',
-            'distance',
-            'io',
-            'heat',
-            'created_at'
-        ]));
+        EventSecond::create([
+            'ID' => $event->id,
+            'name' => $event->name,
+            'typeID' => $event->typeID,
+            'extra' => $event->extra,
+            'round' => $event->round,
+            'ageGroupID' => $event->ageGroupID,
+            'gender' => $event->gender,
+            'meetingID' => $event->meetingID,
+            'wind' => $event->wind,
+            'note' => $event->note,
+            'distance' => $event->distance,
+            'io' => $event->io,
+            'heat' => $event->heat,
+            'createDate' => $event->created_at
+        ]);
 
         $event->update(['uploaded' => true]);
         return $event;
@@ -365,22 +369,22 @@ class RecordController extends Controller
             return null;
         }
 
-        MeetingSecond::create($meeting->only([
-            'IDSecond',
-            'ageGroupID',
-            'name',
-            'shortName',
-            'startDate',
-            'endDate',
-            'venue',
-            'country',
-            'typeID',
-            'subgroup',
-            'picture',
-            'isActive',
-            'isNew',
-            'created_at'
-        ]));
+        MeetingSecond::create([
+            'ID' => $meeting->IDSecond,
+            'ageGroupID' => $meeting->ageGroupID,
+            'name' => $meeting->name,
+            'shortName' => $meeting->shortName,
+            'startDate' => $meeting->startDate,
+            'endDate' => $meeting->endDate,
+            'venue' => $meeting->venue,
+            'country' => $meeting->country,
+            'typeID' => $meeting->typeID,
+            'subgroup' => $meeting->subgroup,
+            'picture' => $meeting->picture,
+            'isActive' => $meeting->isActive,
+            'isNew' => $meeting->isNew,
+            'createDate' => $meeting->created_at
+        ]);
 
         $meeting->update(['uploaded' => true]);
         return $meeting;

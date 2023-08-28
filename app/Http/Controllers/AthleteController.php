@@ -63,7 +63,7 @@ class AthleteController extends Controller
 
     public function edit($id)
     {
-        $athlete = Athlete::find($id);
+        $athlete = Athlete::findOrFail($id);
         $genders = GenderSecond::all();
 
         if (!$athlete) {
@@ -86,7 +86,7 @@ class AthleteController extends Controller
         $data['showResult'] = $request->boolean('showResult');
         $data['exactDate'] = $request->boolean('exactDate');
 
-        $athlete = Athlete::find($id);
+        $athlete = Athlete::findOrFail($id);
 
         if (!$athlete) {
             return redirect('/athletes')->with('danger', 'Athlete not found!');
@@ -101,7 +101,7 @@ class AthleteController extends Controller
 
     public function destroy($id)
     {
-        $athlete = Athlete::find($id);
+        $athlete = Athlete::findOrFail($id);
 
         if (!$athlete) {
             return redirect()->back()->with('danger', 'Athlete not found!');
@@ -158,15 +158,16 @@ class AthleteController extends Controller
         }
 
         foreach ($athletes as $athlete) {
-            AthleteSecond::create($athlete->only([
-                'firstName',
-                'middleName',
-                'lastName',
-                'dateOfBirth',
-                'gender',
-                'exactDate',
-                'showResult'
-            ]));
+            AthleteSecond::create([
+                'ID' => $athlete->id,
+                'firstName' => $athlete->firstName,
+                'middleName' => $athlete->middleName,
+                'lastName' => $athlete->lastName,
+                'dateOfBirth' => $athlete->dateOfBirth,
+                'gender' => $athlete->gender,
+                'exactDate' => $athlete->exactDate,
+                'showResult' => $athlete->showResult
+            ]);
 
             $athlete->uploaded = true;
             $athlete->save();
@@ -175,7 +176,7 @@ class AthleteController extends Controller
         return redirect()->back()->with('success', 'Athletes uploaded successfully.');
     }
 
-    public function upload_specific($id)
+    public function upload($id)
     {
         $athlete = Athlete::findOrFail($id);
 
@@ -183,15 +184,16 @@ class AthleteController extends Controller
             return redirect()->back()->with('warning', 'Athlete is already up-to-date or not found.');
         }
 
-        AthleteSecond::create($athlete->only([
-            'firstName',
-            'middleName',
-            'lastName',
-            'dateOfBirth',
-            'gender',
-            'exactDate',
-            'showResult'
-        ]));
+        AthleteSecond::create([
+            'ID' => $athlete->id,
+            'firstName' => $athlete->firstName,
+            'middleName' => $athlete->middleName,
+            'lastName' => $athlete->lastName,
+            'dateOfBirth' => $athlete->dateOfBirth,
+            'gender' => $athlete->gender,
+            'exactDate' => $athlete->exactDate,
+            'showResult' => $athlete->showResult
+        ]);
 
         $athlete->update(['uploaded' => true]);
         return redirect()->back()->with('success', 'Athlete uploaded successfully.');
