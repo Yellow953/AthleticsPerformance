@@ -90,5 +90,18 @@
             </div>
         </div>
     </div>
+
+    <div class="row mt-5">
+        <div class="col-md-3 my-auto">
+            <img src="{{asset('assets/images/logo.png')}}" alt="" class="dashboard-logo">
+        </div>
+        <div class="col-md-9 my-auto">
+            <h2 class="text-yellow">Athletics Performance</h2>
+            <p class="text-white my-3">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Harum atque nihil ex, nesciunt optio nemo
+                mollitia vitae quasi iusto amet magni tenetur minus dolor quos provident, vero corrupti maxime sit?
+            </p>
+        </div>
+    </div>
 </div>
 @endsection
