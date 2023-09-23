@@ -155,7 +155,8 @@
                                     <label for="wind" class=" form-control-label">Wind</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="wind" name="wind" placeholder="Wind" class="form-control">
+                                    <input type="text" id="wind" name="wind" step="0.1" placeholder="Wind"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>

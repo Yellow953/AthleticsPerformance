@@ -38,6 +38,7 @@
                             <span class="my-auto">Export</span>
                         </div>
                     </a>
+                    @if(auth()->user()->role == 'admin')
                     <a href="/meetings/upload" class="btn btn-success mx-1">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -54,6 +55,7 @@
                             <span class="my-auto">Upload</span>
                         </div>
                     </a>
+                    @endif
                 </div>
             </div>
             <div class="table-responsive table-responsive-data2">
@@ -97,6 +99,17 @@
                             </td>
                             <td>
                                 <div class="table-data-feature">
+                                    <a class="item bg-primary d-flex align-items-center justify-content-center"
+                                        href="/meeting/{{$meeting->id}}/events" data-toggle="tooltip"
+                                        data-placement="top" title="Events">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
+                                            class="bi bi-cone-striped" viewBox="0 0 16 16">
+                                            <path
+                                                d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9c-1.14 0-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.120zm-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4c.618 0 1.2-.036 1.725-.098zm4.396 8.613a.5.5 0 0 1 .037.960l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.960l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257 2.391.598z" />
+                                        </svg>
+                                    </a>
+
+                                    @if(auth()->user()->role == 'admin')
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
                                         href="/meetings/upload/{{$meeting->id}}" data-toggle="tooltip"
                                         data-placement="top" title="Upload">
@@ -113,16 +126,6 @@
                                         </svg>
                                     </a>
 
-                                    <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="/meeting/{{$meeting->id}}/events" data-toggle="tooltip"
-                                        data-placement="top" title="Events">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
-                                            class="bi bi-cone-striped" viewBox="0 0 16 16">
-                                            <path
-                                                d="m9.97 4.88.953 3.811C10.159 8.878 9.14 9 8 9c-1.14 0-2.158-.122-2.923-.309L6.03 4.88C6.635 4.957 7.3 5 8 5s1.365-.043 1.97-.120zm-.245-.978L8.97.88C8.718-.13 7.282-.13 7.03.88L6.275 3.9C6.8 3.965 7.382 4 8 4c.618 0 1.2-.036 1.725-.098zm4.396 8.613a.5.5 0 0 1 .037.960l-6 2a.5.5 0 0 1-.316 0l-6-2a.5.5 0 0 1 .037-.960l2.391-.598.565-2.257c.862.212 1.964.339 3.165.339s2.303-.127 3.165-.339l.565 2.257 2.391.598z" />
-                                        </svg>
-                                    </a>
-
                                     <a class="item bg-warning" href="/meeting/{{$meeting->id}}/edit"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
@@ -134,6 +137,7 @@
                                             <i class="zmdi zmdi-delete text-dark"></i>
                                         </button>
                                     </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>

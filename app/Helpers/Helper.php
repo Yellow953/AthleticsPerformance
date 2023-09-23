@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Carbon\Carbon;
+
 class Helper
 {
     public static function Countries()
@@ -258,5 +260,10 @@ class Helper
             'ZWE' => 'Zimbabwe'
         );
         return $countries;
+    }
+
+    public static function get_current_year()
+    {
+        return Carbon::now()->year;
     }
 }

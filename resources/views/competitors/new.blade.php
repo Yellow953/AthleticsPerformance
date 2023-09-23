@@ -49,7 +49,11 @@
                                     </div>
                                     <ul class="combobox-dropdown">
                                         @foreach ($athletes as $athlete)
-                                        <li data-value="{{$athlete->id}}">{{$athlete->firstName}} {{$athlete->lastName}}
+                                        <li data-value="{{$athlete->id}}">{{$athlete->firstName}}
+                                            @if ($athlete->middleName)
+                                            ({{$athlete->middleName}})
+                                            @endif
+                                            {{$athlete->lastName}}
                                         </li>
                                         @endforeach
                                     </ul>
@@ -65,7 +69,7 @@
                                     <label for="year" class=" form-control-label">Year*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="year" name="year" value="{{old('year')}}"
+                                    <input type="number" id="year" name="year" value="{{Helper::get_current_year()}}"
                                         class="form-control" required>
                                 </div>
                             </div>
@@ -217,8 +221,12 @@
     });
 
     comboboxInput.addEventListener('input', function () {
-        filterDropdownOptions();
+        const inputValue = comboboxInput.value;
+        if (inputValue.length >= 4) {
+            filterDropdownOptions();
+        }
     });
+
 
     comboboxDropdown.addEventListener('click', function (event) {
         if (event.target.tagName === 'LI') {

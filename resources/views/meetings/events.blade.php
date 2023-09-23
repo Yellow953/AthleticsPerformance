@@ -96,7 +96,8 @@
                                             placeholder="Age Group ID" required></td>
                                     <td><input type="text" class="form-control" name="gender" placeholder="Gender"
                                             required></td>
-                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"></td>
+                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"
+                                            step="0.1"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="distance"
                                             placeholder="Distance"></td>

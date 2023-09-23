@@ -124,7 +124,8 @@
                                             placeholder="Result Value" required></td>
                                     <td><input type="text" class="form-control" name="recordStatus"
                                             placeholder="Record Status"></td>
-                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"></td>
+                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"
+                                            step="0.1"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="heat" placeholder="Heat"></td>
                                     <td><input type="checkbox" class="form-control" name="isHand"></td>

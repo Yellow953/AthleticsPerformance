@@ -166,7 +166,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="wind" name="wind" placeholder="Wind" class="form-control"
-                                        value="{{$record->wind}}">
+                                        value="{{$record->wind}}" step="0.1">
                                 </div>
                             </div>
                         </div>

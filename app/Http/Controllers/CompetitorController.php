@@ -20,6 +20,7 @@ class CompetitorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('admin')->only(['edit', 'update', 'destroy', 'upload', 'upload_all']);
     }
 
     public function index()

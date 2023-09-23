@@ -39,6 +39,7 @@
                             <span class="my-auto">Export</span>
                         </div>
                     </a>
+                    @if (auth()->user()->role == 'admin')
                     <a href="/athletes/upload" class="btn btn-success mx-1">
                         <div class="d-flex">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -55,6 +56,7 @@
                             <span class="my-auto">Upload</span>
                         </div>
                     </a>
+                    @endif
                 </div>
             </div>
             <div class="table-responsive table-responsive-data2">
@@ -64,7 +66,9 @@
                             <th>Name</th>
                             <th>Date of Birth</th>
                             <th>Gender</th>
+                            @if(auth()->user()->role == 'admin')
                             <th></th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -79,6 +83,7 @@
                                 <span
                                     class="block-email text-black {{ $athlete->gender == 'F' ? 'bg-danger' : ''}} {{ $athlete->gender == 'M' ? 'bg-primary' : ''}}">{{$athlete->gender}}</span>
                             </td>
+                            @if(auth()->user()->role == 'admin')
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
@@ -110,6 +115,7 @@
                                     </form>
                                 </div>
                             </td>
+                            @endif
                         </tr>
                         <tr class="spacer"></tr>
                         @empty
