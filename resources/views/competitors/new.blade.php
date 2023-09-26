@@ -49,11 +49,13 @@
                                     </div>
                                     <ul class="combobox-dropdown">
                                         @foreach ($athletes as $athlete)
-                                        <li data-value="{{$athlete->id}}">{{$athlete->firstName}}
+                                        <li data-value="{{$athlete->ID}}"
+                                            data-name="{{$athlete->firstName}} {{$athlete->middleName ? $athlete->middleName . ' ' : ''}}{{$athlete->lastName}}"
+                                            data-gender="{{$athlete->gender}}">
+                                            {{$athlete->firstName}}
                                             @if ($athlete->middleName)
                                             ({{$athlete->middleName}})
-                                            @endif
-                                            {{$athlete->lastName}}
+                                            @endif {{$athlete->lastName}}
                                         </li>
                                         @endforeach
                                     </ul>
@@ -119,14 +121,13 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row form-group">
                         <div class="offset-9 col-3">
                             <button type="submit" class="btn btn-primary" id="submit-button">Create Competitor</button>
                         </div>
                     </div>
+                </form>
             </div>
-            </form>
         </div>
     </div>
 </div>
@@ -228,19 +229,6 @@
     });
 
 
-    comboboxDropdown.addEventListener('click', function (event) {
-        if (event.target.tagName === 'LI') {
-        const selectedValue = event.target.getAttribute('data-value');
-        const selectedText = event.target.textContent.trim();
-        const trimmedText = selectedText.replace(/\s+/g, ' ').trim(); // Replace multiple spaces with a single space and then trim
-
-        comboboxInput.value = trimmedText;
-        hiddenInput.value = selectedValue;
-
-        comboboxDropdown.style.display = 'none';
-    }
-    });
-
     function filterDropdownOptions() {
         const searchTerm = comboboxInput.value.toLowerCase();
         for (const option of dropdownOptions) {
@@ -252,6 +240,28 @@
             }
         }
     }
+
+    comboboxDropdown.addEventListener('click', function (event) {
+        if (event.target.tagName === 'LI') {
+            const selectedValue = event.target.getAttribute('data-value');
+            const selectedText = event.target.textContent.trim();
+            const trimmedText = selectedText.replace(/\s+/g, ' ').trim(); // Replace multiple spaces with a single space and then trim
+
+            // Update the input fields with athlete's information
+            comboboxInput.value = trimmedText;
+            hiddenInput.value = selectedValue;
+
+            // Automatically fill the name and gender fields
+            const selectedAthlete = event.target;
+            const name = selectedAthlete.getAttribute('data-name');
+            const gender = selectedAthlete.getAttribute('data-gender');
+
+            document.getElementById('name').value = name;
+            document.getElementById('gender').value = gender;
+
+            comboboxDropdown.style.display = 'none';
+        }
+    });
 </script>
 
 @endsection

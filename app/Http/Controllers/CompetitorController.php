@@ -41,7 +41,7 @@ class CompetitorController extends Controller
         $genders = GenderSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $teams = TeamSecond::select('ID', 'name')->get();
-        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName', 'gender')->orderBy('ID', 'DESC')->get();
 
         $data = compact('genders', 'age_groups', 'teams', 'athletes');
         return view('competitors.new', $data);
@@ -75,7 +75,7 @@ class CompetitorController extends Controller
         $genders = GenderSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $teams = TeamSecond::select('ID', 'name')->get();
-        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName', 'gender')->orderBy('ID', 'DESC')->get();
 
         if (!$competitor) {
             return redirect('/competitors')->with('danger', 'Competitor not found!');
