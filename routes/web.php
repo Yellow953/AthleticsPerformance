@@ -64,6 +64,7 @@ Route::post('/record/create', [App\Http\Controllers\RecordController::class, 'cr
 Route::get('/record/{id}/edit', [App\Http\Controllers\RecordController::class, 'edit']);
 Route::post('/record/{id}/update', [App\Http\Controllers\RecordController::class, 'update']);
 Route::get('/record/{id}/destroy', [App\Http\Controllers\RecordController::class, 'destroy']);
+Route::get('/record/{id}/copy', [App\Http\Controllers\RecordController::class, 'copy']);
 
 // Results
 Route::get('/results', [App\Http\Controllers\ResultController::class, 'index']);
@@ -75,6 +76,8 @@ Route::post('/result/create', [App\Http\Controllers\ResultController::class, 'cr
 Route::get('/result/{id}/edit', [App\Http\Controllers\ResultController::class, 'edit']);
 Route::post('/result/{id}/update', [App\Http\Controllers\ResultController::class, 'update']);
 Route::get('/result/{id}/destroy', [App\Http\Controllers\ResultController::class, 'destroy']);
+Route::get('/result/{id}/new_record', [App\Http\Controllers\ResultController::class, 'new_record']);
+Route::post('/result/{id}/create_record', [App\Http\Controllers\ResultController::class, 'create_record']);
 
 // Users
 Route::get('/users', [App\Http\Controllers\UserController::class, 'index']);

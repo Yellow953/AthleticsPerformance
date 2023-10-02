@@ -78,7 +78,7 @@
                                 {{ucwords($record->competitor)}} <br>
                                 Athlete: {{$record->athleteID}}
                                 <span
-                                    class="block-email text-white mx-3 {{ $record->gender == 'F' ? 'bg-danger' : ''}} {{ $record->gender == 'M' ? 'bg-primary' : ''}}">{{$record->gender}}</span>
+                                    class="mx-3 {{ $record->gender == 'F' ? 'text-danger' : ''}} {{ $record->gender == 'M' ? 'text-primary' : ''}}">{{$record->gender}}</span>
                             </td>
                             <td>
                                 Distance: {{$record->distance}} <br>
@@ -99,6 +99,15 @@
                             @if(auth()->user()->role == 'admin')
                             <td>
                                 <div class="table-data-feature">
+                                    <a class="item bg-secondary d-flex align-items-center justify-content-center"
+                                        href="/record/{{$record->id}}/copy" data-toggle="tooltip" data-placement="top"
+                                        title="Create Copy">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black"
+                                            class="bi bi-copy" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2Zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6ZM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2Z" />
+                                        </svg>
+                                    </a>
                                     @if (!$record->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
                                         href="/records/upload/{{$record->id}}" data-toggle="tooltip"
@@ -116,7 +125,6 @@
                                         </svg>
                                     </a>
                                     @endif
-
                                     <a class="item bg-warning" href="/record/{{$record->id}}/edit" data-toggle="tooltip"
                                         data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>

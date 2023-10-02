@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AgeGroupSecond;
 use App\Models\Competitor;
 use App\Models\CompetitorSecond;
 use App\Models\Result;
@@ -12,6 +13,7 @@ use App\Models\Event;
 use App\Models\EventSecond;
 use App\Models\Athlete;
 use App\Models\AthleteSecond;
+use App\Models\Record;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
@@ -121,6 +123,57 @@ class ResultController extends Controller
         $result->delete();
 
         return redirect()->back()->with('danger', 'Result successfully deleted!');
+    }
+
+    public function new_record($id)
+    {
+        $result = Result::findOrFail($id);
+        $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
+        $event = Event::find($result->eventID);
+        $competitor = CompetitorSecond::find($result->competitorID);
+        $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
+
+        $data = compact('result', 'age_groups', 'event', 'competitor', 'meeting');
+        return view('results.new_record', $data);
+    }
+
+    public function create_record($id, Request $request)
+    {
+        $result = Result::findOrFail($id);
+        $event = Event::find($result->eventID);
+        $competitor = CompetitorSecond::find($result->competitorID);
+        $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
+
+        Record::create([
+            'resultID' => $result->id,
+            'result' => $result->result,
+            'points' => $result->points,
+            'resultValue' => $result->resultValue,
+
+            'competitor' => $competitor->name,
+            'teamID' => $competitor->teamID,
+            'athleteID' => $competitor->athleteID,
+
+            'name' => $event->name,
+            'typeID' => $event->typeID,
+            'extra' => $event->extra,
+            'gender' => $event->gender,
+            'distance' => $event->distance,
+            'io' => $event->io,
+
+            'venue' => $meeting->venue,
+
+            'date' => $request->date,
+            'date2' => $request->date2,
+            'ageGroupID' => $request->ageGroupID,
+            'note' => $request->note,
+            'current' => $request->boolean('current'),
+            'wind' => ($request->boolean('wind') ? $event->wind . '(i)' : ''),
+
+            'uploaded' => false,
+        ]);
+
+        return redirect()->back()->with('success', 'Record successfully created!');
     }
 
     public function export()

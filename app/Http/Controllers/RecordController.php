@@ -138,6 +138,16 @@ class RecordController extends Controller
         return redirect()->back()->with('danger', 'Record successfully deleted!');
     }
 
+    public function copy($id)
+    {
+        $old_record = Record::findOrFail($id);
+        $record_attributes = $old_record->getAttributes();
+        unset($record_attributes['id']);
+        $new_record = Record::create($record_attributes);
+
+        return redirect()->back()->with('success', 'Record duplicated successfully!');
+    }
+
     public function export()
     {
         $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'record', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();

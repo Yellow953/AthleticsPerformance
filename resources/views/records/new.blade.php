@@ -20,10 +20,11 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="name" class=" form-control-label">Name</label>
+                                    <label for="name" class=" form-control-label">Event Name</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="name" name="name" placeholder="Name" class="form-control">
+                                    <input type="text" id="name" name="name" placeholder="Event Name"
+                                        class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -42,7 +43,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="date" class=" form-control-label">Date1</label>
+                                    <label for="date" class=" form-control-label">Actual Date</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="date" id="date" name="date" class="form-control">
@@ -52,7 +53,7 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="date2" class=" form-control-label">Date2</label>
+                                    <label for="date2" class=" form-control-label">Display Date</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="date" id="date2" name="date2" class="form-control">
@@ -97,7 +98,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control">
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}" {{$age_group->ID == "OPN" ? 'selected' :
+                                            ''}}>{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
