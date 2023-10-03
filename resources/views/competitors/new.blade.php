@@ -36,7 +36,7 @@
                                 <div class="col-12 col-md-9">
                                     <div class="input-group">
                                         <input type="text" id="athleteName" class="form-control"
-                                            placeholder="Select Athlete">
+                                            placeholder="Select Athlete" autocomplete="off">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" id="clearButton">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"

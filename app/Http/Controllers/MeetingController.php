@@ -216,7 +216,7 @@ class MeetingController extends Controller
     public function events($id)
     {
         $meeting = Meeting::find($id);
-        $events = Event::where('meetingID', $meeting->IDSecond)->get();
+        $events = Event::where('meetingID', $meeting->id)->get();
 
         $data = compact('meeting', 'events');
         return view('meetings.events', $data);

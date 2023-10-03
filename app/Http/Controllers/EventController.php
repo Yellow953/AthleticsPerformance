@@ -42,7 +42,7 @@ class EventController extends Controller
 
     public function new()
     {
-        $meetings = Meeting::select('IDSecond', 'name')->orderBy('created_at', 'DESC')->get();
+        $meetings = Meeting::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
@@ -82,7 +82,7 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::findOrFail($id);
-        $meetings = Meeting::select('IDSecond', 'name')->orderBy('created_at', 'DESC')->get();
+        $meetings = Meeting::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();

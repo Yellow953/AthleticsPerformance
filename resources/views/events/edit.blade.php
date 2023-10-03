@@ -37,7 +37,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="meetingID" id="meetingID" class="form-control" required>
                                         @foreach ($meetings as $meeting)
-                                        <option value="{{$meeting->IDSecond}}" {{$event->meetingID == $meeting->IDSecond
+                                        <option value="{{$meeting->IDSecond}}" {{$event->id == $meeting->IDSecond
                                             ?
                                             'selected' : ''}}>{{$meeting->name}}</option>
                                         @endforeach

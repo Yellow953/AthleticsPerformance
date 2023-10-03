@@ -13,4 +13,14 @@ class Result extends Model
 
     protected $guarded = [];
 
+    public function event()
+    {
+        return $this->belongsTo(Event::class, 'eventID');
+    }
+
+    public function competitor()
+    {
+        return $this->belongsTo(Competitor::class, 'competitorID');
+    }
+
 }

@@ -26,14 +26,16 @@ return new class extends Migration {
             $table->string('date2', 15)->nullable();
             $table->tinyInteger('current')->default(1);
             $table->integer('distance')->nullable()->index();
-            $table->unsignedInteger('athleteID')->nullable()->index();
+            $table->unsignedBigInteger('athleteID')->nullable();
             $table->smallInteger('points')->nullable()->index();
             $table->decimal('resultValue', 7, 2)->nullable()->index();
-            $table->unsignedInteger('resultID')->nullable();
+            $table->unsignedBigInteger('resultID')->nullable();
 
             $table->boolean('uploaded')->default(false);
 
             $table->timestamps();
+            $table->foreign('athleteID')->references('id')->on('athletes');
+            $table->foreign('resultID')->references('id')->on('results');
         });
     }
 

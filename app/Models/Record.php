@@ -13,4 +13,14 @@ class Record extends Model
 
     protected $guarded = [];
 
+    public function athlete()
+    {
+        return $this->belongsTo(Athlete::class, 'athleteID');
+    }
+
+    public function result()
+    {
+        return $this->belongsTo(Result::class, 'resultID');
+    }
+
 }

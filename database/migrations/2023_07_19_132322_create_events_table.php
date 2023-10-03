@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('round', 3)->nullable();
             $table->char('ageGroupID', 3)->nullable()->index();
             $table->char('gender', 1)->nullable()->index();
-            $table->char('meetingID', 10)->nullable()->index();
+            $table->unsignedBigInteger('meetingID')->nullable();
             $table->string('wind', 10)->nullable();
             $table->text('note')->nullable();
             $table->integer('distance')->nullable()->index();
@@ -27,6 +27,7 @@ return new class extends Migration {
             $table->boolean('uploaded')->default(false);
 
             $table->timestamps();
+            $table->foreign('meetingID')->references('id')->on('meetings');
         });
     }
 

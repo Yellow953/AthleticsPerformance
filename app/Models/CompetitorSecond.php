@@ -17,4 +17,9 @@ class CompetitorSecond extends Model
 
     public $timestamps = false;
 
+    public function athlete()
+    {
+        return $this->belongsTo(AthleteSecond::class, 'athleteID');
+    }
+
 }

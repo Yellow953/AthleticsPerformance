@@ -10,8 +10,8 @@ return new class extends Migration {
         Schema::connection('mysql')->create('results', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('eventID')->index();
-            $table->unsignedInteger('competitorID')->index();
+            $table->unsignedBigInteger('eventID')->nullable();
+            $table->unsignedBigInteger('competitorID')->nullable();
             $table->string('result', 10)->nullable();
             $table->tinyInteger('isHand')->nullable();
             $table->smallInteger('position')->nullable()->index();
@@ -26,6 +26,8 @@ return new class extends Migration {
             $table->boolean('uploaded')->default(false);
 
             $table->timestamps();
+            $table->foreign('eventID')->references('id')->on('events');
+            $table->foreign('competitorID')->references('id')->on('competitors');
         });
     }
 

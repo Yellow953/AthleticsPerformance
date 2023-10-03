@@ -13,4 +13,9 @@ class Event extends Model
 
     protected $guarded = [];
 
+    public function meeting()
+    {
+        return $this->belongsTo(Meeting::class, 'meetingID');
+    }
+
 }

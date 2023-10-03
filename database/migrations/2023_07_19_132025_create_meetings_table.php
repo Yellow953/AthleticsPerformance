@@ -24,7 +24,6 @@ return new class extends Migration {
             $table->string('picture2', 20)->nullable();
             $table->tinyInteger('isActive')->default(0);
             $table->tinyInteger('isNew')->default(0);
-            $table->timestamp('createDate')->default(DB::raw('CURRENT_TIMESTAMP'));
 
             $table->boolean('uploaded')->default(false);
 

@@ -17,4 +17,14 @@ class ResultSecond extends Model
 
     public $timestamps = false;
 
+    public function event()
+    {
+        return $this->belongsTo(EventSecond::class, 'eventID');
+    }
+
+    public function competitor()
+    {
+        return $this->belongsTo(CompetitorSecond::class, 'competitorID');
+    }
+
 }

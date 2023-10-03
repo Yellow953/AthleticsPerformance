@@ -13,4 +13,8 @@ class Competitor extends Model
 
     protected $guarded = [];
 
+    public function athlete()
+    {
+        return $this->belongsTo(Athlete::class, 'athleteID');
+    }
 }

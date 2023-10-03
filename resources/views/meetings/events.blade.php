@@ -17,7 +17,7 @@
                         <div class="col-md-4">
                             <div><span class="text-white">Name:</span> {{ucwords($meeting->name) ?? 'NULL'}}</div>
                             <div><span class="text-white">ShortName:</span> {{ucwords($meeting->shortName)}}</div>
-                            <div><span class="text-white">ID:</span> {{$meeting->IDSecond}}</div>
+                            <div><span class="text-white">ID:</span> {{$meeting->id}}</div>
                         </div>
                         <div class="col-md-4">
                             <div><span class="text-white">Start Date:</span> {{$meeting->startDate}}</div>
@@ -83,7 +83,7 @@
                             @endforelse
                             <form id="createEventForm" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="meetingID" value="{{$meeting->IDSecond}}">
+                                <input type="hidden" name="meetingID" value="{{$meeting->id}}">
                                 <tr>
                                     <td><input type="text" class="form-control" name="name" placeholder="Name"></td>
                                     <td><input type="text" class="form-control" name="typeID" placeholder="Type ID"

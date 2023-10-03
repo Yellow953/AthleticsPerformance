@@ -17,4 +17,9 @@ class EventSecond extends Model
 
     public $timestamps = false;
 
+    public function meeting()
+    {
+        return $this->belongsTo(MeetingSecond::class, 'meetingID');
+    }
+
 }

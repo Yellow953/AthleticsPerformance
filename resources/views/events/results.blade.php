@@ -98,7 +98,7 @@
                                     <td>
                                         <div class="input-group">
                                             <input type="text" id="competitor" class="form-control"
-                                                placeholder="Competitor">
+                                                placeholder="Competitor" autocomplete="off">
                                             <div class="input-group-append">
                                                 <button class="btn btn-outline-secondary" type="button"
                                                     id="clearButton">

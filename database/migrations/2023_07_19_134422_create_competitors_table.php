@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::connection('mysql')->create('competitors', function (Blueprint $table) {
             $table->id();
 
-            $table->unsignedInteger('athleteID')->index()->nullable();
+            $table->unsignedBigInteger('athleteID')->nullable();
             $table->string('name', 30)->nullable()->index();
             $table->char('gender', 1)->index();
             $table->char('teamID', 4)->default('UNA')->index();
@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->boolean('uploaded')->default(false);
 
             $table->timestamps();
+            $table->foreign('athleteID')->references('id')->on('athletes');
         });
     }
 
