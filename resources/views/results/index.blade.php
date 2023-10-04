@@ -74,8 +74,8 @@
                     <tbody>
                         @forelse ($results as $result)
                         <tr class="tr-shadow">
-                            <td>{{$result->eventID}}</td>
-                            <td>{{$result->competitorID}}</td>
+                            <td>{{$result->event->name}}</td>
+                            <td>{{$result->competitor->name}}</td>
                             <td>
                                 <div class="row">
                                     <div class="col-md-6">Position: {{$result->position}}</div>

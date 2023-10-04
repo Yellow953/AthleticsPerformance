@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-md-4">
                             Event Name: {{$event->name}} <br>
-                            EventID: {{$event->typeID}} <br>
+                            Event Type: {{$event->typeID}} <br>
                             Extra: {{$event->extra}} <br>
                             Gender: {{$event->gender}} <br>
                             Distance: {{$event->distance}} <br>
@@ -31,7 +31,9 @@
                         <div class="col-md-4">
                             Competitor: {{$competitor->name}} <br>
                             TeamID: {{$competitor->teamID}} <br>
-                            AthleteID: {{$competitor->athleteID}} <br>
+                            AthleteID: {{$competitor->athlete->firstName ?? ''}} {{$competitor->athlete->middleName ??
+                            ''}} {{$competitor->athlete->lastName ??
+                            ''}} <br>
                             Venue: {{$meeting->venue}} <br>
                         </div>
                     </div>

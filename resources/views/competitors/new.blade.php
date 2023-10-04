@@ -50,7 +50,7 @@
                                     <ul class="combobox-dropdown">
                                         @foreach ($athletes as $athlete)
                                         <li data-value="{{$athlete->ID}}"
-                                            data-name="{{$athlete->firstName}} {{$athlete->middleName ? $athlete->middleName . ' ' : ''}}{{$athlete->lastName}}"
+                                            data-name="{{$athlete->firstName}} {{$athlete->lastName}}"
                                             data-gender="{{$athlete->gender}}">
                                             {{$athlete->firstName}}
                                             @if ($athlete->middleName)

@@ -130,8 +130,8 @@ class ResultController extends Controller
         $result = Result::findOrFail($id);
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $event = Event::find($result->eventID);
-        $competitor = CompetitorSecond::find($result->competitorID);
-        $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
+        $competitor = Competitor::find($result->competitorID);
+        $meeting = Meeting::find($event->meetingID)->first();
 
         $data = compact('result', 'age_groups', 'event', 'competitor', 'meeting');
         return view('results.new_record', $data);
@@ -141,8 +141,8 @@ class ResultController extends Controller
     {
         $result = Result::findOrFail($id);
         $event = Event::find($result->eventID);
-        $competitor = CompetitorSecond::find($result->competitorID);
-        $meeting = Meeting::where('IDSecond', $event->meetingID)->first();
+        $competitor = Competitor::find($result->competitorID);
+        $meeting = Meeting::find($event->meetingID);
 
         Record::create([
             'resultID' => $result->id,

@@ -37,7 +37,8 @@
                                 <div class="col-12 col-md-9">
                                     <div class="input-group">
                                         <input type="text" id="athleteName" class="form-control"
-                                            value="{{$competitor->athleteID}}" autocomplete="off">
+                                            value="{{$competitor->athlete->firstName ?? ''}} {{$competitor->athlete->lastName ?? ''}}"
+                                            autocomplete="off">
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="button" id="clearButton">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
@@ -51,7 +52,7 @@
                                     <ul class="combobox-dropdown">
                                         @foreach ($athletes as $athlete)
                                         <li data-value="{{$athlete->ID}}"
-                                            data-name="{{$athlete->firstName}} {{$athlete->middleName ? $athlete->middleName . ' ' : ''}}{{$athlete->lastName}}"
+                                            data-name="{{$athlete->firstName}} {{$athlete->lastName}}"
                                             data-gender="{{$athlete->gender}}">
                                             {{$athlete->firstName}}
                                             @if ($athlete->middleName)

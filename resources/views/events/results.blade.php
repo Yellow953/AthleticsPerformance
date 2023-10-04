@@ -18,7 +18,7 @@
                             <div><span class="text-white">Name:</span> {{$event->name ?? 'NULL'}}</div>
                         </div>
                         <div class="col-md-2">
-                            <div><span class="text-white">MeetingID:</span> {{$event->meetingID}}</div>
+                            <div><span class="text-white">Meeting:</span> {{$event->meeting->shortName ?? ''}}</div>
                             <div><span class="text-white">Age Group:</span> {{$event->ageGroupID}}</div>
                             <div><span class="text-white">Type:</span> {{$event->typeID}}</div>
                         </div>
@@ -70,7 +70,7 @@
                         <tbody>
                             @forelse ($results as $result)
                             <tr>
-                                <td>{{$result->competitorID}}</td>
+                                <td>{{$result->competitor->name}}</td>
                                 <td>{{$result->position}}</td>
                                 <td>{{$result->result}}</td>
                                 <td>{{$result->points}}</td>
@@ -112,7 +112,7 @@
                                         </div>
                                         <ul class="combobox-dropdown" id="competitors-combobox">
                                             @foreach ($competitors as $competitor)
-                                            <li data-value="{{$competitor->ID}}">{{$competitor->name}}</li>
+                                            <li data-value="{{$competitor->id}}">{{$competitor->name}}</li>
                                             @endforeach
                                         </ul>
                                         <input type="hidden" id="competitorID" name="competitorID">

@@ -74,7 +74,7 @@
                         <tr class="tr-shadow">
                             <td>{{ucwords($event->name)}}</td>
                             <td>
-                                <span class="block-email">{{$event->meetingID}}</span>
+                                <span class="block-email">{{$event->meeting->shortName}}</span>
                             </td>
                             <td>
                                 Distance: {{$event->distance}} <br>

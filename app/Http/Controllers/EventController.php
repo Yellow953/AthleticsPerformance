@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
-use App\Models\CompetitorSecond;
+use App\Models\Competitor;
 use App\Models\Event;
 use App\Models\EventSecond;
 use App\Models\EventTypeSecond;
@@ -182,7 +182,7 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
-        $competitors = CompetitorSecond::select('ID', 'name')->get();
+        $competitors = Competitor::select('id', 'name')->get();
 
         $data = compact('event', 'results', 'competitors');
         return view('events.results', $data);
@@ -305,7 +305,7 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
-        $competitors = CompetitorSecond::select('ID', 'name')->get();
+        $competitors = Competitor::select('id', 'name')->get();
 
         return response()->json(['results' => $results, 'event' => $event, 'competitors' => $competitors]);
     }

@@ -76,7 +76,8 @@
                         <tr class="tr-shadow">
                             <td class="text-center">
                                 {{ucwords($record->competitor)}} <br>
-                                Athlete: {{$record->athleteID}}
+                                Athlete: {{$record->athlete->firstName ?? ''}} {{$record->athlete->middleName ?? ''}}
+                                {{$record->athlete->lastName ?? ''}} <br>
                                 <span
                                     class="mx-3 {{ $record->gender == 'F' ? 'text-danger' : ''}} {{ $record->gender == 'M' ? 'text-primary' : ''}}">{{$record->gender}}</span>
                             </td>
