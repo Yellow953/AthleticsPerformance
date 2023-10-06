@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class ResultController extends Controller
 {
@@ -294,6 +295,14 @@ class ResultController extends Controller
         return redirect()->back()->with('success', 'Results uploaded successfully...');
     }
 
+    public function scoring(){
+        
+        return redirect()->back()->with('success', 'Scoring script successfully executed!');
+    }
+
+    // -------------------------------------------------------------------------------- 
+    // private 
+    // --------------------------------------------------------------------------------
     protected function uploadEvent($eventID)
     {
         $event = Event::find($eventID);

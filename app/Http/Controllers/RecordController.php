@@ -287,6 +287,10 @@ class RecordController extends Controller
         return redirect()->back()->with('success', 'Records uploaded successfully...');
     }
 
+    // -------------------------------------------------------------------------------- 
+    // private 
+    // --------------------------------------------------------------------------------
+
     protected function uploadAthlete($athleteID)
     {
         $athlete = Athlete::find($athleteID);

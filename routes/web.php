@@ -68,6 +68,7 @@ Route::get('/record/{id}/copy', [App\Http\Controllers\RecordController::class, '
 
 // Results
 Route::get('/results', [App\Http\Controllers\ResultController::class, 'index']);
+Route::get('/results/scoring', [App\Http\Controllers\ResultController::class, 'scoring']);
 Route::get('/results/export', [App\Http\Controllers\ResultController::class, 'export']);
 Route::get('/results/upload/{id}', [App\Http\Controllers\ResultController::class, 'upload']);
 Route::get('/results/upload', [App\Http\Controllers\ResultController::class, 'upload_all']);

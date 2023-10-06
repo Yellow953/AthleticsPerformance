@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card bg-primary">
-                <div class="meeting-info mx-4 my-3">
+                <div class="meeting-info m-3">
                     <h2>Event</h2>
                     <div class="row mt-3 text-dark">
                         <div class="col-md-2">
@@ -46,13 +46,13 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <div class="results mx-4 my-3">
+                <div class="results m-3" style="overflow:auto;">
                     <h3>Results</h3>
 
                     <table class="results-table mt-3 w-100 mx-2" id="results-table" border="1">
                         <thead>
                             <tr>
-                                <th>Competitor ID</th>
+                                <th>Competitor</th>
                                 <th>Position</th>
                                 <th>Result</th>
                                 <th>Points</th>
@@ -61,8 +61,8 @@
                                 <th>Wind</th>
                                 <th>Note</th>
                                 <th>Heat</th>
-                                <th>Is Hand</th>
-                                <th>Is Active</th>
+                                <th>Hand</th>
+                                <th>Active</th>
                                 <th>Date</th>
                                 <th>Record</th>
                             </tr>
