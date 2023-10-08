@@ -158,15 +158,13 @@ class MeetingController extends Controller
 
     public function destroy($id)
     {
-        $meeting = Meeting::findOrFail($id);
+        try{
+            Meeting::findOrFail($id)->delete();
 
-        if (!$meeting) {
-            return redirect()->back()->with('danger', 'Meeting not found!');
+            return redirect()->back()->with('danger', 'Meeting successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Meeting found in other Models!');
         }
-
-        $meeting->delete();
-
-        return redirect()->back()->with('danger', 'Meeting successfully deleted!');
     }
 
     public function export()

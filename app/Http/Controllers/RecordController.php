@@ -49,7 +49,7 @@ class RecordController extends Controller
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
         $teams = TeamSecond::select('ID', 'name')->get();
-        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $athletes = Athlete::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
         $results = Result::select('id')->orderBy('created_at', 'DESC')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
 
@@ -88,7 +88,7 @@ class RecordController extends Controller
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
         $teams = TeamSecond::select('ID', 'name')->get();
-        $athletes = AthleteSecond::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
+        $athletes = Athlete::select('ID', 'firstName', 'lastName', 'middleName')->orderBy('ID', 'DESC')->get();
         $results = Result::select('id')->orderBy('created_at', 'DESC')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
 
@@ -127,15 +127,13 @@ class RecordController extends Controller
 
     public function destroy($id)
     {
-        $record = Record::findOrFail($id);
+        try{
+            Record::findOrFail($id)->delete();
 
-        if (!$record) {
-            return redirect()->back()->with('danger', 'Record not found!');
+            return redirect()->back()->with('danger', 'Record successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Record found in other Models!');
         }
-
-        $record->delete();
-
-        return redirect()->back()->with('danger', 'Record successfully deleted!');
     }
 
     public function copy($id)

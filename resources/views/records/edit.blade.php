@@ -59,7 +59,7 @@
                                     <label for="date2" class=" form-control-label">Display Date</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="date" id="date2" name="date2" class="form-control"
+                                    <input type="text" id="date2" name="date2" class="form-control"
                                         value="{{$record->date2}}">
                                 </div>
                             </div>

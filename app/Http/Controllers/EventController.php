@@ -125,15 +125,13 @@ class EventController extends Controller
 
     public function destroy($id)
     {
-        $event = Event::findOrFail($id);
+        try{
+            Event::findOrFail($id)->delete();
 
-        if (!$event) {
-            return redirect()->back()->with('danger', 'Event not found!');
+            return redirect()->back()->with('danger', 'Event successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Event found in other Models!');
         }
-
-        $event->delete();
-
-        return redirect()->back()->with('danger', 'Event successfully deleted!');
     }
 
     public function export()

@@ -52,20 +52,20 @@
                         <div class="col-md-12">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="date" class=" form-control-label">Actual Date</label>
+                                    <label for="date" class=" form-control-label">Actual Date *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="date" id="date" name="date" class="form-control">
+                                    <input type="date" id="date" name="date" class="form-control" value="{{$meeting->startDate ?? ''}}" required>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="date2" class=" form-control-label">Display Date</label>
+                                    <label for="date2" class=" form-control-label">Display Date *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="date" id="date2" name="date2" class="form-control">
+                                    <input type="text" id="date2" name="date2" class="form-control" value="{{$meeting->startDate ?? ''}}" required>
                                 </div>
                             </div>
                         </div>
@@ -74,13 +74,13 @@
                         <div class="col-md-12">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="ageGroupID" class=" form-control-label">Age Group</label>
+                                    <label for="ageGroupID" class=" form-control-label">Age Group *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <select name="ageGroupID" id="ageGroupID" class="form-control">
+                                    <select name="ageGroupID" id="ageGroupID" class="form-control" required>
+                                        <option value="">Pick an Age Group</option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{$age_group->ID == "OPN" ? 'selected' :
-                                            ''}}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -123,6 +123,5 @@
         </div>
     </div>
 </div>
-
 
 @endsection

@@ -109,15 +109,13 @@ class CompetitorController extends Controller
 
     public function destroy($id)
     {
-        $competitor = Competitor::findOrFail($id);
+        try{
+            Competitor::findOrFail($id)->delete();
 
-        if (!$competitor) {
-            return redirect()->back()->with('danger', 'Competitor not found!');
+            return redirect()->back()->with('danger', 'Competitor successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Competitor found in other Models!');
         }
-
-        $competitor->delete();
-
-        return redirect()->back()->with('danger', 'Competitor successfully deleted!');
     }
 
     public function export()

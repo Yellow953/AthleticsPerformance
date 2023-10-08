@@ -115,15 +115,13 @@ class ResultController extends Controller
 
     public function destroy($id)
     {
-        $result = Result::findOrFail($id);
+        try{
+            Result::findOrFail($id)->delete();
 
-        if (!$result) {
-            return redirect()->back()->with('danger', 'Result not found!');
+            return redirect()->back()->with('danger', 'Result successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Result found in other Models!');
         }
-
-        $result->delete();
-
-        return redirect()->back()->with('danger', 'Result successfully deleted!');
     }
 
     public function new_record($id)
@@ -139,7 +137,7 @@ class ResultController extends Controller
     }
 
     public function create_record($id, Request $request)
-    {
+    {   
         $result = Result::findOrFail($id);
         $event = Event::find($result->eventID);
         $competitor = Competitor::find($result->competitorID);
@@ -296,7 +294,6 @@ class ResultController extends Controller
     }
 
     public function scoring(){
-        
         return redirect()->back()->with('success', 'Scoring script successfully executed!');
     }
 

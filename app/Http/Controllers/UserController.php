@@ -85,15 +85,13 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        try{
+            User::findOrFail($id)->delete();
 
-        if (!$user) {
-            return redirect()->back()->with('danger', 'User not found!');
+            return redirect()->back()->with('danger', 'User successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'User found in other Models!');
         }
-
-        $user->delete();
-
-        return redirect()->back()->with('danger', 'User successfully deleted!');
     }
 
     public function export()

@@ -20,13 +20,13 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="ageGroupID" class=" form-control-label">Age Group*</label>
+                                    <label for="ageGroupID" class=" form-control-label">Age Group *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
+                                        <option value="">Pick an Age Group</option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{$age_group->ID == "OPN" ? 'selected' :
-                                            ''}}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

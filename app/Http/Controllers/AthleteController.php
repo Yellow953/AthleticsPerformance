@@ -102,15 +102,13 @@ class AthleteController extends Controller
 
     public function destroy($id)
     {
-        $athlete = Athlete::findOrFail($id);
+        try {
+            Athlete::findOrFail($id)->delete();
 
-        if (!$athlete) {
-            return redirect()->back()->with('danger', 'Athlete not found!');
+            return redirect()->back()->with('danger', 'Athlete successfully deleted!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('danger', 'Athlete found in other Models!');
         }
-
-        $athlete->delete();
-
-        return redirect()->back()->with('danger', 'Athlete successfully deleted!');
     }
 
     public function export()

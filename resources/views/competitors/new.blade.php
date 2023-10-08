@@ -113,9 +113,9 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="ageGroupID" name="ageGroupID" class="form-control" required>
+                                        <option value="">Pick an Age Group</option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{$age_group->ID == "OPN" ? 'selected' :
-                                            ''}}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AthleteSecond;
-use App\Models\CompetitorSecond;
-use App\Models\EventSecond;
-use App\Models\MeetingSecond;
+use App\Models\Athlete;
+use App\Models\Competitor;
+use App\Models\Event;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -17,10 +17,10 @@ class HomeController extends Controller
 
     public function index()
     {
-        $meeting_count = MeetingSecond::count();
-        $event_count = EventSecond::count();
-        $athlete_count = AthleteSecond::count();
-        $competitor_count = CompetitorSecond::count();
+        $meeting_count = Meeting::count();
+        $event_count = Event::count();
+        $athlete_count = Athlete::count();
+        $competitor_count = Competitor::count();
 
         return view('index', compact('meeting_count', 'event_count', 'athlete_count', 'competitor_count'));
     }
