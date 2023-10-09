@@ -2340,7 +2340,7 @@ section {
 }
 
 .navbar-sidebar2 .navbar__list li.active > a {
-  color: #4272d7;
+  color: #4272d7 !important;
 }
 
 .navbar-sidebar2 .navbar__sub-list {
@@ -2812,7 +2812,7 @@ section {
 }
 
 .header__navbar ul li.active > a {
-  color: #4272d7;
+  color: #4272d7 !important;
 }
 
 .header__navbar ul li.active > a .bot-line {
@@ -3121,7 +3121,7 @@ section {
 }
 
 .navbar-sidebar3 .navbar__list li.active > a {
-  background: #4272d7;
+  background: #4272d7 !important;
   color: #fff;
 }
 

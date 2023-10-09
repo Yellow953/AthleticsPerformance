@@ -23,4 +23,19 @@ class Result extends Model
         return $this->belongsTo(Competitor::class, 'competitorID');
     }
 
+    // Filter
+    public function scopeFilter($q)
+    {
+        if (request('eventID')) {
+            $eventID = request('eventID');
+            $q->where('eventID', $eventID);
+        }
+        if (request('competitorID')) {
+            $competitorID = request('competitorID');
+            $q->where('competitorID', $competitorID);
+        }
+ 
+        return $q;
+    }
+
 }

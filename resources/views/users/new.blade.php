@@ -14,7 +14,7 @@
                 <strong>Create User</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/user/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/users/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row form-group">
                         <div class="col col-md-3">

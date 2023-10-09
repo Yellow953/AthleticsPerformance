@@ -2,6 +2,12 @@
 
 namespace App\Helpers;
 
+use App\Models\AgeGroupSecond;
+use App\Models\EventTypeSecond;
+use App\Models\GenderSecond;
+use App\Models\IOSecond;
+use App\Models\MeetingTypeSecond;
+use App\Models\TeamSecond;
 use Carbon\Carbon;
 
 class Helper
@@ -266,4 +272,35 @@ class Helper
     {
         return Carbon::now()->year;
     }
+
+    public static function get_gender()
+    {
+        return GenderSecond::select('gender')->get();
+    }
+
+    public static function get_age_groups()
+    {
+        return AgeGroupSecond::select('ID', 'name')->get();
+    }
+
+    public static function get_teams()
+    {
+        return TeamSecond::select('ID', 'shortName')->get();
+    }
+
+    public static function get_event_types()
+    {
+        return EventTypeSecond::select('ID', 'name')->get();
+    }
+
+    public static function get_meeting_types()
+    {
+        return MeetingTypeSecond::select('ID', 'name')->get();
+    }
+
+    public static function get_ios()
+    {
+        return IOSecond::select('io')->get();
+    }
+
 }

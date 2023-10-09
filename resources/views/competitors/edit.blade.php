@@ -14,7 +14,7 @@
                 <strong>Update Competitor</strong>
             </div>
             <div class="card-body card-block">
-                <form id="update_competitor_form" action="/competitor/{{$competitor->id}}/update" method="post"
+                <form id="update_competitor_form" action="/competitors/{{$competitor->id}}/update" method="post"
                     enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row">

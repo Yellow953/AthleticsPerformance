@@ -14,7 +14,7 @@
                 <strong>Update Record</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/record/{{$record->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="/records/{{$record->id}}/update" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

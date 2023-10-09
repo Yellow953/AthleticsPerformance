@@ -23,4 +23,43 @@ class Record extends Model
         return $this->belongsTo(Result::class, 'resultID');
     }
 
+    // Filter
+    public function scopeFilter($q)
+    {
+        if (request('competitor')) {
+            $competitor = request('competitor');
+            $q->where('competitor', 'LIKE', "%{$competitor}%");
+        }
+        if (request('extra')) {
+            $extra = request('extra');
+            $q->where('extra', 'LIKE', "%{$extra}%");
+        }
+        if (request('name')) {
+            $name = request('name');
+            $q->where('name', 'LIKE', "%{$name}%");
+        }
+        if (request('date')) {
+            $date = request('date');
+            $q->where('date', $date);
+        }
+        if (request('ageGroupID')) {
+            $ageGroupID = request('ageGroupID');
+            $q->where('ageGroupID', $ageGroupID);
+        }
+        if (request('gender')) {
+            $gender = request('gender');
+            $q->where('gender', $gender);
+        }
+        if (request('typeID')) {
+            $typeID = request('typeID');
+            $q->where('typeID', $typeID);
+        }
+        if (request('teamID')) {
+            $teamID = request('teamID');
+            $q->where('teamID', $teamID);
+        }
+ 
+        return $q;
+    }
+
 }

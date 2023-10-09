@@ -30,15 +30,11 @@ class ResultController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $results = Result::orderBy('created_at', 'DESC')->paginate(25);
-        } else {
-            $results = Result::orderBy('created_at', 'DESC')->paginate(25);
-        }
-
-        return view('results.index', compact('results'));
+        $results = Result::filter()->orderBy('created_at', 'DESC')->paginate(25);
+        $competitors = Competitor::select('id', 'name')->get();
+        $events = Event::select('id', 'name')->get();
+        
+        return view('results.index', compact('results', 'competitors', 'events'));
     }
 
     public function new()

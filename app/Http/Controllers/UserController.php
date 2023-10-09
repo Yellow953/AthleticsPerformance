@@ -18,13 +18,7 @@ class UserController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $users = User::select('id', 'name', 'email', 'role', 'created_at')->where('name', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $users = User::select('id', 'name', 'email', 'role', 'created_at')->paginate(25);
-        }
+        $users = User::select('id', 'name', 'email', 'role', 'created_at')->filter()->paginate(25);
 
         return view('users.index', compact('users'));
     }

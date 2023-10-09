@@ -20,13 +20,7 @@ class AthleteController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $athletes = Athlete::where('firstName', 'LIKE', "%{$search}%")->orWhere('lastName', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $athletes = Athlete::orderBy('created_at', 'DESC')->paginate(25);
-        }
+        $athletes = Athlete::filter()->orderBy('created_at', 'DESC')->paginate(25);
 
         return view('athletes.index', compact('athletes'));
     }

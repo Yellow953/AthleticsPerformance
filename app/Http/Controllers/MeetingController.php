@@ -23,14 +23,8 @@ class MeetingController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $meetings = Meeting::where('name', 'LIKE', "%{$search}%")->orWhere('shortName', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $meetings = Meeting::orderBy('created_at', 'DESC')->paginate(25);
-        }
-
+        $meetings = Meeting::filter()->orderBy('created_at', 'DESC')->paginate(25);
+        
         return view('meetings.index', compact('meetings'));
     }
 

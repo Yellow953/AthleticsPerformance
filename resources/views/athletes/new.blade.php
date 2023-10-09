@@ -14,7 +14,7 @@
                 <strong>Create Athlete</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/athlete/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/athletes/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-4">

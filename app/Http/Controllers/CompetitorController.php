@@ -25,13 +25,7 @@ class CompetitorController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $competitors = Competitor::where('name', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $competitors = Competitor::orderBy('created_at', 'DESC')->paginate(25);
-        }
+        $competitors = Competitor::filter()->orderBy('created_at', 'DESC')->paginate(25);
 
         return view('competitors.index', compact('competitors'));
     }

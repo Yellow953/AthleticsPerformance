@@ -18,4 +18,31 @@ class Event extends Model
         return $this->belongsTo(Meeting::class, 'meetingID');
     }
 
+    // Filter
+    public function scopeFilter($q)
+    {
+        if (request('name')) {
+            $name = request('name');
+            $q->where('name', 'LIKE', "%{$name}%");
+        }
+        if (request('gender')) {
+            $gender = request('gender');
+            $q->where('gender', $gender);
+        }
+        if (request('ageGroupID')) {
+            $ageGroupID = request('ageGroupID');
+            $q->where('ageGroupID', $ageGroupID);
+        }
+        if (request('io')) {
+            $io = request('io');
+            $q->where('io', $io);
+        }
+        if (request('typeID')) {
+            $typeID = request('typeID');
+            $q->where('typeID', $typeID);
+        }
+
+        return $q;
+    }
+
 }

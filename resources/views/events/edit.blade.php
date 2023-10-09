@@ -14,7 +14,7 @@
                 <strong>Update Event</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/event/{{$event->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="/events/{{$event->id}}/update" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

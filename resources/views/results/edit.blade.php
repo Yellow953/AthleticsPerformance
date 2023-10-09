@@ -14,7 +14,7 @@
                 <strong>Update Result</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/result/{{$result->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="/results/{{$result->id}}/update" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

@@ -32,14 +32,8 @@ class RecordController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $records = Record::where('record', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $records = Record::orderBy('created_at', 'DESC')->paginate(25);
-        }
-
+        $records = Record::filter()->orderBy('created_at', 'DESC')->paginate(25);
+        
         return view('records.index', compact('records'));
     }
 

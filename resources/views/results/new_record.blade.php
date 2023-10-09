@@ -45,7 +45,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <form action="/result/{{$result->id}}/create_record" method="post" enctype="multipart/form-data"
+                <form action="/results/{{$result->id}}/create_record" method="post" enctype="multipart/form-data"
                     class="form-horizontal m-4">
                     @csrf
                     <div class="row">

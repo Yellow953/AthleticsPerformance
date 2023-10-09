@@ -14,7 +14,7 @@
                 <strong>Create Meeting</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/meeting/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/meetings/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

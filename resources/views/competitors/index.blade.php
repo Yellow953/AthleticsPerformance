@@ -6,56 +6,100 @@
     <div class="row">
         <div class="col-md-12">
             <!-- DATA TABLE -->
-            <h3 class="title-5 m-b-35 text-primary">Competitors</h3>
             <div class="table-data__tool">
                 <div class="table-data__tool-left">
-                    <form action="/competitors" method="get" enctype="multipart/form-data">
-                        @csrf
-                        <div class="row">
-                            <div class="col-8">
-                                <input type="text" name="search" id="search" class="form-control"
-                                    value="{{request()->query('search')}}" placeholder="Search By Name...">
-                            </div>
-                            <div class="col-2">
-                                <button class="btn btn-primary mx-1" type="submit">
-                                    <i class="zmdi zmdi-search mx-1"></i>search</button>
-                            </div>
-                        </div>
-                    </form>
-
-
+                    <h3 class="title-5 m-b-35 text-primary">Competitors</h3>
                 </div>
                 <div class="table-data__tool-right">
-                    <a class="btn btn-primary" href="/competitor/new">
-                        <i class="zmdi zmdi-plus mx-1"></i>Add Competitor</a>
-                    <a href="/competitors/export" class="btn btn-secondary mx-1">
-                        <div class="d-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-filetype-xlsx my-auto mr-1" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5L14 4.5ZM7.86 14.841a1.13 1.13 0 0 0 .401.823c.13.108.29.192.479.252.19.061.411.091.665.091.338 0 .624-.053.858-.158.237-.105.416-.252.54-.44a1.17 1.17 0 0 0 .187-.656c0-.224-.045-.41-.135-.56a1.002 1.002 0 0 0-.375-.357 2.028 2.028 0 0 0-.565-.21l-.621-.144a.97.97 0 0 1-.405-.176.37.37 0 0 1-.143-.299c0-.156.061-.284.184-.384.125-.101.296-.152.513-.152.143 0 .266.023.37.068a.624.624 0 0 1 .245.181.56.56 0 0 1 .12.258h.75a1.093 1.093 0 0 0-.199-.566 1.21 1.21 0 0 0-.5-.41 1.813 1.813 0 0 0-.78-.152c-.293 0-.552.05-.777.15-.224.099-.4.24-.527.421-.127.182-.19.395-.19.639 0 .201.04.376.123.524.082.149.199.27.351.367.153.095.332.167.54.213l.618.144c.207.049.36.113.462.193a.387.387 0 0 1 .153.326.512.512 0 0 1-.085.29.558.558 0 0 1-.255.193c-.111.047-.25.07-.413.07-.117 0-.224-.013-.32-.04a.837.837 0 0 1-.249-.115.578.578 0 0 1-.255-.384h-.764Zm-3.726-2.909h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415H1.5l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Zm1.923 3.325h1.697v.674H5.266v-3.999h.791v3.325Zm7.636-3.325h.893l-1.274 2.007 1.254 1.992h-.908l-.85-1.415h-.035l-.853 1.415h-.861l1.24-2.016-1.228-1.983h.931l.832 1.438h.036l.823-1.438Z" />
-                            </svg>
-                            <span class="my-auto">Export</span>
+                    <div class="d-flex justify-content-end">
+                        <div class="header-button mx-1">
+                            <div class="account-wrap">
+                                <div class="account-item clearfix js-item-menu">
+                                    <div class="content m-0 p-0">
+                                        <a class="js-acc-btn text-white btn btn-primary" href="#">Actions</a>
+                                    </div>
+                                    <div class="account-dropdown js-dropdown bg-light-secondary">
+                                        <div class="account-dropdown__body">
+                                            <div class="account-dropdown__item">
+                                                <a href="/competitors/new">New Competitor</a>
+                                            </div>
+                                            <div class="account-dropdown__item">
+                                                <a href="/competitors/export">Export Competitors</a>
+                                            </div>
+                                            @if (auth()->user()->role == 'admin')
+                                            <div class="account-dropdown__item">
+                                                <a href="/competitors/upload">Upload Competitors</a>
+                                            </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    @if(auth()->user()->role == 'admin')
-                    <a href="/competitors/upload" class="btn btn-success mx-1">
-                        <div class="d-flex">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                class="bi bi-database-fill my-auto mr-1" viewBox="0 0 16 16">
-                                <path
-                                    d="M3.904 1.777C4.978 1.289 6.427 1 8 1s3.022.289 4.096.777C13.125 2.245 14 2.993 14 4s-.875 1.755-1.904 2.223C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777C2.875 5.755 2 5.007 2 4s.875-1.755 1.904-2.223Z" />
-                                <path
-                                    d="M2 6.161V7c0 1.007.875 1.755 1.904 2.223C4.978 9.71 6.427 10 8 10s3.022-.289 4.096-.777C13.125 8.755 14 8.007 14 7v-.839c-.457.432-1.004.751-1.49.972C11.278 7.693 9.682 8 8 8s-3.278-.307-4.51-.867c-.486-.22-1.033-.54-1.49-.972Z" />
-                                <path
-                                    d="M2 9.161V10c0 1.007.875 1.755 1.904 2.223C4.978 12.711 6.427 13 8 13s3.022-.289 4.096-.777C13.125 11.755 14 11.007 14 10v-.839c-.457.432-1.004.751-1.49.972-1.232.56-2.828.867-4.51.867s-3.278-.307-4.51-.867c-.486-.22-1.033-.54-1.49-.972Z" />
-                                <path
-                                    d="M2 12.161V13c0 1.007.875 1.755 1.904 2.223C4.978 15.711 6.427 16 8 16s3.022-.289 4.096-.777C13.125 14.755 14 14.007 14 13v-.839c-.457.432-1.004.751-1.49.972-1.232.56-2.828.867-4.51.867s-3.278-.307-4.51-.867c-.486-.22-1.033-.54-1.49-.972Z" />
-                            </svg>
-                            <span class="my-auto">Upload</span>
+                        <div class="header-button mx-1">
+                            <div class="account-wrap">
+                                <div class="account-item clearfix js-item-menu">
+                                    <div class="content m-0 p-0">
+                                        <a class="js-acc-btn text-white btn btn-secondary" href="#">Filter</a>
+                                    </div>
+                                    <div class="account-dropdown js-dropdown bg-light-secondary">
+                                        <div class="account-dropdown__body">
+                                            <div class="container">
+                                                <form action="/competitors" method="GET" enctype="multipart/form-data">
+                                                    <div class="form-group">
+                                                        <label>Name</label>
+                                                        <input type="text" name="name" class="form-control" placeholder="Name..." value="{{request()->query('name')}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Year</label>
+                                                        <input type="number" name="year" class="form-control" placeholder="Year..." value="{{request()->query('year')}}">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Gender</label>
+                                                        <select name="gender" class="form-control">
+                                                            <option value="">Gender</option>
+                                                            @foreach (Helper::get_gender() as $gender)
+                                                            <option value="{{$gender->gender}}" {{request()->query('gender') == $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Age Group</label>
+                                                                <select name="ageGroupID" class="form-control">
+                                                                    <option value="">Age Group</option>
+                                                                    @foreach (Helper::get_age_groups() as $age_group)
+                                                                    <option value="{{$age_group->ID}}" {{request()->query('ageGroupID') == $age_group->ID ? 'selected' : ''}}>{{$age_group->name}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Team</label>
+                                                                <select name="teamID" class="form-control">
+                                                                    <option value="">Team</option>
+                                                                    @foreach (Helper::get_teams() as $team)
+                                                                    <option value="{{$team->ID}}" {{request()->query('teamID') == $team->ID ? 'selected' : ''}}>{{$team->shortName}}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="actions d-flex justify-content-around">
+                                                        <a href="/competitors" class="btn btn-secondary">Reset</a>
+                                                        <button type="submit" class="btn btn-primary">Apply</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </a>
-                    @endif
+                    </div>
                 </div>
             </div>
             <div class="table-responsive table-responsive-data2">
@@ -107,11 +151,11 @@
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="/competitor/{{$competitor->id}}/edit"
+                                    <a class="item bg-warning" href="/competitors/{{$competitor->id}}/edit"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/competitor/{{$competitor->id}}/destroy">
+                                    <form method="GET" action="/competitors/{{$competitor->id}}/destroy">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

@@ -14,7 +14,7 @@
                 <strong>Create Record</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/record/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/records/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

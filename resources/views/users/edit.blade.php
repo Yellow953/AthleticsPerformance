@@ -14,7 +14,7 @@
                 <strong>Update User</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/user/{{$user->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="/users/{{$user->id}}/update" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row form-group">

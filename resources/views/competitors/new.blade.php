@@ -13,7 +13,7 @@
                 <strong>Create Competitor</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/competitor/create" method="post" enctype="multipart/form-data" class="form-horizontal"
+                <form action="/competitors/create" method="post" enctype="multipart/form-data" class="form-horizontal"
                     id="create_competitor_form">
                     @csrf
                     <div class="row">

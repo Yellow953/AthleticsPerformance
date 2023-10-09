@@ -83,7 +83,7 @@
                                 <td>{{ $result->isActive != 0 ? 'true' : 'false' }}</td>
                                 <td>{{$result->created_at}}</td>
                                 <td class="my-auto text-center">
-                                    <a href="/result/{{$result->id}}/new_record" class="btn btn-primary py-1 px-2">+</a>
+                                    <a href="/results/{{$result->id}}/new_record" class="btn btn-primary py-1 px-2">+</a>
                                 </td>
                             </tr>
                             @empty

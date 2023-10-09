@@ -17,4 +17,32 @@ class Competitor extends Model
     {
         return $this->belongsTo(Athlete::class, 'athleteID');
     }
+
+    // Filter
+    public function scopeFilter($q)
+    {
+        if (request('name')) {
+            $name = request('name');
+            $q->where('name', 'LIKE', "%{$name}%");
+        }
+        if (request('gender')) {
+            $gender = request('gender');
+            $q->where('gender', $gender);
+        }
+        if (request('teamID')) {
+            $teamID = request('teamID');
+            $q->where('teamID', $teamID);
+        }
+        if (request('year')) {
+            $year = request('year');
+            $q->where('year', $year);
+        }
+        if (request('ageGroupID')) {
+            $ageGroupID = request('ageGroupID');
+            $q->where('ageGroupID', $ageGroupID);
+        }
+
+        return $q;
+    }
+
 }

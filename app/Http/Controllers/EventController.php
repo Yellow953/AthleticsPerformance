@@ -29,14 +29,8 @@ class EventController extends Controller
 
     public function index()
     {
-        $search = request()->query('search');
-
-        if ($search) {
-            $events = Event::where('name', 'LIKE', "%{$search}%")->paginate(25);
-        } else {
-            $events = Event::orderBy('created_at', 'DESC')->paginate(25);
-        }
-
+        $events = Event::filter()->orderBy('created_at', 'DESC')->paginate(25);
+     
         return view('events.index', compact('events'));
     }
 

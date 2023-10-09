@@ -14,7 +14,7 @@
                 <strong>Create Event</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/event/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/events/create" method="post" enctype="multipart/form-data" class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

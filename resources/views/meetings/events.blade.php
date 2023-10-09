@@ -62,7 +62,7 @@
                         <tbody>
                             @forelse ($events as $event)
                             <tr class="clickable-row"
-                                onclick="window.location.href = '/event/' + {{$event->id}} + '/results'">
+                                onclick="window.location.href = '/events/' + {{$event->id}} + '/results'">
                                 <td>{{$event->name}}</td>
                                 <td>{{$event->typeID}}</td>
                                 <td>{{$event->extra}}</td>
@@ -136,7 +136,7 @@
                     var newEvent = response.event;
 
                     // Append the new event to the table
-                    var newRow = $('<tr class="clickable-row" onclick="window.location.href = \'/event/' + newEvent.id + '/results\'">');
+                    var newRow = $('<tr class="clickable-row" onclick="window.location.href = \'/events/' + newEvent.id + '/results\'">');
                     newRow.append('<td>' + newEvent.name + '</td>');
                     newRow.append('<td>' + newEvent.typeID + '</td>');
                     newRow.append('<td>' + newEvent.extra + '</td>');
