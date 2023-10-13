@@ -101,3 +101,7 @@
 #competitors-combobox {
   width: 200px;
 }
+
+span.hamburger-inner::before, span.hamburger-inner::after, span.hamburger-inner{
+  background-color: #ffdc11 !important;
+}

@@ -7,7 +7,7 @@
                     <img src="{{asset('assets/images/logo.png')}}" class="logo-nav" />
                     <h5 class="text-yellow my-auto">Athletics Performance</h5>
                 </a>
-                <button class="hamburger hamburger--slider bg-black" style="color: #ffdc11 !important" type="button">
+                <button class="hamburger hamburger--slider" type="button">
                     <span class="hamburger-box">
                         <span class="hamburger-inner"></span>
                     </span>

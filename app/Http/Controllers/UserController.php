@@ -88,6 +88,28 @@ class UserController extends Controller
         }
     }
 
+    public function password(){
+        return view('users.change_password');
+    }
+
+    public function change_password(Request $request, $id)
+    {
+        $request->validate([
+            'new_password' => ['required','string','min:6'],
+            'confirm_password' => ['required','string','min:6'],
+
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if ($request->new_password == $request->confirm_password) {
+            $user->password = Hash::make($request->new_password);
+            $user->save();
+        }
+
+        return redirect()->back()->with('success', 'Password Updated Successfully');
+    }
+
     public function export()
     {
         $data = User::select('id', 'name', 'email', 'role', 'created_at')->get();

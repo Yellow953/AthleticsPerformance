@@ -20,7 +20,6 @@ Route::prefix('meetings')->group(function () {
     Route::post('/event_create', [App\Http\Controllers\MeetingController::class, 'event_create'])->name('meetings.event_create');
 });
 
-
 // Events
 Route::prefix('events')->group(function () {
     Route::get('/', [App\Http\Controllers\EventController::class, 'index'])->name('events');
@@ -102,10 +101,13 @@ Route::prefix('users')->group(function () {
     Route::get('/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('users.edit');
     Route::post('/{id}/update', [App\Http\Controllers\UserController::class, 'update'])->name('users.update');
     Route::get('/{id}/destroy', [App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+    Route::post('/{id}/change_password', [App\Http\Controllers\UserController::class, 'change_password']);
 });
 
 // Reports
 Route::get('/reports', [App\Http\Controllers\ReportController::class, 'index']);
+
+Route::get('/password', [App\Http\Controllers\UserController::class, 'password']);
 
 // Home
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);

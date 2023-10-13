@@ -30,6 +30,11 @@
                                         <span class="email">{{auth()->user()->email}}</span>
                                     </div>
                                 </div>
+                                <div class="account-dropdown__body">
+                                    <div class="content">
+                                        <a href="/password" class="nav-link text-dark">Change Password</a>
+                                    </div>
+                                </div>
                                 <div class="account-dropdown__footer">
                                     <a href="{{ route('logout') }}"
                                         onclick="event.preventDefault();document.getElementById('logout-form').submit();">
