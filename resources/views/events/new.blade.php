@@ -36,7 +36,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="meetingID" id="meetingID" class="form-control" required>
                                         @foreach ($meetings as $meeting)
-                                        <option value="{{$meeting->id}}">{{$meeting->name}}</option>
+                                        <option value="{{$meeting->id}}" {{ old('meetingID') == $meeting->id ? 'selected' : '' }}>{{$meeting->shortName}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -52,7 +52,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
                                         @foreach ($event_types as $event_type)
-                                        <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
+                                        <option value="{{$event_type->ID}}" {{ old('typeID') == $event_type->ID ? 'selected' : '' }}>{{$event_type->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,9 +65,9 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
-                                        <option value="">Pick an Age Group</option>
+                                        <option value=""></option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID') == $age_group->ID ? 'selected' : '' }}>{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="extra" name="extra" placeholder="Extra" class="form-control"
-                                        value="{{old('extra')}}">
+                                        value="{{ old('extra') }}">
                                 </div>
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="gender" id="gender" class="form-control" required>
                                         @foreach ($genders as $gender)
-                                        <option value="{{$gender->gender}}">{{$gender->gender}}</option>
+                                        <option value="{{$gender->gender}}" {{ old('gender') == $gender->gender ? 'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -125,7 +125,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="io" id="io" class="form-control" required>
                                         @foreach ($ios as $io)
-                                        <option value="{{$io->io}}">{{$io->io}}</option>
+                                        <option value="{{$io->io}}" {{ old('io') == $io->io ? 'selected' : '' }}>{{$io->io}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -139,7 +139,7 @@
                                     <label for="wind" class="form-control-label">Wind</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="wind" name="wind" placeholder="Wind" class="form-control"
+                                    <input type="number" id="wind" name="wind" placeholder="Wind" class="form-control"
                                         value="{{old('wind')}}" step="0.1">
                                 </div>
                             </div>

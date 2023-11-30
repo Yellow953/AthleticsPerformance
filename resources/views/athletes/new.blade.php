@@ -66,8 +66,8 @@
                         <div class="col-md-3 my-auto">
                             <div class="checkbox mx-4">
                                 <label for="exactDate" class="form-check-label ">
-                                    <input type="checkbox" id="exactDate" name="exactDate"
-                                        class="form-check-input">Exact DOB</label>
+                                    <input type="checkbox" id="exactDate" name="exactDate" class="form-check-input" {{
+                                        old('exactDate') }}>Exact DOB</label>
                             </div>
                         </div>
                     </div>
@@ -80,7 +80,8 @@
                                 <div class="col-12 col-md-9 my-auto">
                                     <select id="gender" name="gender" required class="form-control">
                                         @foreach ($genders as $gender)
-                                        <option value="{{$gender->gender}}">{{$gender->gender}}</option>
+                                        <option value="{{$gender->gender}}" {{ old('gender')==$gender->gender ?
+                                            'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -89,8 +90,8 @@
                         <div class="col-md-3 my-auto">
                             <div class="checkbox mx-4">
                                 <label for="showResult" class="form-check-label ">
-                                    <input type="checkbox" id="showResult" name="showResult"
-                                        class="form-check-input">Show Athlete </label>
+                                    <input type="checkbox" id="showResult" name="showResult" class="form-check-input" {{
+                                        old('showResult') }}>Show Athlete</label>
                             </div>
                         </div>
                     </div>

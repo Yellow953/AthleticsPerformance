@@ -40,8 +40,8 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <select name="role" id="role" class="form-control">
-                                <option value="user">User</option>
-                                <option value="admin">Admin</option>
+                                <option value="user" {{old('role') == 'user' ? 'selected' : ''}}>User</option>
+                                <option value="admin" {{old('role') == 'admin' ? 'selected' : ''}}>Admin</option>
                             </select>
                         </div>
                     </div>

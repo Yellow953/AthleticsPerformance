@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -21,7 +21,7 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="/athletes/new">New Athlete</a>
+                                                <a href="/athletes/new">Create Athlete</a>
                                             </div>
                                             <div class="account-dropdown__item">
                                                 <a href="/athletes/export">Export Athletes</a>
@@ -35,8 +35,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/athletes/new" class="btn btn-primary mx-1 my-auto">Create Athlete</a>
+                        <a href="/athletes/export" class="btn btn-primary mx-1 my-auto">Export Athletes</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/athletes/upload" class="btn btn-primary mx-1 my-auto">Upload Athletes</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -50,26 +55,34 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>First Name</label>
-                                                                <input type="text" name="firstName" class="form-control" placeholder="First Name..." value="{{request()->query('firstName')}}">
+                                                                <input type="text" name="firstName" class="form-control"
+                                                                    placeholder="First Name..."
+                                                                    value="{{request()->query('firstName')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Last Name</label>
-                                                                <input type="text" name="lastName" class="form-control" placeholder="Last Name..." value="{{request()->query('lastName')}}">
+                                                                <input type="text" name="lastName" class="form-control"
+                                                                    placeholder="Last Name..."
+                                                                    value="{{request()->query('lastName')}}">
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Date Of Birth</label>
-                                                        <input type="date" name="dob" class="form-control" placeholder="Date Of Birth..." value="{{request()->query('dob')}}">
+                                                        <input type="date" name="dob" class="form-control"
+                                                            placeholder="Date Of Birth..."
+                                                            value="{{request()->query('dob')}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Gender</label>
                                                         <select name="gender" class="form-control">
-                                                            <option value="">Gender</option>
-                                                            @foreach (Helper::get_gender() as $gender)
-                                                            <option value="{{$gender->gender}}" {{request()->query('gender') == $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
+                                                            <option value=""></option>
+                                                            @foreach (Helper::get_genders() as $gender)
+                                                            <option value="{{$gender->gender}}" {{request()->
+                                                                query('gender') == $gender->gender ? 'selected' :
+                                                                ''}}>{{$gender->gender}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>

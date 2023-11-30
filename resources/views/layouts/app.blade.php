@@ -32,23 +32,22 @@
     <link href="{{asset('assets/vendor/select2/select2.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('assets/vendor/perfect-scrollbar/perfect-scrollbar.css')}}" rel="stylesheet" media="all">
 
-    <!-- Main CSS-->
+    <!-- Main CSS -->
     <link href="{{asset('assets/css/theme.css')}}" rel="stylesheet" media="all">
 
-    {{-- Favicon --}}
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.ico')}}">
 
-    {{-- Custom Css --}}
+    <!-- Custom Css -->
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 
-    {{-- Ajax --}}
+    <!-- Ajax -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"
         integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
 </head>
 
-<body class="animsition">
+<body class="animsition" style="overflow-y: hidden;">
     <div class="page-wrapper p-0">
         @include('layouts._mobile_header')
 
@@ -64,7 +63,10 @@
                     <div class="section__content section__content--p30">
                         @include('layouts._flash')
 
-                        @yield('content')
+                        <div class="scrollbar" id="style-1" style="height: 85vh!important; overflow-y: scroll">
+                            @yield('content')
+                            <br><br>
+                        </div>
                     </div>
                 </div>
             </main>
@@ -98,9 +100,9 @@
     <!-- Main JS-->
     <script src="{{asset('assets/js/main.js')}}"></script>
 
-    {{-- Sweet Alert --}}
+    <!-- Sweet Alert -->
     <script src="{{asset('assets/js/sweetalert.min.js')}}"></script>
-    {{-- Delete Confirmation --}}
+    <!-- Delete Confirmation -->
     <script type="text/javascript">
         $('.show_confirm').click(function(event) {
            var form =  $(this).closest("form");

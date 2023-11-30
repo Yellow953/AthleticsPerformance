@@ -22,15 +22,15 @@
                         </div>
                         <div class="col-md-4">
                             Event Name: {{$event->name}} <br>
-                            Event Type: {{$event->typeID}} <br>
+                            Event Type: {{$event->type->name}} <br>
                             Extra: {{$event->extra}} <br>
                             Gender: {{$event->gender}} <br>
                             Distance: {{$event->distance}} <br>
                             IO: {{$event->io}} <br>
                         </div>
                         <div class="col-md-4">
-                            Competitor: {{$competitor->name}} <br>
-                            TeamID: {{$competitor->teamID}} <br>
+                            Competitor: {{$competitor->name ?? ''}} <br>
+                            TeamID: {{$competitor->team->name ?? ''}} <br>
                             AthleteID: {{$competitor->athlete->firstName ?? ''}} {{$competitor->athlete->middleName ??
                             ''}} {{$competitor->athlete->lastName ??
                             ''}} <br>
@@ -78,7 +78,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
-                                        <option value="">Pick an Age Group</option>
+                                        <option value=""></option>
                                         @foreach ($age_groups as $age_group)
                                         <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                         @endforeach

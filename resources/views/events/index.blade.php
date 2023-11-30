@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -20,9 +20,9 @@
                                     </div>
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
-                                            <div class="account-dropdown__item">
-                                                <a href="/events/new">New Event</a>
-                                            </div>
+                                            <!-- <div class="account-dropdown__item">
+                                                <a href="/events/new">Create Event</a>
+                                            </div> -->
                                             <div class="account-dropdown__item">
                                                 <a href="/events/export">Export Events</a>
                                             </div>
@@ -35,8 +35,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/events/export" class="btn btn-primary mx-1 my-auto">Export Events</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/events/upload" class="btn btn-primary mx-1 my-auto">Upload Events</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -48,16 +52,19 @@
                                                 <form action="/events" method="GET" enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Name..." value="{{request()->query('name')}}">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name..." value="{{request()->query('name')}}">
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Age Group</label>
                                                                 <select name="ageGroupID" class="form-control">
-                                                                    <option value="">Age Group</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_age_groups() as $age_group)
-                                                                    <option value="{{$age_group->ID}}" {{request()->query('ageGroupID') == $age_group->ID ? 'selected' : ''}}>{{$age_group->name}}</option>
+                                                                    <option value="{{$age_group->ID}}" {{request()->
+                                                                        query('ageGroupID') == $age_group->ID ?
+                                                                        'selected' : ''}}>{{$age_group->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -66,9 +73,11 @@
                                                             <div class="form-group">
                                                                 <label>Gender</label>
                                                                 <select name="gender" class="form-control">
-                                                                    <option value="">Gender</option>
-                                                                    @foreach (Helper::get_gender() as $gender)
-                                                                    <option value="{{$gender->gender}}" {{request()->query('gender') == $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
+                                                                    <option value=""></option>
+                                                                    @foreach (Helper::get_genders() as $gender)
+                                                                    <option value="{{$gender->gender}}" {{request()->
+                                                                        query('gender') == $gender->gender ? 'selected'
+                                                                        : ''}}>{{$gender->gender}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -79,9 +88,11 @@
                                                             <div class="form-group">
                                                                 <label>Event Type</label>
                                                                 <select name="typeID" class="form-control">
-                                                                    <option value="">Event Type</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_event_types() as $event_type)
-                                                                    <option value="{{$event_type->ID}}" {{request()->query('typeID') == $event_type->ID ? 'selected' : ''}}>{{$event_type->name}}</option>
+                                                                    <option value="{{$event_type->ID}}" {{request()->
+                                                                        query('typeID') == $event_type->ID ? 'selected'
+                                                                        : ''}}>{{$event_type->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -90,9 +101,11 @@
                                                             <div class="form-group">
                                                                 <label>I/O</label>
                                                                 <select name="io" class="form-control">
-                                                                    <option value="">I/O</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_ios() as $io)
-                                                                    <option value="{{$io->ID}}" {{request()->query('io') == $io->io ? 'selected' : ''}}>{{$io->io}}</option>
+                                                                    <option value="{{$io->ID}}" {{request()->query('io')
+                                                                        == $io->io ? 'selected' : ''}}>{{$io->io}}
+                                                                    </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -129,12 +142,12 @@
                         <tr class="tr-shadow">
                             <td>{{ucwords($event->name)}}</td>
                             <td>
-                                <span class="block-email">{{$event->meeting->shortName}}</span>
+                                <span class="block-email">{{ucwords($event->meeting->shortName ?? '')}}</span>
                             </td>
                             <td>
                                 Distance: {{$event->distance}} <br>
-                                AgeGroup: {{$event->ageGroupID}} <br>
-                                Type: {{$event->typeID}}
+                                AgeGroup: {{$event->ageGroup->name}} <br>
+                                Type: {{$event->type->name}}
                             </td>
                             <td>{{$event->created_at}}</td>
                             <td>

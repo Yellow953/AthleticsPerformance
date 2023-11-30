@@ -23,6 +23,21 @@ class Record extends Model
         return $this->belongsTo(Result::class, 'resultID');
     }
 
+    public function ageGroup()
+    {
+        return $this->belongsTo(AgeGroupSecond::class, 'ageGroupID', 'ID');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(TeamSecond::class, 'teamID', 'ID');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(EventTypeSecond::class, 'typeID', 'ID');
+    }
+
     // Filter
     public function scopeFilter($q)
     {
@@ -58,8 +73,7 @@ class Record extends Model
             $teamID = request('teamID');
             $q->where('teamID', $teamID);
         }
- 
+
         return $q;
     }
-
 }

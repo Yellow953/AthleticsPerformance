@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -20,9 +20,9 @@
                                     </div>
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
-                                            <div class="account-dropdown__item">
-                                                <a href="/results/new">New Result</a>
-                                            </div>
+                                            <!-- <div class="account-dropdown__item">
+                                                <a href="/results/new">Create Result</a>
+                                            </div> -->
                                             <div class="account-dropdown__item">
                                                 <a href="/results/export">Export Results</a>
                                             </div>
@@ -38,8 +38,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/results/export" class="btn btn-primary mx-1 my-auto">Export Results</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/results/upload" class="btn btn-primary mx-1 my-auto">Upload Results</a>
+                        <a href="/results/scoring" class="btn btn-primary mx-1 my-auto">Scoring</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -53,7 +58,9 @@
                                                         <label>Event</label>
                                                         <select name="eventID" class="form-control">
                                                             @foreach ($events as $event)
-                                                            <option value="{{$event->id}}" {{request()->query('eventID') == $event->id ? 'selected' : ''}}>{{$event->name}}</option>
+                                                            <option value="{{$event->id}}" {{request()->query('eventID')
+                                                                == $event->id ? 'selected' : ''}}>{{$event->name}}
+                                                            </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -61,7 +68,9 @@
                                                         <label>Competitor</label>
                                                         <select name="competitorID" class="form-control">
                                                             @foreach ($competitors as $competitor)
-                                                            <option value="{{$competitor->id}}" {{request()->query('competitorID') == $competitor->id ? 'selected' : ''}}>{{$competitor->name}}</option>
+                                                            <option value="{{$competitor->id}}" {{request()->
+                                                                query('competitorID') == $competitor->id ? 'selected' :
+                                                                ''}}>{{$competitor->name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -84,6 +93,7 @@
                 <table class="table table-data2" id="data-table">
                     <thead>
                         <tr>
+                            <th>Meeting</th>
                             <th>Event</th>
                             <th>Competitor</th>
                             <th>Result</th>
@@ -96,8 +106,9 @@
                     <tbody>
                         @forelse ($results as $result)
                         <tr class="tr-shadow">
+                            <td>{{$result->event->meeting->shortName}}</td>
                             <td>{{$result->event->name}}</td>
-                            <td>{{$result->competitor->name}}</td>
+                            <td>{{$result->competitor->name ?? ''}}</td>
                             <td>
                                 <div class="row">
                                     <div class="col-md-6">Position: {{$result->position}}</div>
@@ -114,7 +125,7 @@
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
                                         href="/results/{{$result->id}}/new_record" data-toggle="tooltip"
-                                        data-placement="top" title="New Record">
+                                        data-placement="top" title="Create Record">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-stars" viewBox="0 0 16 16">
                                             <path
@@ -140,8 +151,8 @@
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="/results/{{$result->id}}/edit" data-toggle="tooltip"
-                                        data-placement="top" title="Edit">
+                                    <a class="item bg-warning" href="/results/{{$result->id}}/edit"
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
                                     <form method="GET" action="/results/{{$result->id}}/destroy">
@@ -158,11 +169,11 @@
                         <tr class="spacer"></tr>
                         @empty
                         <tr>
-                            <td colspan="5">No Results Found ...</td>
+                            <td colspan="6">No Results Found ...</td>
                         </tr>
                         @endforelse
                         <tr>
-                            <td colspan="5">{{$results->appends(['search' => request()->query('search')])->links()}}
+                            <td colspan="6">{{$results->appends(['search' => request()->query('search')])->links()}}
                             </td>
                         </tr>
                     </tbody>

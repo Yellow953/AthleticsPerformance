@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -21,7 +21,7 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="/users/new">New User</a>
+                                                <a href="/users/new">Create User</a>
                                             </div>
                                             <div class="account-dropdown__item">
                                                 <a href="/users/export">Export Users</a>
@@ -30,8 +30,10 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/users/new" class="btn btn-primary mx-1 my-auto">Create User</a>
+                        <a href="/users/export" class="btn btn-primary mx-1 my-auto">Export Users</a>
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -43,18 +45,23 @@
                                                 <form action="/users" method="GET" enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Name..." value="{{request()->query('name')}}">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name..." value="{{request()->query('name')}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Email</label>
-                                                        <input type="email" name="email" class="form-control" placeholder="Email..." value="{{request()->query('email')}}">
+                                                        <input type="email" name="email" class="form-control"
+                                                            placeholder="Email..."
+                                                            value="{{request()->query('email')}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Role</label>
                                                         <select name="role" class="form-control">
-                                                            <option value="">Role</option>
-                                                            <option value="user" {{request()->query('role') == 'user' ? 'selected' : ''}}>User</option>
-                                                            <option value="admin" {{request()->query('role') == 'admin' ? 'selected' : ''}}>Admin</option>
+                                                            <option value=""></option>
+                                                            <option value="user" {{request()->query('role') == 'user' ?
+                                                                'selected' : ''}}>User</option>
+                                                            <option value="admin" {{request()->query('role') == 'admin'
+                                                                ? 'selected' : ''}}>Admin</option>
                                                         </select>
                                                     </div>
 
@@ -117,7 +124,8 @@
                         </tr>
                         @endforelse
                         <tr>
-                            <td colspan="5">{{$users->appends(['name' => request()->query('name'), 'email' => request()->query('email'), 'role' => request()->query('role')])->links()}}</td>
+                            <td colspan="5">{{$users->appends(['name' => request()->query('name'), 'email' =>
+                                request()->query('email'), 'role' => request()->query('role')])->links()}}</td>
                         </tr>
                     </tbody>
                 </table>

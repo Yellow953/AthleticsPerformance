@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function destroy($id)
     {
-        try{
+        try {
             User::findOrFail($id)->delete();
 
             return redirect()->back()->with('danger', 'User successfully deleted!');
@@ -88,15 +88,16 @@ class UserController extends Controller
         }
     }
 
-    public function password(){
+    public function password()
+    {
         return view('users.change_password');
     }
 
     public function change_password(Request $request, $id)
     {
         $request->validate([
-            'new_password' => ['required','string','min:6'],
-            'confirm_password' => ['required','string','min:6'],
+            'new_password' => ['required', 'string', 'min:6'],
+            'confirm_password' => ['required', 'string', 'min:6'],
 
         ]);
 

@@ -38,22 +38,22 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="name" class=" form-control-label">Name</label>
+                                    <label for="shortName" class=" form-control-label">Short Name*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="name" name="name" placeholder="Name"
-                                        value="{{$meeting->name}}" class="form-control">
+                                    <input type="text" id="shortName" name="shortName" placeholder="Short Name" required
+                                        value="{{$meeting->shortName}}" class="form-control">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="shortName" class=" form-control-label">Short Name*</label>
+                                    <label for="name" class=" form-control-label">Name</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="shortName" name="shortName" placeholder="Short Name" required
-                                        value="{{$meeting->shortName}}" class="form-control">
+                                    <input type="text" id="name" name="name" placeholder="Name"
+                                        value="{{$meeting->name}}" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -129,11 +129,11 @@
                         <div class="col-md-6">
                             <div class="row form-group">
                                 <div class="col col-md-3">
-                                    <label for="subgroup" class="form-control-label">Sub Group*</label>
+                                    <label for="subgroup" class="form-control-label">Sub Group</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="subgroup" name="subgroup" placeholder="Sub Group" required
-                                        value="{{$meeting->subgroup}}" class="form-control">
+                                    <input type="text" id="subgroup" name="subgroup" placeholder="Sub Group"
+                                        value="{{$meeting->subgroup ?? ''}}" class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                                 <label for="isNew" class="form-check-label ">
                                     <input type="checkbox" id="isNew" name="isNew" {{$meeting->isNew ? 'checked' :
                                     ''}}
-                                    class="form-check-input">New
+                                    class="form-check-input">Is New
                                 </label>
                             </div>
                         </div>

@@ -18,6 +18,16 @@ class Event extends Model
         return $this->belongsTo(Meeting::class, 'meetingID');
     }
 
+    public function type()
+    {
+        return $this->belongsTo(EventTypeSecond::class, 'typeID', 'ID');
+    }
+
+    public function ageGroup()
+    {
+        return $this->belongsTo(AgeGroupSecond::class, 'ageGroupID', 'ID');
+    }
+
     // Filter
     public function scopeFilter($q)
     {
@@ -44,5 +54,4 @@ class Event extends Model
 
         return $q;
     }
-
 }

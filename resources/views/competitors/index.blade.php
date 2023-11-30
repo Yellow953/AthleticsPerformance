@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -21,7 +21,7 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="/competitors/new">New Competitor</a>
+                                                <a href="/competitors/new">Create Competitor</a>
                                             </div>
                                             <div class="account-dropdown__item">
                                                 <a href="/competitors/export">Export Competitors</a>
@@ -35,8 +35,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/competitors/new" class="btn btn-primary mx-1 my-auto">Create Competitor</a>
+                        <a href="/competitors/export" class="btn btn-primary mx-1 my-auto">Export Competitors</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/competitors/upload" class="btn btn-primary mx-1 my-auto">Upload Competitors</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -48,18 +53,22 @@
                                                 <form action="/competitors" method="GET" enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Name..." value="{{request()->query('name')}}">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name..." value="{{request()->query('name')}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Year</label>
-                                                        <input type="number" name="year" class="form-control" placeholder="Year..." value="{{request()->query('year')}}">
+                                                        <input type="number" name="year" class="form-control"
+                                                            placeholder="Year..." value="{{request()->query('year')}}">
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Gender</label>
                                                         <select name="gender" class="form-control">
-                                                            <option value="">Gender</option>
-                                                            @foreach (Helper::get_gender() as $gender)
-                                                            <option value="{{$gender->gender}}" {{request()->query('gender') == $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
+                                                            <option value=""></option>
+                                                            @foreach (Helper::get_genders() as $gender)
+                                                            <option value="{{$gender->gender}}" {{request()->
+                                                                query('gender') == $gender->gender ? 'selected' :
+                                                                ''}}>{{$gender->gender}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -68,9 +77,11 @@
                                                             <div class="form-group">
                                                                 <label>Age Group</label>
                                                                 <select name="ageGroupID" class="form-control">
-                                                                    <option value="">Age Group</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_age_groups() as $age_group)
-                                                                    <option value="{{$age_group->ID}}" {{request()->query('ageGroupID') == $age_group->ID ? 'selected' : ''}}>{{$age_group->name}}</option>
+                                                                    <option value="{{$age_group->ID}}" {{request()->
+                                                                        query('ageGroupID') == $age_group->ID ?
+                                                                        'selected' : ''}}>{{$age_group->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -79,15 +90,17 @@
                                                             <div class="form-group">
                                                                 <label>Team</label>
                                                                 <select name="teamID" class="form-control">
-                                                                    <option value="">Team</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_teams() as $team)
-                                                                    <option value="{{$team->ID}}" {{request()->query('teamID') == $team->ID ? 'selected' : ''}}>{{$team->shortName}}</option>
+                                                                    <option value="{{$team->ID}}" {{request()->
+                                                                        query('teamID') == $team->ID ? 'selected' :
+                                                                        ''}}>{{$team->shortName}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div class="actions d-flex justify-content-around">
                                                         <a href="/competitors" class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>

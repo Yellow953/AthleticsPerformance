@@ -15,19 +15,21 @@
                     <h2>Meeting</h2>
                     <div class="row mt-3 text-dark">
                         <div class="col-md-4">
-                            <div><span class="text-white">Name:</span> {{ucwords($meeting->name) ?? 'NULL'}}</div>
                             <div><span class="text-white">ShortName:</span> {{ucwords($meeting->shortName)}}</div>
+                            <div><span class="text-white">Name:</span> {{ucwords($meeting->name) ?? 'NULL'}}</div>
+                            @if(auth()->user()->role == 'admin')
                             <div><span class="text-white">ID:</span> {{$meeting->id}}</div>
+                            @endif
                         </div>
                         <div class="col-md-4">
                             <div><span class="text-white">Start Date:</span> {{$meeting->startDate}}</div>
                             <div><span class="text-white">End Date:</span> {{$meeting->endDate ?? 'NULL'}}</div>
                         </div>
                         <div class="col-md-4">
-                            <div><span class="text-white">Age Group:</span> {{$meeting->ageGroupID}}</div>
-                            <div><span class="text-white">Type:</span> {{$meeting->typeID}}</div>
+                            <div><span class="text-white">Age Group:</span> {{$meeting->ageGroup->name}}</div>
+                            <div><span class="text-white">Type:</span> {{$meeting->type->name}}</div>
                             <div><span class="text-white">Venue:</span> {{$meeting->venue ?? 'NULL'}}</div>
-                            <div><span class="text-white">Country:</span> {{$meeting->country}}</div>
+                            <div><span class="text-white">Country:</span> {{ Helper::get_country_name($meeting->country) }}</div>
                             <div><span class="text-white">Sub Group:</span> {{$meeting->subgroup ?? 'NULL'}}</div>
                         </div>
                     </div>
@@ -46,17 +48,15 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Type ID</th>
+                                <th>Type</th>
                                 <th>Extra</th>
                                 <th>Round</th>
-                                <th>Age Group ID</th>
+                                <th>Age Group</th>
                                 <th>Gender</th>
                                 <th>Wind</th>
                                 <th>Note</th>
                                 <th>Distance</th>
                                 <th>IO</th>
-                                <th>Heat</th>
-                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -64,17 +64,15 @@
                             <tr class="clickable-row"
                                 onclick="window.location.href = '/events/' + {{$event->id}} + '/results'">
                                 <td>{{$event->name}}</td>
-                                <td>{{$event->typeID}}</td>
+                                <td>{{$event->type->name}}</td>
                                 <td>{{$event->extra}}</td>
                                 <td>{{$event->round}}</td>
-                                <td>{{$event->ageGroupID}}</td>
+                                <td>{{$event->ageGroup->name}}</td>
                                 <td>{{$event->gender}}</td>
                                 <td>{{$event->wind}}</td>
                                 <td>{{$event->note}}</td>
                                 <td>{{$event->distance}}</td>
                                 <td>{{$event->io}}</td>
-                                <td>{{$event->heat}}</td>
-                                <td>{{$event->created_at}}</td>
                             </tr>
                             @empty
                             <tr>
@@ -85,26 +83,56 @@
                                 @csrf
                                 <input type="hidden" name="meetingID" value="{{$meeting->id}}">
                                 <tr>
-                                    <td><input type="text" class="form-control" name="name" placeholder="Name"></td>
-                                    <td><input type="text" class="form-control" name="typeID" placeholder="Type ID"
-                                            required>
+                                    <td><input type="text" class="form-control" name="name" placeholder="Name" {{auth()->user()->role != 'admin' ? 'disabled' : ''}}></td>
+                                    <td>
+                                        <select name="typeID" class="form-control" required>
+                                            <option value=""></option>
+                                            @foreach(Helper::get_event_types() as $event_type)
+                                                <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
+                                            @endforeach
+                                        </select>
                                     </td>
                                     <td><input type="text" class="form-control" name="extra" placeholder="Extra"></td>
-                                    <td><input type="text" class="form-control" name="round" placeholder="Round"
-                                            required></td>
-                                    <td><input type="text" class="form-control" name="ageGroupID"
-                                            placeholder="Age Group ID" required></td>
-                                    <td><input type="text" class="form-control" name="gender" placeholder="Gender"
-                                            required></td>
+                                    <td>
+                                        <select name="round" class="form-control" required>
+                                            <option value=""></option>
+                                            @foreach(Helper::get_rounds() as $round)
+                                                <option value="{{$round->ID}}">{{$round->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="ageGroupID" class="form-control" required>
+                                            <option value=""></option>
+                                            @foreach(Helper::get_age_groups() as $age_group)
+                                                <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="gender" class="form-control" required>
+                                            <option value=""></option>
+                                            @foreach(Helper::get_genders() as $gender)
+                                                <option value="{{$gender->gender}}">{{$gender->gender}}</option>
+                                            @endforeach
+                                        </select>
+                                    </td>
                                     <td><input type="number" class="form-control" name="wind" placeholder="Wind"
                                             step="0.1"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="distance"
                                             placeholder="Distance"></td>
-                                    <td><input type="text" class="form-control" name="io" placeholder="I/O" required>
+                                    <td>
+                                        <select name="io" class="form-control" required>
+                                            <option value=""></option>
+                                            <option value="I">I</option>
+                                            <option value="O">O</option>
+                                        </select>
                                     </td>
-                                    <td><input type="tnumber" class="form-control" name="heat" placeholder="Heat"></td>
-                                    <td><button type="submit" class="btn btn-primary"
+                                </tr>
+                                <tr style="border:none;">
+                                    <td colspan="9"></td>
+                                    <td><button type="submit" class="btn btn-block btn-primary"
                                             id="createEventButton">Create</button></td>
                                 </tr>
                             </form>
@@ -126,7 +154,7 @@
             
             var formData = new FormData($('#createEventForm')[0]);
             $.ajax({
-                url: '/event_create',
+                url: '/meetings/event_create',
                 method: 'POST',
                 data: formData,
                 processData: false,
@@ -147,8 +175,6 @@
                     newRow.append('<td>' + newEvent.note + '</td>');
                     newRow.append('<td>' + newEvent.distance +  '</td>');
                     newRow.append('<td>' + newEvent.io + '</td>');
-                    newRow.append('<td>' + newEvent.heat + '</td>');
-                    newRow.append('<td>' + newEvent.created_at + '</td>');
 
                     // Insert the new row before the form
                     $('#events-table tbody tr:last-child').prev().before(newRow);

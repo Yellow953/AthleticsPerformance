@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -21,7 +21,7 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="/records/new">New Record</a>
+                                                <a href="/records/new">Create Record</a>
                                             </div>
                                             <div class="account-dropdown__item">
                                                 <a href="/records/export">Export Records</a>
@@ -35,8 +35,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/records/new" class="btn btn-primary mx-1 my-auto">Create Record</a>
+                        <a href="/records/export" class="btn btn-primary mx-1 my-auto">Export Records</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/records/upload" class="btn btn-primary mx-1 my-auto">Upload Records</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -50,13 +55,17 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Event Name</label>
-                                                                <input type="text" name="name" class="form-control" placeholder="Event Name..." value="{{request()->query('name')}}">
+                                                                <input type="text" name="name" class="form-control"
+                                                                    placeholder="Event Name..."
+                                                                    value="{{request()->query('name')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Extra</label>
-                                                                <input type="text" name="extra" class="form-control" placeholder="Extra..." value="{{request()->query('extra')}}">
+                                                                <input type="text" name="extra" class="form-control"
+                                                                    placeholder="Extra..."
+                                                                    value="{{request()->query('extra')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -64,13 +73,17 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Competitor</label>
-                                                                <input type="text" name="competitor" class="form-control" placeholder="Competitor..." value="{{request()->query('competitor')}}">
+                                                                <input type="text" name="competitor"
+                                                                    class="form-control" placeholder="Competitor..."
+                                                                    value="{{request()->query('competitor')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Date</label>
-                                                                <input type="date" name="date" class="form-control" placeholder="Date..." value="{{request()->query('date')}}">
+                                                                <input type="date" name="date" class="form-control"
+                                                                    placeholder="Date..."
+                                                                    value="{{request()->query('date')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -79,9 +92,11 @@
                                                             <div class="form-group">
                                                                 <label>Age Group</label>
                                                                 <select name="ageGroupID" class="form-control">
-                                                                    <option value="">Age Group</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_age_groups() as $age_group)
-                                                                    <option value="{{$age_group->ID}}" {{request()->query('ageGroupID') == $age_group->ID ? 'selected' : ''}}>{{$age_group->name}}</option>
+                                                                    <option value="{{$age_group->ID}}" {{request()->
+                                                                        query('ageGroupID') == $age_group->ID ?
+                                                                        'selected' : ''}}>{{$age_group->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -90,9 +105,11 @@
                                                             <div class="form-group">
                                                                 <label>Event Type</label>
                                                                 <select name="typeID" class="form-control">
-                                                                    <option value="">Event Type</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_event_types() as $event_type)
-                                                                    <option value="{{$event_type->ID}}" {{request()->query('typeID') == $event_type->ID ? 'selected' : ''}}>{{$event_type->name}}</option>
+                                                                    <option value="{{$event_type->ID}}" {{request()->
+                                                                        query('typeID') == $event_type->ID ? 'selected'
+                                                                        : ''}}>{{$event_type->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -103,9 +120,11 @@
                                                             <div class="form-group">
                                                                 <label>Gender</label>
                                                                 <select name="gender" class="form-control">
-                                                                    <option value="">Gender</option>
-                                                                    @foreach (Helper::get_gender() as $gender)
-                                                                    <option value="{{$gender->gender}}" {{request()->query('gender') == $gender->gender ? 'selected' : ''}}>{{$gender->gender}}</option>
+                                                                    <option value=""></option>
+                                                                    @foreach (Helper::get_genders() as $gender)
+                                                                    <option value="{{$gender->gender}}" {{request()->
+                                                                        query('gender') == $gender->gender ? 'selected'
+                                                                        : ''}}>{{$gender->gender}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -114,9 +133,11 @@
                                                             <div class="form-group">
                                                                 <label>Team</label>
                                                                 <select name="teamID" class="form-control">
-                                                                    <option value="">Team</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_teams() as $team)
-                                                                    <option value="{{$team->ID}}" {{request()->query('teamID') == $team->ID ? 'selected' : ''}}>{{$team->shortName}}</option>
+                                                                    <option value="{{$team->ID}}" {{request()->
+                                                                        query('teamID') == $team->ID ? 'selected' :
+                                                                        ''}}>{{$team->shortName}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -205,8 +226,8 @@
                                         </svg>
                                     </a>
                                     @endif
-                                    <a class="item bg-warning" href="/records/{{$record->id}}/edit" data-toggle="tooltip"
-                                        data-placement="top" title="Edit">
+                                    <a class="item bg-warning" href="/records/{{$record->id}}/edit"
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
                                     <form method="GET" action="/records/{{$record->id}}/destroy">

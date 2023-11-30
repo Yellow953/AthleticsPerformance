@@ -104,6 +104,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select id="teamID" name="teamID" class="form-control" required>
+                                        <option value=""></option>
                                         @foreach ($teams as $team)
                                         <option value="{{$team->ID}}" {{$competitor->teamID == $team->ID ?
                                             'selected' : ''}}>{{$team->name}}</option>

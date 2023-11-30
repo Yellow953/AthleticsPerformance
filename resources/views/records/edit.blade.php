@@ -134,6 +134,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="teamID" id="teamID" class="form-control">
+                                        <option value=""></option>
                                         @foreach ($teams as $team)
                                         <option value="{{$team->ID}}" {{$record->teamID == $team->ID ? 'selected' :
                                             ''}}>{{$team->name}}</option>
@@ -165,7 +166,7 @@
                                     <label for="wind" class=" form-control-label">Wind</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="wind" name="wind" placeholder="Wind" class="form-control"
+                                    <input type="number" id="wind" name="wind" placeholder="Wind" class="form-control"
                                         value="{{$record->wind}}" step="0.1">
                                 </div>
                             </div>

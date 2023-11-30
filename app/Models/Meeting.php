@@ -14,6 +14,16 @@ class Meeting extends Model
 
     protected $guarded = [];
 
+    public function ageGroup()
+    {
+        return $this->belongsTo(AgeGroupSecond::class, 'ageGroupID', 'ID');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(MeetingTypeSecond::class, 'typeID', 'ID');
+    }
+
     // Filter
     public function scopeFilter($q)
     {
@@ -45,5 +55,4 @@ class Meeting extends Model
 
         return $q;
     }
-    
 }

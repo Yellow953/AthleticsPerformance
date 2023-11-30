@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Illuminate\Support\Facades\DB;
 
 class MeetingController extends Controller
 {
@@ -24,7 +25,7 @@ class MeetingController extends Controller
     public function index()
     {
         $meetings = Meeting::filter()->orderBy('created_at', 'DESC')->paginate(25);
-        
+
         return view('meetings.index', compact('meetings'));
     }
 
@@ -42,7 +43,6 @@ class MeetingController extends Controller
         $request->validate([
             'ageGroupID' => 'required',
             'shortName' => 'required',
-            'subgroup' => 'required',
             'typeID' => 'required',
             'startDate' => 'required|date',
             'venue' => 'required',
@@ -52,12 +52,13 @@ class MeetingController extends Controller
         $formattedDate = Carbon::parse($request->startDate)->format('ymd');
         $id = $request->typeID . $formattedDate;
 
-        $data = $request->except('isActive', 'isNew', 'image', 'image2');
+        $data = $request->except('isActive', 'isNew', 'image', 'image2', 'subgroup');
         $isActive = $request->boolean('isActive');
         $isNew = $request->boolean('isNew');
         $data['isActive'] = $isActive;
         $data['isNew'] = $isNew;
         $data['IDSecond'] = $id;
+        $data['subgroup'] = $request->subgroup ?? '';
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -101,7 +102,6 @@ class MeetingController extends Controller
         $request->validate([
             'ageGroupID' => 'required',
             'shortName' => 'required',
-            'subgroup' => 'required',
             'typeID' => 'required',
             'startDate' => 'required|date',
             'venue' => 'required',
@@ -114,11 +114,13 @@ class MeetingController extends Controller
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        $data = $request->except('isNew', 'isActive', 'image', 'image2');
+        $data = $request->except('isNew', 'isActive', 'image', 'image2', 'subgroup');
         $isActive = $request->boolean('isActive');
         $isNew = $request->boolean('isNew');
         $data['isActive'] = $isActive;
         $data['isNew'] = $isNew;
+        $data['uploaded'] = false;
+        $data['subgroup'] = $request->subgroup ?? '';
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
@@ -152,7 +154,7 @@ class MeetingController extends Controller
 
     public function destroy($id)
     {
-        try{
+        try {
             Meeting::findOrFail($id)->delete();
 
             return redirect()->back()->with('danger', 'Meeting successfully deleted!');
@@ -219,15 +221,78 @@ class MeetingController extends Controller
         $meetings = Meeting::where('uploaded', false)->get();
 
         if ($meetings->isEmpty()) {
-            return redirect()->back()->with('warning', 'All meetings are up-to-date!');
+            return redirect()->back()->with('warning', 'All Meetings are up-to-date!');
         }
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         foreach ($meetings as $meeting) {
-            if (!$meeting || $meeting->uploaded) {
-                return;
+            MeetingSecond::updateOrInsert(
+                ['ID' => $meeting->IDSecond],
+                [
+                    'ID' => $meeting->IDSecond,
+                    'ageGroupID' => $meeting->ageGroupID,
+                    'name' => $meeting->name,
+                    'shortName' => $meeting->shortName,
+                    'startDate' => $meeting->startDate,
+                    'endDate' => $meeting->endDate,
+                    'venue' => $meeting->venue,
+                    'country' => $meeting->country,
+                    'typeID' => $meeting->typeID,
+                    'subgroup' => $meeting->subgroup,
+                    'picture' => $meeting->picture,
+                    'isActive' => $meeting->isActive,
+                    'isNew' => $meeting->isNew,
+                    'createDate' => $meeting->created_at
+                ]
+            );
+
+            $events = Event::where('uploaded', false)->where('meetingID', $meeting->id)->get();
+            foreach ($events as $event) {
+                EventSecond::updateOrInsert(
+                    ['ID' => $event->id],
+                    [
+                        'ID' => $event->id,
+                        'name' => $event->name,
+                        'typeID' => $event->typeID,
+                        'extra' => $event->extra,
+                        'round' => $event->round,
+                        'ageGroupID' => $event->ageGroupID,
+                        'gender' => $event->gender,
+                        'meetingID' => $meeting->IDSecond,
+                        'wind' => $event->wind,
+                        'note' => $event->note,
+                        'distance' => $event->distance,
+                        'io' => $event->io,
+                        'heat' => $event->heat,
+                        'createDate' => $event->created_at
+                    ]
+                );
+
+                $event->update(['uploaded' => true]);
             }
 
-            MeetingSecond::create([
+            $meeting->update(['uploaded' => true]);
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        return redirect()->back()->with('success', 'Meetings uploaded successfully.');
+    }
+
+    public function upload($id)
+    {
+        $meeting = Meeting::findOrFail($id);
+
+        if (!$meeting || $meeting->uploaded) {
+            return redirect()->back()->with('warning', 'Meeting already uploaded!');
+        }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        MeetingSecond::updateOrInsert(
+            ['ID' => $meeting->IDSecond],
+            [
                 'ID' => $meeting->IDSecond,
                 'ageGroupID' => $meeting->ageGroupID,
                 'name' => $meeting->name,
@@ -242,11 +307,14 @@ class MeetingController extends Controller
                 'isActive' => $meeting->isActive,
                 'isNew' => $meeting->isNew,
                 'createDate' => $meeting->created_at
-            ]);
+            ]
+        );
 
-            $events = Event::where('uploaded', false)->where('meetingID', $meeting->IDSecond)->get();
-            foreach ($events as $event) {
-                EventSecond::create([
+        $events = Event::where('uploaded', false)->where('meetingID', $meeting->id)->get();
+        foreach ($events as $event) {
+            EventSecond::updateOrInsert(
+                ['ID' => $event->id],
+                [
                     'ID' => $event->id,
                     'name' => $event->name,
                     'typeID' => $event->typeID,
@@ -254,70 +322,20 @@ class MeetingController extends Controller
                     'round' => $event->round,
                     'ageGroupID' => $event->ageGroupID,
                     'gender' => $event->gender,
-                    'meetingID' => $event->meetingID,
+                    'meetingID' => $meeting->IDSecond,
                     'wind' => $event->wind,
                     'note' => $event->note,
                     'distance' => $event->distance,
                     'io' => $event->io,
                     'heat' => $event->heat,
                     'createDate' => $event->created_at
-                ]);
-
-                $event->update(['uploaded' => true]);
-            }
-
-            $meeting->update(['uploaded' => true]);
-        }
-
-        return redirect()->back()->with('success', 'Meetings uploaded successfully.');
-    }
-
-    public function upload($id)
-    {
-        $meeting = Meeting::findOrFail($id);
-
-        if (!$meeting || $meeting->uploaded) {
-            return redirect()->back()->with('warning', 'Meeting already uploaded!');
-        }
-
-        MeetingSecond::create([
-            'ID' => $meeting->IDSecond,
-            'ageGroupID' => $meeting->ageGroupID,
-            'name' => $meeting->name,
-            'shortName' => $meeting->shortName,
-            'startDate' => $meeting->startDate,
-            'endDate' => $meeting->endDate,
-            'venue' => $meeting->venue,
-            'country' => $meeting->country,
-            'typeID' => $meeting->typeID,
-            'subgroup' => $meeting->subgroup,
-            'picture' => $meeting->picture,
-            'isActive' => $meeting->isActive,
-            'isNew' => $meeting->isNew,
-            'createDate' => $meeting->created_at
-        ]);
-
-        $events = Event::where('uploaded', false)->where('meetingID', $meeting->IDSecond)->get();
-        foreach ($events as $event) {
-            EventSecond::create([
-                'ID' => $event->id,
-                'name' => $event->name,
-                'typeID' => $event->typeID,
-                'extra' => $event->extra,
-                'round' => $event->round,
-                'ageGroupID' => $event->ageGroupID,
-                'gender' => $event->gender,
-                'meetingID' => $event->meetingID,
-                'wind' => $event->wind,
-                'note' => $event->note,
-                'distance' => $event->distance,
-                'io' => $event->io,
-                'heat' => $event->heat,
-                'createDate' => $event->created_at
-            ]);
+                ]
+            );
 
             $event->update(['uploaded' => true]);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $meeting->update(['uploaded' => true]);
         return redirect()->back()->with('success', 'Meeting successfully uploaded!');
@@ -335,18 +353,62 @@ class MeetingController extends Controller
 
         $data = $request->except('extra');
         $data['extra'] = $request->extra ?? '';
+
+        switch ($data['typeID']) {
+            case 'HM':
+            case 'M':
+            case 'UM':
+                $data['distance'] = $data['typeID'] == 'HM' ? 21000 : ($data['typeID'] == 'M' ? 42000 : 100000);
+                $data['name'] = null;
+                break;
+            case '03':
+            case '04':
+            case '05':
+            case '07':
+            case '08':
+            case '10':
+            case '1H':
+            case 'BT':
+            case 'DT':
+            case 'HJ':
+            case 'HT':
+            case 'JT':
+            case 'LJ':
+            case 'PV':
+            case 'SP':
+            case 'TJ':
+            case 'WT':
+            case 'YB':
+                $data['name'] = null;
+                break;
+            case '4R':
+                $data['name'] = '4x' . $data['distance'] / 4 . 'm';
+                break;
+            default:
+                if ($data['distance'] == 1600) {
+                    $data['name'] = 'Mile';
+                } elseif ($data['distance'] == 6400) {
+                    $data['name'] = '4 Miles';
+                } elseif ($data['distance'] == 8000) {
+                    $data['name'] = '5 Miles';
+                } elseif ($data['distance'] == 16000) {
+                    $data['name'] = '10 Miles';
+                } elseif ($data['io'] == 'R') {
+                    $data['name'] = $data['distance'] / 1000 . 'km';
+                } else {
+                    $data['name'] = $data['distance'] . 'm';
+                }
+                break;
+        }
+
         if (Event::where('uploaded', false)->count() == 0) {
             $data['id'] = EventSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         } else {
             $data['id'] = Event::orderBy('ID', 'DESC')->first()->id + 1;
         }
 
-        $event = Event::create(
-            $data
-        );
+        $event = Event::create($data);
 
-        // return redirect()->back()->with('success', 'Event successfully created!');
         return response()->json(['event' => $event]);
     }
-
 }

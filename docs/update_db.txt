@@ -1,0 +1,5 @@
+ALTER TABLE `athletes`
+ADD COLUMN middleName VARCHAR(255) NULL;
+
+ALTER TABLE `athletes`
+ADD COLUMN exactDate BOOLEAN DEFAULT false;

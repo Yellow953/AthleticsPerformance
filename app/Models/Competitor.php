@@ -18,6 +18,16 @@ class Competitor extends Model
         return $this->belongsTo(Athlete::class, 'athleteID');
     }
 
+    public function ageGroup()
+    {
+        return $this->belongsTo(AgeGroupSecond::class, 'ageGroupID', 'ID');
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(TeamSecond::class, 'teamID', 'ID');
+    }
+
     // Filter
     public function scopeFilter($q)
     {
@@ -44,5 +54,4 @@ class Competitor extends Model
 
         return $q;
     }
-
 }

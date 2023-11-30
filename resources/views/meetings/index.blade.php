@@ -12,7 +12,7 @@
                 </div>
                 <div class="table-data__tool-right">
                     <div class="d-flex justify-content-end">
-                        <div class="header-button mx-1">
+                        {{-- <div class="header-button mx-1">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -21,7 +21,7 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="account-dropdown__item">
-                                                <a href="/meetings/new">New Meeting</a>
+                                                <a href="/meetings/new">Create Meeting</a>
                                             </div>
                                             <div class="account-dropdown__item">
                                                 <a href="/meetings/export">Export Meetings</a>
@@ -35,8 +35,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="header-button mx-1">
+                        </div> --}}
+                        <a href="/meetings/new" class="btn btn-primary mx-1 my-auto">Create Meeting</a>
+                        <a href="/meetings/export" class="btn btn-primary mx-1 my-auto">Export Meetings</a>
+                        @if (auth()->user()->role == 'admin')
+                        <a href="/meetings/upload" class="btn btn-primary mx-1 my-auto">Upload Meetings</a>
+                        @endif
+                        <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
                                     <div class="content m-0 p-0">
@@ -48,16 +53,19 @@
                                                 <form action="/meetings" method="GET" enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
-                                                        <input type="text" name="name" class="form-control" placeholder="Name..." value="{{request()->query('name')}}">
+                                                        <input type="text" name="name" class="form-control"
+                                                            placeholder="Name..." value="{{request()->query('name')}}">
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Country</label>
                                                                 <select name="country" class="form-control">
-                                                                    <option value="">Country</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::Countries() as $index => $country)
-                                                                    <option value="{{$index}}" {{request()->query('country') == $index ? 'selected' : ''}}>{{$country}}</option>
+                                                                    <option value="{{$index}}" {{request()->
+                                                                        query('country') == $index ? 'selected' :
+                                                                        ''}}>{{$country}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -65,7 +73,9 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Venue</label>
-                                                                <input type="text" name="venue" class="form-control" placeholder="Venue..." value="{{request()->query('venue')}}">
+                                                                <input type="text" name="venue" class="form-control"
+                                                                    placeholder="Venue..."
+                                                                    value="{{request()->query('venue')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -74,9 +84,11 @@
                                                             <div class="form-group">
                                                                 <label>Age Group</label>
                                                                 <select name="ageGroupID" class="form-control">
-                                                                    <option value="">Age Group</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_age_groups() as $age_group)
-                                                                    <option value="{{$age_group->ID}}" {{request()->query('ageGroupID') == $age_group->ID ? 'selected' : ''}}>{{$age_group->name}}</option>
+                                                                    <option value="{{$age_group->ID}}" {{request()->
+                                                                        query('ageGroupID') == $age_group->ID ?
+                                                                        'selected' : ''}}>{{$age_group->name}}</option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -85,9 +97,12 @@
                                                             <div class="form-group">
                                                                 <label>Meeting Type</label>
                                                                 <select name="typeID" class="form-control">
-                                                                    <option value="">Meeting Type</option>
+                                                                    <option value=""></option>
                                                                     @foreach (Helper::get_meeting_types() as $meeting_type)
-                                                                    <option value="{{$meeting_type->ID}}" {{request()->query('typeID') == $meeting_type->ID ? 'selected' : ''}}>{{$meeting_type->name}}</option>
+                                                                    <option value="{{$meeting_type->ID}}" {{request()->
+                                                                        query('typeID') == $meeting_type->ID ?
+                                                                        'selected' : ''}}>{{$meeting_type->name}}
+                                                                    </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>
@@ -97,13 +112,17 @@
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Start Date</label>
-                                                                <input type="date" name="startDate" class="form-control" placeholder="Start Date..." value="{{request()->query('startDate')}}">
+                                                                <input type="date" name="startDate" class="form-control"
+                                                                    placeholder="Start Date..."
+                                                                    value="{{request()->query('startDate')}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>End Date</label>
-                                                                <input type="date" name="endDate" class="form-control" placeholder="End Date..." value="{{request()->query('endDate')}}">
+                                                                <input type="date" name="endDate" class="form-control"
+                                                                    placeholder="End Date..."
+                                                                    value="{{request()->query('endDate')}}">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -149,16 +168,15 @@
                             </td>
                             <td>
                                 <span class="block-email m-1">{{$meeting->startDate}}</span>
-
                                 @if ($meeting->endDate)
                                 -> <span class="block-email m-1">{{$meeting->endDate}}</span>
                                 @endif
                             </td>
                             <td class="text-sm">
-                                <small>AgeGroup: {{$meeting->ageGroupID}} <br>
-                                    Type: {{$meeting->typeID}} <br>
+                                <small>AgeGroup: {{$meeting->ageGroup->name}} <br>
+                                    Type: {{$meeting->type->name}} <br>
                                     Venue: {{$meeting->venue}} <br>
-                                    Country: {{$meeting->country}} <br>
+                                    Country: {{ Helper::get_country_name($meeting->country) }} <br>
                                     SubGroup: {{$meeting->subgroup}} <br></small>
                             </td>
                             <td>

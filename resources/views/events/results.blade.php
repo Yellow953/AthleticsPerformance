@@ -63,14 +63,13 @@
                                 <th>Heat</th>
                                 <th>Hand</th>
                                 <th>Active</th>
-                                <th>Date</th>
                                 <th>Record</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse ($results as $result)
-                            <tr>
-                                <td>{{$result->competitor->name}}</td>
+                            <tr class="clickable-row" onclick="window.location.href = '/results/' + {{$result->id}} + '/edit'">
+                                <td>{{$result->competitor->name ?? ''}}</td>
                                 <td>{{$result->position}}</td>
                                 <td>{{$result->result}}</td>
                                 <td>{{$result->points}}</td>
@@ -81,7 +80,6 @@
                                 <td>{{$result->heat}}</td>
                                 <td>{{ $result->isHand != 0 ? 'true' : 'false' }}</td>
                                 <td>{{ $result->isActive != 0 ? 'true' : 'false' }}</td>
-                                <td>{{$result->created_at}}</td>
                                 <td class="my-auto text-center">
                                     <a href="/results/{{$result->id}}/new_record" class="btn btn-primary py-1 px-2">+</a>
                                 </td>
@@ -154,11 +152,11 @@
     const dropdownOptions = comboboxDropdown.querySelectorAll('li[data-value]');
 
     const clearButton = document.getElementById('clearButton');
-    // Attach an event listener to the clear button
+
     clearButton.addEventListener('click', function () {
-        comboboxInput.value = ''; // Clear the input
-        hiddenInput.value = ''; // Clear the hidden input
-        comboboxDropdown.style.display = 'none'; // Hide the dropdown
+        comboboxInput.value = '';
+        hiddenInput.value = '';
+        comboboxDropdown.style.display = 'none';
     });
 
     comboboxInput.addEventListener('focus', function () {
@@ -205,20 +203,18 @@
 <script>
     $(document).ready(function() {
         $('#createResultButton').click(function(event) {
-            event.preventDefault(); // Prevent form submission and page reload
+            event.preventDefault();
             
             var formData = new FormData($('#createResultForm')[0]);
             $.ajax({
-                url: '/result_create',
+                url: '/events/result_create',
                 method: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    // Assuming the server responds with the newly created result data in JSON format
                     var newResult = response.result;
 
-                    // Append the new result to the table
                     var newRow = $('<tr>');
                     newRow.append('<td>' + newResult.competitorID + '</td>');
                     newRow.append('<td>' + newResult.position + '</td>');
@@ -231,13 +227,10 @@
                     newRow.append('<td>' + newResult.heat +  '</td>');
                     newRow.append('<td>' + newResult.isHand + '</td>');
                     newRow.append('<td>' + newResult.isActive + '</td>');
-                    newRow.append('<td>' + newResult.created_at + '</td>');
+                    newRow.append('<td class="my-auto text-center"><a href="/results/' + newResult.id + '/new_record" class="btn btn-primary py-1 px-2">+</a></td>');
 
-                    // Insert the new row before the form
                     $('#results-table tbody tr:last-child').prev().before(newRow);
 
-
-                    // Clear the form fields
                     $('#createResultForm')[0].reset();
                 },
                 error: function(error) {

@@ -8,6 +8,7 @@ use App\Models\GenderSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class AthleteController extends Controller
@@ -21,7 +22,6 @@ class AthleteController extends Controller
     public function index()
     {
         $athletes = Athlete::filter()->orderBy('created_at', 'DESC')->paginate(25);
-
         return view('athletes.index', compact('athletes'));
     }
 
@@ -80,6 +80,7 @@ class AthleteController extends Controller
         $data = $request->except('showResult', 'exactDate');
         $data['showResult'] = $request->boolean('showResult');
         $data['exactDate'] = $request->boolean('exactDate');
+        $data['uploaded'] = false;
 
         $athlete = Athlete::findOrFail($id);
 
@@ -150,21 +151,28 @@ class AthleteController extends Controller
             return redirect()->back()->with('warning', 'All athletes are up-to-date!');
         }
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         foreach ($athletes as $athlete) {
-            AthleteSecond::create([
-                'ID' => $athlete->id,
-                'firstName' => $athlete->firstName,
-                'middleName' => $athlete->middleName,
-                'lastName' => $athlete->lastName,
-                'dateOfBirth' => $athlete->dateOfBirth,
-                'gender' => $athlete->gender,
-                'exactDate' => $athlete->exactDate,
-                'showResult' => $athlete->showResult
-            ]);
+            AthleteSecond::updateOrInsert(
+                ['ID' => $athlete->id],
+                [
+                    'ID' => $athlete->id,
+                    'firstName' => $athlete->firstName,
+                    'middleName' => $athlete->middleName,
+                    'lastName' => $athlete->lastName,
+                    'dateOfBirth' => $athlete->dateOfBirth,
+                    'gender' => $athlete->gender,
+                    'exactDate' => $athlete->exactDate,
+                    'showResult' => $athlete->showResult
+                ]
+            );
 
             $athlete->uploaded = true;
             $athlete->save();
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         return redirect()->back()->with('success', 'Athletes uploaded successfully.');
     }
@@ -173,23 +181,29 @@ class AthleteController extends Controller
     {
         $athlete = Athlete::findOrFail($id);
 
-        if (!$athlete || $athlete->uploaded || AthleteSecond::find($id)) {
+        if (!$athlete || $athlete->uploaded) {
             return redirect()->back()->with('warning', 'Athlete is already up-to-date or not found.');
         }
 
-        AthleteSecond::create([
-            'ID' => $athlete->id,
-            'firstName' => $athlete->firstName,
-            'middleName' => $athlete->middleName,
-            'lastName' => $athlete->lastName,
-            'dateOfBirth' => $athlete->dateOfBirth,
-            'gender' => $athlete->gender,
-            'exactDate' => $athlete->exactDate,
-            'showResult' => $athlete->showResult
-        ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        AthleteSecond::updateOrInsert(
+            ['ID' => $athlete->id],
+            [
+                'ID' => $athlete->id,
+                'firstName' => $athlete->firstName,
+                'middleName' => $athlete->middleName,
+                'lastName' => $athlete->lastName,
+                'dateOfBirth' => $athlete->dateOfBirth,
+                'gender' => $athlete->gender,
+                'exactDate' => $athlete->exactDate,
+                'showResult' => $athlete->showResult
+            ]
+        );
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $athlete->update(['uploaded' => true]);
         return redirect()->back()->with('success', 'Athlete uploaded successfully.');
     }
-
 }

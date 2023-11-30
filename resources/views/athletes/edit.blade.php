@@ -91,8 +91,8 @@
                         <div class="col-md-3 my-auto">
                             <div class="checkbox mx-4">
                                 <label for="showResult" class="form-check-label ">
-                                    <input type="checkbox" id="showResult" name="showResult" class="form-check-input"
-                                        {{$athlete->showResult ? 'checked' : ''}}>Show Athlete </label>
+                                    <input type="checkbox" id="showResult" name="showResult" class="form-check-input" {{
+                                        $athlete->showResult ? 'checked' : '' }}>Show Athlete</label>
                             </div>
                         </div>
                     </div>

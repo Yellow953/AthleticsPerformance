@@ -13,6 +13,7 @@ use App\Models\TeamSecond;
 use Illuminate\Http\Request;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xls;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
 class CompetitorController extends Controller
@@ -50,15 +51,29 @@ class CompetitorController extends Controller
             'year' => 'required|numeric|min:1900'
         ]);
 
+        if ($request->athleteID) {
+            $athlete = Athlete::find($request->athleteID);
+            $ageGroup = AgeGroupSecond::find($request->ageGroupID);
+
+            if ($athlete->gender != $request->gender) {
+                return redirect()->back()->with('warning', 'Athlete Gender different than entered gender!');
+            }
+
+            $athleteYear = $athlete->dateOfBirth ? Carbon::createFromFormat('Y-m-d', $athlete->dateOfBirth)->format('Y') : date('Y') - 20;
+            $date = date('Y') - $athleteYear;
+
+            if ($ageGroup->lowerLimit > $date || $date > $ageGroup->upperLimit) {
+                return redirect()->back()->with('warning', 'Athlete Not in the correct Age Group!');
+            }
+        }
+
         if (Competitor::where('uploaded', false)->count() == 0) {
             $request['id'] = CompetitorSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         } else {
             $request['id'] = Competitor::orderBy('ID', 'DESC')->first()->id + 1;
         }
 
-        Competitor::create(
-            $request->all()
-        );
+        Competitor::create($request->all());
 
         return redirect('/competitors')->with('success', 'Competitor successfully created!');
     }
@@ -70,7 +85,7 @@ class CompetitorController extends Controller
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $teams = TeamSecond::select('ID', 'name')->get();
         $athletes = Athlete::select('ID', 'firstName', 'lastName', 'middleName', 'gender')->orderBy('ID', 'DESC')->get();
-        
+
         if (!$competitor) {
             return redirect('/competitors')->with('danger', 'Competitor not found!');
         }
@@ -90,12 +105,27 @@ class CompetitorController extends Controller
 
         $competitor = Competitor::findOrFail($id);
 
-        if (!$competitor) {
-            return redirect('/competitors')->with('danger', 'Competitor not found!');
+        if ($request->athleteID) {
+            $athlete = Athlete::find($request->athleteID);
+            $ageGroup = AgeGroupSecond::find($request->ageGroupID);
+
+            if ($athlete->gender != $request->gender) {
+                return redirect()->back()->with('warning', 'Athlete Gender different than entered gender!');
+            }
+
+            $athleteYear = $athlete->dateOfBirth ? Carbon::createFromFormat('Y-m-d', $athlete->dateOfBirth)->format('Y') : date('Y') - 20;
+            $date = date('Y') - $athleteYear;
+
+            if ($ageGroup->lowerLimit > $date || $date > $ageGroup->upperLimit) {
+                return redirect()->back()->with('warning', 'Athlete Not in the correct Age Group!');
+            }
         }
 
+        $data = $request->all();
+        $data['uploaded'] = false;
+
         $competitor->update(
-            $request->all()
+            $data
         );
 
         return redirect('/competitors')->with('warning', 'Competitor successfully updated!');
@@ -103,7 +133,7 @@ class CompetitorController extends Controller
 
     public function destroy($id)
     {
-        try{
+        try {
             Competitor::findOrFail($id)->delete();
 
             return redirect()->back()->with('danger', 'Competitor successfully deleted!');
@@ -156,41 +186,46 @@ class CompetitorController extends Controller
             return redirect()->back()->with('warning', 'All competitors are up-to-date!');
         }
 
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
         foreach ($competitors as $competitor) {
-            if (!$competitor || $competitor->uploaded) {
-                return;
-            }
-
             $athlete = Athlete::find($competitor->athleteID);
-            $athlete_second = AthleteSecond::find($competitor->athleteID);
 
-            if (!$athlete->uploaded && !$athlete_second) {
-                AthleteSecond::create([
-                    'ID' => $athlete->id,
-                    'firstName' => $athlete->firstName,
-                    'middleName' => $athlete->middleName,
-                    'lastName' => $athlete->lastName,
-                    'dateOfBirth' => $athlete->dateOfBirth,
-                    'gender' => $athlete->gender,
-                    'exactDate' => $athlete->exactDate,
-                    'showResult' => $athlete->showResult
-                ]);
+            if (!$athlete->uploaded) {
+                AthleteSecond::updateOrInsert(
+                    ['ID' => $athlete->id],
+                    [
+                        'ID' => $athlete->id,
+                        'firstName' => $athlete->firstName,
+                        'middleName' => $athlete->middleName,
+                        'lastName' => $athlete->lastName,
+                        'dateOfBirth' => $athlete->dateOfBirth,
+                        'gender' => $athlete->gender,
+                        'exactDate' => $athlete->exactDate,
+                        'showResult' => $athlete->showResult
+                    ]
+                );
 
                 $athlete->update(['uploaded' => true]);
             }
 
-            CompetitorSecond::create([
-                'ID' => $competitor->id,
-                'name' => $competitor->name,
-                'athleteID' => $competitor->athleteID,
-                'gender' => $competitor->gender,
-                'teamID' => $competitor->teamID,
-                'year' => $competitor->year,
-                'ageGroupID' => $competitor->ageGroupID,
-            ]);
+            CompetitorSecond::updateOrInsert(
+                ['ID' => $competitor->id],
+                [
+                    'ID' => $competitor->id,
+                    'name' => $competitor->name,
+                    'athleteID' => $competitor->athleteID,
+                    'gender' => $competitor->gender,
+                    'teamID' => $competitor->teamID,
+                    'year' => $competitor->year,
+                    'ageGroupID' => $competitor->ageGroupID,
+                ]
+            );
 
             $competitor->update(['uploaded' => true]);
         }
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         return redirect()->back()->with('success', 'Competitors uploaded successfully.');
     }
@@ -204,32 +239,41 @@ class CompetitorController extends Controller
         }
 
         $athlete = Athlete::find($competitor->athleteID);
-        $athlete_second = AthleteSecond::find($competitor->athleteID);
 
-        if (!$athlete->uploaded && !$athlete_second) {
-            AthleteSecond::create([
-                'ID' => $athlete->id,
-                'firstName' => $athlete->firstName,
-                'middleName' => $athlete->middleName,
-                'lastName' => $athlete->lastName,
-                'dateOfBirth' => $athlete->dateOfBirth,
-                'gender' => $athlete->gender,
-                'exactDate' => $athlete->exactDate,
-                'showResult' => $athlete->showResult
-            ]);
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        if (!$athlete->uploaded) {
+            AthleteSecond::updateOrInsert(
+                ['ID' => $athlete->id],
+                [
+                    'ID' => $athlete->id,
+                    'firstName' => $athlete->firstName,
+                    'middleName' => $athlete->middleName,
+                    'lastName' => $athlete->lastName,
+                    'dateOfBirth' => $athlete->dateOfBirth,
+                    'gender' => $athlete->gender,
+                    'exactDate' => $athlete->exactDate,
+                    'showResult' => $athlete->showResult
+                ]
+            );
 
             $athlete->update(['uploaded' => true]);
         }
 
-        CompetitorSecond::create([
-            'ID' => $competitor->id,
-            'name' => $competitor->name,
-            'athleteID' => $competitor->athleteID,
-            'gender' => $competitor->gender,
-            'teamID' => $competitor->teamID,
-            'year' => $competitor->year,
-            'ageGroupID' => $competitor->ageGroupID,
-        ]);
+        CompetitorSecond::updateOrInsert(
+            ['ID' => $competitor->id],
+            [
+                'ID' => $competitor->id,
+                'name' => $competitor->name,
+                'athleteID' => $competitor->athleteID,
+                'gender' => $competitor->gender,
+                'teamID' => $competitor->teamID,
+                'year' => $competitor->year,
+                'ageGroupID' => $competitor->ageGroupID,
+            ]
+        );
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
 
         $competitor->update(['uploaded' => true]);
 
