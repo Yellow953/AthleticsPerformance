@@ -97,7 +97,6 @@
                             <th>Event</th>
                             <th>Competitor</th>
                             <th>Result</th>
-                            <th>Date</th>
                             @if(auth()->user()->role == 'admin')
                             <th></th>
                             @endif
@@ -106,20 +105,27 @@
                     <tbody>
                         @forelse ($results as $result)
                         <tr class="tr-shadow">
-                            <td>{{$result->event->meeting->shortName}}</td>
-                            <td>{{$result->event->name}}</td>
-                            <td>{{$result->competitor->name ?? ''}}</td>
                             <td>
-                                <div class="row">
-                                    <div class="col-md-6">Position: {{$result->position}}</div>
-                                    <div class="col-md-6">Result: {{$result->result}}</div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">Points: {{$result->points}}</div>
-                                    <div class="col-md-6">Result Value: {{$result->resultValue}}</div>
-                                </div>
+                                {{$result->event->meeting->shortName}} <br>
+                                {{ $result->event->meeting->startDate }}
+                                @if ($result->event->meeting->endDate)
+                                -> {{ $result->event->meeting->endDate }}
+                                @endif
                             </td>
-                            <td>{{$result->created_at}}</td>
+                            <td>{{$result->event->name}}</td>
+                            <td>
+                                @if ($result->competitor)
+                                {{ $result->competitor->name }} <br>
+                                @if ($result->competitor->team)
+                                ({{ $result->competitor->team->name}})
+                                @endif
+                                @endif
+                            </td>
+                            <td>
+                                Position: {{$result->position}} <br>
+                                Result: {{$result->result}} <br>
+                                Points: {{$result->points}}
+                            </td>
                             @if(auth()->user()->role == 'admin')
                             <td>
                                 <div class="table-data-feature">

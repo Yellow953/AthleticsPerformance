@@ -29,7 +29,8 @@
                             <div><span class="text-white">Age Group:</span> {{$meeting->ageGroup->name}}</div>
                             <div><span class="text-white">Type:</span> {{$meeting->type->name}}</div>
                             <div><span class="text-white">Venue:</span> {{$meeting->venue ?? 'NULL'}}</div>
-                            <div><span class="text-white">Country:</span> {{ Helper::get_country_name($meeting->country) }}</div>
+                            <div><span class="text-white">Country:</span> {{ Helper::get_country_name($meeting->country)
+                                }}</div>
                             <div><span class="text-white">Sub Group:</span> {{$meeting->subgroup ?? 'NULL'}}</div>
                         </div>
                     </div>
@@ -44,6 +45,8 @@
                 <div class="events mx-4 my-3">
                     <h3>Events</h3>
 
+                    <div id="error-message" class="alert alert-danger my-4" style="display: none;"></div>
+
                     <table class="events-table mt-3 w-100 mx-2" id="events-table" border="1">
                         <thead>
                             <tr>
@@ -53,7 +56,6 @@
                                 <th>Round</th>
                                 <th>Age Group</th>
                                 <th>Gender</th>
-                                <th>Wind</th>
                                 <th>Note</th>
                                 <th>Distance</th>
                                 <th>IO</th>
@@ -69,7 +71,6 @@
                                 <td>{{$event->round}}</td>
                                 <td>{{$event->ageGroup->name}}</td>
                                 <td>{{$event->gender}}</td>
-                                <td>{{$event->wind}}</td>
                                 <td>{{$event->note}}</td>
                                 <td>{{$event->distance}}</td>
                                 <td>{{$event->io}}</td>
@@ -83,12 +84,13 @@
                                 @csrf
                                 <input type="hidden" name="meetingID" value="{{$meeting->id}}">
                                 <tr>
-                                    <td><input type="text" class="form-control" name="name" placeholder="Name" {{auth()->user()->role != 'admin' ? 'disabled' : ''}}></td>
+                                    <td><input type="text" class="form-control" name="name" placeholder="Name"
+                                            {{auth()->user()->role != 'admin' ? 'disabled' : ''}}></td>
                                     <td>
                                         <select name="typeID" class="form-control" required>
                                             <option value=""></option>
                                             @foreach(Helper::get_event_types() as $event_type)
-                                                <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
+                                            <option value="{{$event_type->ID}}">{{$event_type->name}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -97,7 +99,7 @@
                                         <select name="round" class="form-control" required>
                                             <option value=""></option>
                                             @foreach(Helper::get_rounds() as $round)
-                                                <option value="{{$round->ID}}">{{$round->name}}</option>
+                                            <option value="{{$round->ID}}">{{$round->name}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -105,7 +107,7 @@
                                         <select name="ageGroupID" class="form-control" required>
                                             <option value=""></option>
                                             @foreach(Helper::get_age_groups() as $age_group)
-                                                <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
+                                            <option value="{{$age_group->ID}}">{{$age_group->name}}</option>
                                             @endforeach
                                         </select>
                                     </td>
@@ -113,12 +115,10 @@
                                         <select name="gender" class="form-control" required>
                                             <option value=""></option>
                                             @foreach(Helper::get_genders() as $gender)
-                                                <option value="{{$gender->gender}}">{{$gender->gender}}</option>
+                                            <option value="{{$gender->gender}}">{{$gender->gender}}</option>
                                             @endforeach
                                         </select>
                                     </td>
-                                    <td><input type="number" class="form-control" name="wind" placeholder="Wind"
-                                            step="0.1"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="distance"
                                             placeholder="Distance"></td>
@@ -131,7 +131,7 @@
                                     </td>
                                 </tr>
                                 <tr style="border:none;">
-                                    <td colspan="9"></td>
+                                    <td colspan="8"></td>
                                     <td><button type="submit" class="btn btn-block btn-primary"
                                             id="createEventButton">Create</button></td>
                                 </tr>
@@ -149,9 +149,54 @@
 {{-- Create live event --}}
 <script>
     $(document).ready(function() {
+        function updateEventName() {
+            var distance = parseInt($('[name="distance"]').val()) || 0;
+            var typeID = $('[name="typeID"]').val();
+            var meetingType = '{{ $meeting->type->name ?? '' }}';
+
+            // Deduction logic based on distance, typeID, and meeting type
+            var deducedName = '';
+
+            switch (typeID) {
+                case 'HM':
+                    deducedName = 'Half Marathon';
+                    break;
+                case 'M':
+                    deducedName = 'Marathon';
+                    break;
+                case 'UM':
+                    deducedName = 'Ultra Marathon';
+                    break;
+                // Add more cases as needed
+                default:
+                    // Default logic based on distance
+                    if (distance === 1600) {
+                        deducedName = 'Mile';
+                    } else if (distance === 6400) {
+                        deducedName = '4 Miles';
+                    } else if (distance === 8000) {
+                        deducedName = '5 Miles';
+                    } else if (distance === 16000) {
+                        deducedName = '10 Miles';
+                    } else if (distance % 1000 === 0) {
+                        deducedName = distance / 1000 + 'km';
+                    } else {
+                        deducedName = distance + 'm';
+                    }
+                    break;
+            }
+
+            // Update the value of the event name input field
+            $('[name="name"]').val(deducedName);
+        }
+
+        $('[name="distance"], [name="typeID"], [name="round"], [name="ageGroupID"], [name="gender"], [name="note"], [name="io"]').change(function() {
+            updateEventName();
+        });
+        
         $('#createEventButton').click(function(event) {
-            event.preventDefault(); // Prevent form submission and page reload
-            
+            event.preventDefault();
+
             var formData = new FormData($('#createEventForm')[0]);
             $.ajax({
                 url: '/meetings/event_create',
@@ -160,10 +205,8 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    // Assuming the server responds with the newly created event data in JSON format
                     var newEvent = response.event;
 
-                    // Append the new event to the table
                     var newRow = $('<tr class="clickable-row" onclick="window.location.href = \'/events/' + newEvent.id + '/results\'">');
                     newRow.append('<td>' + newEvent.name + '</td>');
                     newRow.append('<td>' + newEvent.typeID + '</td>');
@@ -171,20 +214,21 @@
                     newRow.append('<td>' + newEvent.round + '</td>');
                     newRow.append('<td>' + newEvent.ageGroupID + '</td>');
                     newRow.append('<td>' + newEvent.gender + '</td>');
-                    newRow.append('<td>' + newEvent.wind  + '</td>');
                     newRow.append('<td>' + newEvent.note + '</td>');
                     newRow.append('<td>' + newEvent.distance +  '</td>');
                     newRow.append('<td>' + newEvent.io + '</td>');
 
-                    // Insert the new row before the form
                     $('#events-table tbody tr:last-child').prev().before(newRow);
 
-
-                    // Clear the form fields
                     $('#createEventForm')[0].reset();
+
+                    $('#error-message').hide();
+
+                    updateEventName();
                 },
                 error: function(error) {
-                    console.log(error);
+                    var errorMessage = error.responseJSON.message;
+                    $('#error-message').text(errorMessage).show();
                 }
             });
         });

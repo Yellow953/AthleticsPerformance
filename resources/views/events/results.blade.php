@@ -14,20 +14,16 @@
                 <div class="meeting-info m-3">
                     <h2>Event</h2>
                     <div class="row mt-3 text-dark">
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div><span class="text-white">Name:</span> {{$event->name ?? 'NULL'}}</div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-3">
                             <div><span class="text-white">Meeting:</span> {{$event->meeting->shortName ?? ''}}</div>
-                            <div><span class="text-white">Age Group:</span> {{$event->ageGroupID}}</div>
-                            <div><span class="text-white">Type:</span> {{$event->typeID}}</div>
-                        </div>
-                        <div class="col-md-2">
-                            <div><span class="text-white">Create Date:</span> {{$event->created_at}}</div>
+                            <div><span class="text-white">Age Group:</span> {{$event->ageGroup->name}}</div>
+                            <div><span class="text-white">Type:</span> {{$event->type->name}}</div>
                         </div>
                         <div class="col-md-3">
                             <div><span class="text-white">Gender:</span> {{$event->gender ?? 'NULL'}}</div>
-                            <div><span class="text-white">Wind:</span> {{$event->wind ?? 'NULL'}}</div>
                             <div><span class="text-white">Note:</span> {{$event->note ?? 'NULL'}}</div>
                             <div><span class="text-white">Extra:</span> {{$event->extra ?? 'NULL'}}</div>
                         </div>
@@ -35,7 +31,6 @@
                             <div><span class="text-white">Round:</span> {{$event->round ?? 'NULL'}}</div>
                             <div><span class="text-white">Distance:</span> {{$event->distance ?? 'NULL'}}</div>
                             <div><span class="text-white">IO:</span> {{$event->io ?? 'NULL'}}</div>
-                            <div><span class="text-white">Heat:</span> {{$event->heat ?? 'NULL'}}</div>
                         </div>
                     </div>
                 </div>
@@ -49,15 +44,14 @@
                 <div class="results m-3" style="overflow:auto;">
                     <h3>Results</h3>
 
+                    <div id="error-message" class="alert alert-danger my-4" style="display: none;"></div>
+
                     <table class="results-table mt-3 w-100 mx-2" id="results-table" border="1">
                         <thead>
                             <tr>
                                 <th>Competitor</th>
                                 <th>Position</th>
                                 <th>Result</th>
-                                <th>Points</th>
-                                <th>Result Value</th>
-                                <th>Record Status</th>
                                 <th>Wind</th>
                                 <th>Note</th>
                                 <th>Heat</th>
@@ -68,20 +62,26 @@
                         </thead>
                         <tbody>
                             @forelse ($results as $result)
-                            <tr class="clickable-row" onclick="window.location.href = '/results/' + {{$result->id}} + '/edit'">
-                                <td>{{$result->competitor->name ?? ''}}</td>
+                            <tr class="clickable-row"
+                                onclick="window.location.href = '/results/' + {{$result->id}} + '/edit'">
+                                <td>
+                                    @if ($result->competitor)
+                                    {{ $result->competitor->name }}
+                                    @if ($result->competitor->team)
+                                    {{ $result->competitor->team->name }}
+                                    @endif
+                                    @endif
+                                </td>
                                 <td>{{$result->position}}</td>
                                 <td>{{$result->result}}</td>
-                                <td>{{$result->points}}</td>
-                                <td>{{$result->resultValue}}</td>
-                                <td>{{$result->recordStatus}}</td>
                                 <td>{{$result->wind}}</td>
                                 <td>{{$result->note}}</td>
                                 <td>{{$result->heat}}</td>
                                 <td>{{ $result->isHand != 0 ? 'true' : 'false' }}</td>
                                 <td>{{ $result->isActive != 0 ? 'true' : 'false' }}</td>
                                 <td class="my-auto text-center">
-                                    <a href="/results/{{$result->id}}/new_record" class="btn btn-primary py-1 px-2">+</a>
+                                    <a href="/results/{{$result->id}}/new_record"
+                                        class="btn btn-primary py-1 px-2">+</a>
                                 </td>
                             </tr>
                             @empty
@@ -120,12 +120,6 @@
                                     </td>
                                     <td><input type="number" class="form-control" name="result" placeholder="Result">
                                     </td>
-                                    <td><input type="number" class="form-control" name="points" placeholder="Points">
-                                    </td>
-                                    <td><input type="number" class="form-control" name="resultValue"
-                                            placeholder="Result Value" required></td>
-                                    <td><input type="text" class="form-control" name="recordStatus"
-                                            placeholder="Record Status"></td>
                                     <td><input type="number" class="form-control" name="wind" placeholder="Wind"
                                             step="0.1"></td>
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
@@ -219,9 +213,6 @@
                     newRow.append('<td>' + newResult.competitorID + '</td>');
                     newRow.append('<td>' + newResult.position + '</td>');
                     newRow.append('<td>' + newResult.result + '</td>');
-                    newRow.append('<td>' + newResult.points + '</td>');
-                    newRow.append('<td>' + newResult.resultValue + '</td>');
-                    newRow.append('<td>' + newResult.recordStatus + '</td>');
                     newRow.append('<td>' + newResult.wind  + '</td>');
                     newRow.append('<td>' + newResult.note + '</td>');
                     newRow.append('<td>' + newResult.heat +  '</td>');
@@ -232,9 +223,12 @@
                     $('#results-table tbody tr:last-child').prev().before(newRow);
 
                     $('#createResultForm')[0].reset();
+
+                    $('#error-message').hide();
                 },
                 error: function(error) {
-                    console.log(error);
+                    var errorMessage = error.responseJSON.message;
+                    $('#error-message').text(errorMessage).show();
                 }
             });
         });

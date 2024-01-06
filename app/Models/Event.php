@@ -28,6 +28,11 @@ class Event extends Model
         return $this->belongsTo(AgeGroupSecond::class, 'ageGroupID', 'ID');
     }
 
+    public function results()
+    {
+        return $this->hasMany(Result::class, 'eventID');
+    }
+
     // Filter
     public function scopeFilter($q)
     {

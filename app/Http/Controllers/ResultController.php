@@ -49,9 +49,9 @@ class ResultController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'competitor_id' => 'required',
+            'position' => 'required',
+            'result' => 'required',
         ]);
 
         $data = $request->except('isHand', 'isActive');
@@ -83,9 +83,9 @@ class ResultController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'competitor_id' => 'required',
+            'position' => 'required',
+            'result' => 'required',
         ]);
 
         $result = Result::findOrFail($id);
@@ -218,7 +218,7 @@ class ResultController extends Controller
 
         $event = $this->uploadEvent($result->eventID);
         $competitor = $this->uploadCompetitor($result->competitorID);
-        
+
         ResultSecond::updateOrInsert(
             ['ID' => $result->id],
             [
@@ -260,7 +260,7 @@ class ResultController extends Controller
         foreach ($results as $result) {
             $event = $this->uploadEvent($result->eventID);
             $competitor = $this->uploadCompetitor($result->competitorID);
-            
+
             ResultSecond::updateOrInsert(
                 ['ID' => $result->id],
                 [

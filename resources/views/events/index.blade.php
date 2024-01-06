@@ -133,7 +133,6 @@
                             <th>Name</th>
                             <th>Meeting</th>
                             <th>Details</th>
-                            <th>Date</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -142,14 +141,18 @@
                         <tr class="tr-shadow">
                             <td>{{ucwords($event->name)}}</td>
                             <td>
-                                <span class="block-email">{{ucwords($event->meeting->shortName ?? '')}}</span>
+                                <span class="block-email">{{ucwords($event->meeting->shortName ?? '')}}</span> <br>
+
+                                {{ $event->meeting->startDate }}
+                                @if ($event->meeting->endDate)
+                                -> {{ $event->meeting->endDate }}
+                                @endif
                             </td>
                             <td>
-                                Distance: {{$event->distance}} <br>
                                 AgeGroup: {{$event->ageGroup->name}} <br>
-                                Type: {{$event->type->name}}
+                                Type: {{$event->type->name}} <br>
+                                Gender: {{ $event->gender }}
                             </td>
-                            <td>{{$event->created_at}}</td>
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"

@@ -12,9 +12,11 @@
 
     <title>{{ config('app.name', 'Athletics Performance') }}</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.png')}}">
+
     <!-- Fontfaces CSS-->
     <link href="{{asset('assets/css/font-face.css')}}" rel="stylesheet" media="all">
-    <link href="{{asset('assets/vendor/font-awesome-4.7/css/font-awesome.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('assets/vendor/font-awesome-5/css/fontawesome-all.min.css')}}" rel="stylesheet" media="all">
     <link href="{{asset('assets/vendor/mdi-font/css/material-design-iconic-font.min.css')}}" rel="stylesheet"
         media="all">
@@ -34,9 +36,6 @@
 
     <!-- Main CSS -->
     <link href="{{asset('assets/css/theme.css')}}" rel="stylesheet" media="all">
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.ico')}}">
 
     <!-- Custom Css -->
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">

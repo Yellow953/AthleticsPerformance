@@ -408,9 +408,9 @@ class EventController extends Controller
     public function result_create(Request $request)
     {
         $request->validate([
-            // 'title' => 'required|max:255',
-            // 'date' => 'required|date',
-            // 'location' => 'required|max:255',
+            'competitor_id' => 'required',
+            'position' => 'required',
+            'result' => 'required',
         ]);
 
         $data = $request->except('isHand', 'isActive');
