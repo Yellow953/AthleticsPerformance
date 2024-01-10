@@ -139,7 +139,7 @@
                     <tbody>
                         @forelse ($events as $event)
                         <tr class="tr-shadow">
-                            <td>{{ucwords($event->name)}}</td>
+                            <td>{{ucwords($event->name)}} {{$event->type->name}}</td>
                             <td>
                                 <span class="block-email">{{ucwords($event->meeting->shortName ?? '')}}</span> <br>
 
@@ -150,7 +150,6 @@
                             </td>
                             <td>
                                 AgeGroup: {{$event->ageGroup->name}} <br>
-                                Type: {{$event->type->name}} <br>
                                 Gender: {{ $event->gender }}
                             </td>
                             <td>
@@ -164,7 +163,6 @@
                                                 d="M1 11a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3zm5-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm5-5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-2a1 1 0 0 1-1-1V2z" />
                                         </svg>
                                     </a>
-
                                     @if(auth()->user()->role == 'admin')
                                     @if (!$event->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
@@ -183,7 +181,6 @@
                                         </svg>
                                     </a>
                                     @endif
-
                                     <a class="item bg-warning" href="/events/{{$event->id}}/edit" data-toggle="tooltip"
                                         data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
@@ -202,11 +199,11 @@
                         <tr class="spacer"></tr>
                         @empty
                         <tr>
-                            <td colspan="5">No Event Found ...</td>
+                            <td colspan="4">No Event Found ...</td>
                         </tr>
                         @endforelse
                         <tr>
-                            <td colspan="5">{{$events->appends(['search' => request()->query('search')])->links()}}</td>
+                            <td colspan="4">{{$events->appends(['search' => request()->query('search')])->links()}}</td>
                         </tr>
                     </tbody>
                 </table>

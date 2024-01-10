@@ -149,49 +149,82 @@
 {{-- Create live event --}}
 <script>
     $(document).ready(function() {
-        function updateEventName() {
+        function updateEventData() {
             var distance = parseInt($('[name="distance"]').val()) || 0;
             var typeID = $('[name="typeID"]').val();
-            var meetingType = '{{ $meeting->type->name ?? '' }}';
 
-            // Deduction logic based on distance, typeID, and meeting type
-            var deducedName = '';
+            var deducedName = null;
+            var deducedDistance = 0;
 
             switch (typeID) {
                 case 'HM':
-                    deducedName = 'Half Marathon';
+                    deducedName = null;
+                    deducedDistance = 21000;
                     break;
                 case 'M':
-                    deducedName = 'Marathon';
+                    deducedName = null;
+                    deducedDistance = 42000;
                     break;
                 case 'UM':
-                    deducedName = 'Ultra Marathon';
+                    deducedName = null;
+                    deducedDistance = 100000;
                     break;
-                // Add more cases as needed
+                case '03':
+                case '04':
+                case '05':
+                case '07':
+                case '08':
+                case '10':
+                case '1H':
+                case 'BT':
+                case 'DT':
+                case 'HJ':
+                case 'HT':
+                case 'JT':
+                case 'LJ':
+                case 'PV':
+                case 'SP':
+                case 'TJ':
+                case 'WT':
+                case 'YB':
+                    deducedName = null;
+                    break;
+                case '4R':
+                    deducedName = '4x' + distance / 4 + 'm';
+                    break;
                 default:
-                    // Default logic based on distance
                     if (distance === 1600) {
                         deducedName = 'Mile';
+                        deducedDistance = 1600;
                     } else if (distance === 6400) {
                         deducedName = '4 Miles';
+                        deducedDistance = 6400;
                     } else if (distance === 8000) {
                         deducedName = '5 Miles';
+                        deducedDistance = 8000;
                     } else if (distance === 16000) {
                         deducedName = '10 Miles';
+                        deducedDistance = 16000;
                     } else if (distance % 1000 === 0) {
                         deducedName = distance / 1000 + 'km';
+                        deducedDistance = distance;
                     } else {
                         deducedName = distance + 'm';
+                        deducedDistance = distance;
                     }
                     break;
             }
 
-            // Update the value of the event name input field
-            $('[name="name"]').val(deducedName);
+            if (deducedName !== null) {
+                $('[name="name"]').val(deducedName);
+            }
+            if (deducedDistance !== null) {
+                $('[name="distance"]').val(deducedDistance);
+            }
         }
 
-        $('[name="distance"], [name="typeID"], [name="round"], [name="ageGroupID"], [name="gender"], [name="note"], [name="io"]').change(function() {
-            updateEventName();
+        $('[name="distance"], [name="typeID"], [name="round"], [name="ageGroupID"], [name="gender"], [name="note"], [name="io"]').change(function () {
+            updateEventData();
         });
         
         $('#createEventButton').click(function(event) {
@@ -224,7 +257,7 @@
 
                     $('#error-message').hide();
 
-                    updateEventName();
+                    updateEventData();
                 },
                 error: function(error) {
                     var errorMessage = error.responseJSON.message;

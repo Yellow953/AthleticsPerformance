@@ -170,4 +170,87 @@ $has_results = $event->results->count() > 0;
     </div>
 </div>
 
+{{-- Update live fields --}}
+<script>
+    $(document).ready(function() {
+        function updateEventData() {
+            var distance = parseInt($('#distance').val()) || 0;
+            var typeID = $('#typeID').val();
+
+            var deducedName = null;
+            var deducedDistance = 0;
+
+            switch (typeID) {
+                case 'HM':
+                    deducedName = null;
+                    deducedDistance = 21000;
+                    break;
+                case 'M':
+                    deducedName = null;
+                    deducedDistance = 42000;
+                    break;
+                case 'UM':
+                    deducedName = null;
+                    deducedDistance = 100000;
+                    break;
+                    case '03':
+                case '04':
+                case '05':
+                case '07':
+                case '08':
+                case '10':
+                case '1H':
+                case 'BT':
+                case 'DT':
+                case 'HJ':
+                case 'HT':
+                case 'JT':
+                case 'LJ':
+                case 'PV':
+                case 'SP':
+                case 'TJ':
+                case 'WT':
+                case 'YB':
+                    deducedName = null;
+                    break;
+                case '4R':
+                    deducedName = '4x' + distance / 4 + 'm';
+                    break;
+                default:
+                    if (distance === 1600) {
+                        deducedName = 'Mile';
+                        deducedDistance = 1600;
+                    } else if (distance === 6400) {
+                        deducedName = '4 Miles';
+                        deducedDistance = 6400;
+                    } else if (distance === 8000) {
+                        deducedName = '5 Miles';
+                        deducedDistance = 8000;
+                    } else if (distance === 16000) {
+                        deducedName = '10 Miles';
+                        deducedDistance = 16000;
+                    } else if (distance % 1000 === 0) {
+                        deducedName = distance / 1000 + 'km';
+                        deducedDistance = distance;
+                    } else {
+                        deducedName = distance + 'm';
+                        deducedDistance = distance;
+                    }
+                    break;
+            }
+
+            if (deducedName !== null) {
+                $('#name').val(deducedName);
+            }
+            if (deducedDistance !== null) {
+                $('#distance').val(deducedDistance);
+            }
+        }
+
+        $('#distance, #typeID, #round, #ageGroupID, #gender, #note, #io').change(function () {
+            updateEventData();
+        });
+    });
+</script>
+
 @endsection
