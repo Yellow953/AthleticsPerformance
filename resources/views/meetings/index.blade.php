@@ -2,6 +2,10 @@
 
 @section('content')
 
+@php
+$meeting_types = Helper::get_meeting_types();
+@endphp
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -51,10 +55,30 @@
                                         <div class="account-dropdown__body">
                                             <div class="container">
                                                 <form action="/meetings" method="GET" enctype="multipart/form-data">
-                                                    <div class="form-group">
-                                                        <label>Name</label>
-                                                        <input type="text" name="name" class="form-control"
-                                                            placeholder="Name..." value="{{request()->query('name')}}">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label>Name</label>
+                                                                <input type="text" name="name" class="form-control"
+                                                                    placeholder="Name..."
+                                                                    value="{{request()->query('name')}}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label>I/O</label>
+                                                                    <select name="io" class="form-control">
+                                                                        <option value=""></option>
+                                                                        @foreach (Helper::get_ios() as $io)
+                                                                        <option value="{{$io->io}}" {{request()->
+                                                                            query('io') == $io->io ? 'selected' :
+                                                                            ''}}>{{$io->io}}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-md-6">
@@ -98,7 +122,7 @@
                                                                 <label>Meeting Type</label>
                                                                 <select name="typeID" class="form-control">
                                                                     <option value=""></option>
-                                                                    @foreach (Helper::get_meeting_types() as $meeting_type)
+                                                                    @foreach ($meeting_types as $meeting_type)
                                                                     <option value="{{$meeting_type->ID}}" {{request()->
                                                                         query('typeID') == $meeting_type->ID ?
                                                                         'selected' : ''}}>{{$meeting_type->name}}
@@ -173,11 +197,14 @@
                                 @endif
                             </td>
                             <td class="text-sm">
-                                <small>AgeGroup: {{$meeting->ageGroup->name}} <br>
+                                <small>
+                                    AgeGroup: {{$meeting->ageGroup->name}} <br>
                                     Type: {{$meeting->type->name}} <br>
                                     Venue: {{$meeting->venue}} <br>
                                     Country: {{ Helper::get_country_name($meeting->country) }} <br>
-                                    SubGroup: {{$meeting->subgroup}} <br></small>
+                                    SubGroup: {{$meeting->subgroup}} <br>
+                                    I/O: {{ $meeting->io }} <br>
+                                </small>
                             </td>
                             <td>
                                 <div class="table-data-feature">

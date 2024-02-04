@@ -26,7 +26,23 @@
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
                                         <option value=""></option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID') == $age_group->ID ? 'selected' : '' }}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID')==$age_group->ID ?
+                                            'selected' : '' }}>{{$age_group->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="io" class=" form-control-label">I/O</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="io" id="io" class="form-control">
+                                        @foreach ($ios as $io)
+                                        <option value="{{$io->ID}}" {{ old('io')==$io->io ?
+                                            'selected' : '' }}>{{$io->io}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -101,7 +117,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="country" id="country" class="form-control" required>
                                         @foreach (Helper::Countries() as $key => $country)
-                                        <option value="{{$key}}" {{$country == "Lebanon" ? "selected" : ""}}>{{$country}}</option>
+                                        <option value="{{$key}}" {{$country=="Lebanon" ? "selected" : "" }}>{{$country}}
+                                        </option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -117,7 +134,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
                                         @foreach ($meeting_types as $meeting_type)
-                                        <option value="{{$meeting_type->ID}}" {{ old('typeID') == $meeting_type->ID ? 'selected' : '' }}>{{$meeting_type->name}}</option>
+                                        <option value="{{$meeting_type->ID}}" {{ old('typeID')==$meeting_type->ID ?
+                                            'selected' : '' }}>{{$meeting_type->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -142,7 +160,8 @@
                                     <label for="picture" class=" form-control-label">Picture1</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="file" id="picture" name="picture" class="form-control-file" value="{{old('picture')}}">
+                                    <input type="file" id="picture" name="picture" class="form-control-file"
+                                        value="{{old('picture')}}">
                                 </div>
                             </div>
                         </div>
@@ -152,7 +171,8 @@
                                     <label for="picture2" class=" form-control-label">Picture2</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="file" id="picture2" name="picture2" class="form-control-file" value="{{old('picture2')}}">
+                                    <input type="file" id="picture2" name="picture2" class="form-control-file"
+                                        value="{{old('picture2')}}">
                                 </div>
                             </div>
                         </div>
@@ -161,14 +181,16 @@
                         <div class="col-6">
                             <div class="checkbox">
                                 <label for="isActive" class="form-check-label ">
-                                    <input type="checkbox" id="isActive" name="isActive" class="form-check-input" {{old('isActive') ? 'checked' : ''}}>Active
+                                    <input type="checkbox" id="isActive" name="isActive" class="form-check-input"
+                                        {{old('isActive') ? 'checked' : '' }}>Active
                                 </label>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="checkbox">
                                 <label for="isNew" class="form-check-label ">
-                                    <input type="checkbox" id="isNew" name="isNew" class="form-check-input" {{old('isNew') ? 'checked' : ''}}>Is New
+                                    <input type="checkbox" id="isNew" name="isNew" class="form-check-input"
+                                        {{old('isNew') ? 'checked' : '' }}>Is New
                                 </label>
                             </div>
                         </div>

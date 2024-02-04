@@ -47,6 +47,10 @@ class Meeting extends Model
             $typeID = request('typeID');
             $q->where('typeID', $typeID);
         }
+        if (request('io')) {
+            $io = request('io');
+            $q->where('io', $io);
+        }
         if (request('startDate') || request('endDate')) {
             $startDate = request()->query('startDate') ?? Carbon::today();
             $endDate = request()->query('endDate') ?? Carbon::today()->addYears(100);

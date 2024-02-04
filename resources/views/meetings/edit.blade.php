@@ -33,6 +33,21 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="row form-group">
+                                <div class="col col-md-3">
+                                    <label for="io" class=" form-control-label">I/O</label>
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <select name="io" id="io" class="form-control">
+                                        @foreach ($ios as $io)
+                                        <option value="{{$io->ID}}" {{ $meeting->io==$io->io ?
+                                            'selected' : '' }}>{{$io->io}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">

@@ -32,6 +32,7 @@
                             <div><span class="text-white">Country:</span> {{ Helper::get_country_name($meeting->country)
                                 }}</div>
                             <div><span class="text-white">Sub Group:</span> {{$meeting->subgroup ?? 'NULL'}}</div>
+                            <div><span class="text-white">I/O:</span> {{$meeting->io }}</div>
                         </div>
                     </div>
                 </div>

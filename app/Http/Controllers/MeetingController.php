@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AgeGroupSecond;
 use App\Models\Event;
 use App\Models\EventSecond;
+use App\Models\IOSecond;
 use App\Models\MeetingSecond;
 use App\Models\Meeting;
 use App\Models\MeetingTypeSecond;
@@ -33,8 +34,9 @@ class MeetingController extends Controller
     {
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $meeting_types = MeetingTypeSecond::select('ID', 'name')->get();
+        $ios = IOSecond::select('io')->get();
 
-        $data = compact('age_groups', 'meeting_types');
+        $data = compact('age_groups', 'meeting_types', 'ios');
         return view('meetings.new', $data);
     }
 
@@ -88,12 +90,13 @@ class MeetingController extends Controller
         $meeting = Meeting::findOrFail($id);
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $meeting_types = MeetingTypeSecond::select('ID', 'name')->get();
+        $ios = IOSecond::select('io')->get();
 
         if (!$meeting) {
             return redirect('/meetings')->with('danger', 'Meeting not found!');
         }
 
-        $data = compact('age_groups', 'meeting_types', 'meeting');
+        $data = compact('age_groups', 'meeting_types', 'meeting', 'ios');
         return view('meetings.edit', $data);
     }
 
@@ -170,7 +173,7 @@ class MeetingController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray(['ID', 'ID Second', 'Age Group', 'Name', 'Short Name', 'Start Date', 'End Date', 'Venue', 'Country', 'Type ID', 'Sub Group', 'Picture', 'Picture2', 'isActive', 'isNew', 'Created At'], null, 'A1');
+        $sheet->fromArray(['ID', 'ID Second', 'Age Group', 'Name', 'Short Name', 'Start Date', 'End Date', 'Venue', 'Country', 'Type ID', 'Sub Group', 'Picture', 'Picture2', 'isActive', 'isNew', 'IO', 'Created At'], null, 'A1');
 
         $rows = 2;
 
@@ -191,6 +194,7 @@ class MeetingController extends Controller
                 $d->picture2,
                 $d->isActive,
                 $d->isNew,
+                $d->io,
                 $d->created_at ?? Carbon::now(),
             ], null, 'A' . $rows);
 
@@ -243,7 +247,8 @@ class MeetingController extends Controller
                     'picture' => $meeting->picture,
                     'isActive' => $meeting->isActive,
                     'isNew' => $meeting->isNew,
-                    'createDate' => $meeting->created_at
+                    'createDate' => $meeting->created_at,
+                    'io' => $meeting->io,
                 ]
             );
 
@@ -306,7 +311,8 @@ class MeetingController extends Controller
                 'picture' => $meeting->picture,
                 'isActive' => $meeting->isActive,
                 'isNew' => $meeting->isNew,
-                'createDate' => $meeting->created_at
+                'createDate' => $meeting->created_at,
+                'io' => $meeting->io,
             ]
         );
 

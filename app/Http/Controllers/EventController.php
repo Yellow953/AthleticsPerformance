@@ -299,7 +299,8 @@ class EventController extends Controller
                         'picture' => $meeting->picture,
                         'isActive' => $meeting->isActive,
                         'isNew' => $meeting->isNew,
-                        'createDate' => $meeting->created_at
+                        'createDate' => $meeting->created_at,
+                        'io' => $meeting->io,
                     ]
                 );
 
@@ -363,7 +364,8 @@ class EventController extends Controller
                     'picture' => $meeting->picture,
                     'isActive' => $meeting->isActive,
                     'isNew' => $meeting->isNew,
-                    'createDate' => $meeting->created_at
+                    'createDate' => $meeting->created_at,
+                    'io' => $meeting->io,
                 ]
             );
 

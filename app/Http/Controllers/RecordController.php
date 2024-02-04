@@ -195,7 +195,7 @@ class RecordController extends Controller
     public function upload($id)
     {
         $record = Record::findOrFail($id);
-        
+
         if (!$record || $record->uploaded) {
             return redirect()->back()->with('warning', 'Record already uploaded!');
         }
@@ -205,8 +205,8 @@ class RecordController extends Controller
         $athlete = $this->uploadAthlete($record->athleteID);
         $result = $this->uploadResult($record->resultID);
         if ($result) {
-            $event = $this->uploadEvent($result->eventID);            
-            if($event){
+            $event = $this->uploadEvent($result->eventID);
+            if ($event) {
                 $meeting = $this->uploadMeeting($event->meetingID);
             }
         }
@@ -260,8 +260,8 @@ class RecordController extends Controller
             $athlete = $this->uploadAthlete($record->athleteID);
             $result = $this->uploadResult($record->resultID);
             if ($result) {
-                $event = $this->uploadEvent($result->eventID);            
-                if($event){
+                $event = $this->uploadEvent($result->eventID);
+                if ($event) {
                     $meeting = $this->uploadMeeting($event->meetingID);
                 }
             }
@@ -424,7 +424,8 @@ class RecordController extends Controller
                 'picture' => $meeting->picture,
                 'isActive' => $meeting->isActive,
                 'isNew' => $meeting->isNew,
-                'createDate' => $meeting->created_at
+                'createDate' => $meeting->created_at,
+                'io' => $meeting->io,
             ]
         );
 
