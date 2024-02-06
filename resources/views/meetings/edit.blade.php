@@ -41,7 +41,7 @@
                                 <div class="col-12 col-md-9">
                                     <select name="io" id="io" class="form-control">
                                         @foreach ($ios as $io)
-                                        <option value="{{$io->ID}}" {{ $meeting->io==$io->io ?
+                                        <option value="{{$io->io}}" {{ $meeting->io==$io->io ?
                                             'selected' : '' }}>{{$io->io}}</option>
                                         @endforeach
                                     </select>

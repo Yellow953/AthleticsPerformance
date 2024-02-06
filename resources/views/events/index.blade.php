@@ -103,7 +103,7 @@
                                                                 <select name="io" class="form-control">
                                                                     <option value=""></option>
                                                                     @foreach (Helper::get_ios() as $io)
-                                                                    <option value="{{$io->ID}}" {{request()->query('io')
+                                                                    <option value="{{$io->io}}" {{request()->query('io')
                                                                         == $io->io ? 'selected' : ''}}>{{$io->io}}
                                                                     </option>
                                                                     @endforeach
