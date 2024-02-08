@@ -390,7 +390,6 @@ class RecordController extends Controller
                 'wind' => $event->wind,
                 'note' => $event->note,
                 'distance' => $event->distance,
-                'io' => $event->io,
                 'heat' => $event->heat,
                 'createDate' => $event->created_at
             ]

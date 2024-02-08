@@ -48,10 +48,6 @@ class Event extends Model
             $ageGroupID = request('ageGroupID');
             $q->where('ageGroupID', $ageGroupID);
         }
-        if (request('io')) {
-            $io = request('io');
-            $q->where('io', $io);
-        }
         if (request('typeID')) {
             $typeID = request('typeID');
             $q->where('typeID', $typeID);

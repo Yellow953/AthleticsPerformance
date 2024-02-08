@@ -147,7 +147,7 @@ class ResultController extends Controller
             'extra' => $event->extra,
             'gender' => $event->gender,
             'distance' => $event->distance,
-            'io' => $event->io,
+            'io' => $meeting->io,
 
             'venue' => $meeting->venue,
 
@@ -321,7 +321,6 @@ class ResultController extends Controller
                 'wind' => $event->wind,
                 'note' => $event->note,
                 'distance' => $event->distance,
-                'io' => $event->io,
                 'heat' => $event->heat,
                 'createDate' => $event->created_at
             ]

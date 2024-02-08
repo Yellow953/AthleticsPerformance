@@ -55,7 +55,6 @@ class EventController extends Controller
             'ageGroupID' => 'required',
             'round' => 'required',
             'gender' => 'required',
-            'io' => 'required',
         ]);
 
         $data = $request->except('extra');
@@ -143,7 +142,6 @@ class EventController extends Controller
             'ageGroupID' => 'required',
             'round' => 'required',
             'gender' => 'required',
-            'io' => 'required',
         ]);
 
         $event = Event::findOrFail($id);
@@ -224,7 +222,7 @@ class EventController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        $sheet->fromArray(['ID', 'Name', 'Type ID', 'Extra', 'Round', 'Age Group', 'Gender', 'Meeting ID', 'Wind', 'Note', 'distance', 'io', 'heat', 'Created At'], null, 'A1');
+        $sheet->fromArray(['ID', 'Name', 'Type ID', 'Extra', 'Round', 'Age Group', 'Gender', 'Meeting ID', 'Wind', 'Note', 'distance', 'heat', 'Created At'], null, 'A1');
 
         $rows = 2;
 
@@ -241,7 +239,6 @@ class EventController extends Controller
                 $d->wind,
                 $d->note,
                 $d->distance,
-                $d->io,
                 $d->heat,
                 $d->created_at ?? Carbon::now(),
             ], null, 'A' . $rows);
@@ -321,7 +318,6 @@ class EventController extends Controller
                     'wind' => $event->wind,
                     'note' => $event->note,
                     'distance' => $event->distance,
-                    'io' => $event->io,
                     'heat' => $event->heat,
                     'createDate' => $event->created_at
                 ]
@@ -386,7 +382,6 @@ class EventController extends Controller
                 'wind' => $event->wind,
                 'note' => $event->note,
                 'distance' => $event->distance,
-                'io' => $event->io,
                 'heat' => $event->heat,
                 'createDate' => $event->created_at
             ]
@@ -410,7 +405,7 @@ class EventController extends Controller
     public function result_create(Request $request)
     {
         $request->validate([
-            'competitor_id' => 'required',
+            'competitorID' => 'required',
             'position' => 'required',
             'result' => 'required',
         ]);

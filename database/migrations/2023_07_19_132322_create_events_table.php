@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     public function up(): void
     {
         Schema::connection('mysql')->create('events', function (Blueprint $table) {
@@ -21,7 +22,6 @@ return new class extends Migration {
             $table->text('note')->nullable();
             $table->integer('distance')->nullable()->index();
             $table->unsignedInteger('masterMultiEventID')->nullable();
-            $table->char('io', 1)->default('O')->index();
             $table->smallInteger('heat')->unsigned()->nullable();
 
             $table->boolean('uploaded')->default(false);

@@ -268,7 +268,6 @@ class MeetingController extends Controller
                         'wind' => $event->wind,
                         'note' => $event->note,
                         'distance' => $event->distance,
-                        'io' => $event->io,
                         'heat' => $event->heat,
                         'createDate' => $event->created_at
                     ]
@@ -332,7 +331,6 @@ class MeetingController extends Controller
                     'wind' => $event->wind,
                     'note' => $event->note,
                     'distance' => $event->distance,
-                    'io' => $event->io,
                     'heat' => $event->heat,
                     'createDate' => $event->created_at
                 ]
@@ -354,7 +352,6 @@ class MeetingController extends Controller
             'ageGroupID' => 'required',
             'round' => 'required',
             'gender' => 'required',
-            'io' => 'required',
         ]);
 
         $data = $request->except('extra');

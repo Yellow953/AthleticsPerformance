@@ -30,7 +30,6 @@
                         <div class="col-md-3">
                             <div><span class="text-white">Round:</span> {{$event->round ?? 'NULL'}}</div>
                             <div><span class="text-white">Distance:</span> {{$event->distance ?? 'NULL'}}</div>
-                            <div><span class="text-white">IO:</span> {{$event->io ?? 'NULL'}}</div>
                         </div>
                     </div>
                 </div>

@@ -84,7 +84,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="row">
-                                                        <div class="col-md-6">
+                                                        <div class="col-md-12">
                                                             <div class="form-group">
                                                                 <label>Event Type</label>
                                                                 <select name="typeID" class="form-control">
@@ -93,19 +93,6 @@
                                                                     <option value="{{$event_type->ID}}" {{request()->
                                                                         query('typeID') == $event_type->ID ? 'selected'
                                                                         : ''}}>{{$event_type->name}}</option>
-                                                                    @endforeach
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group">
-                                                                <label>I/O</label>
-                                                                <select name="io" class="form-control">
-                                                                    <option value=""></option>
-                                                                    @foreach (Helper::get_ios() as $io)
-                                                                    <option value="{{$io->io}}" {{request()->query('io')
-                                                                        == $io->io ? 'selected' : ''}}>{{$io->io}}
-                                                                    </option>
                                                                     @endforeach
                                                                 </select>
                                                             </div>

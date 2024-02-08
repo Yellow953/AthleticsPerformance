@@ -59,7 +59,6 @@
                                 <th>Gender</th>
                                 <th>Note</th>
                                 <th>Distance</th>
-                                <th>IO</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -74,7 +73,6 @@
                                 <td>{{$event->gender}}</td>
                                 <td>{{$event->note}}</td>
                                 <td>{{$event->distance}}</td>
-                                <td>{{$event->io}}</td>
                             </tr>
                             @empty
                             <tr>
@@ -123,16 +121,9 @@
                                     <td><input type="text" class="form-control" name="note" placeholder="Note"></td>
                                     <td><input type="number" class="form-control" name="distance"
                                             placeholder="Distance"></td>
-                                    <td>
-                                        <select name="io" class="form-control" required>
-                                            <option value=""></option>
-                                            <option value="I">I</option>
-                                            <option value="O">O</option>
-                                        </select>
-                                    </td>
                                 </tr>
                                 <tr style="border:none;">
-                                    <td colspan="8"></td>
+                                    <td colspan="7"></td>
                                     <td><button type="submit" class="btn btn-block btn-primary"
                                             id="createEventButton">Create</button></td>
                                 </tr>
@@ -250,7 +241,6 @@
                     newRow.append('<td>' + newEvent.gender + '</td>');
                     newRow.append('<td>' + newEvent.note + '</td>');
                     newRow.append('<td>' + newEvent.distance +  '</td>');
-                    newRow.append('<td>' + newEvent.io + '</td>');
 
                     $('#events-table tbody tr:last-child').prev().before(newRow);
 

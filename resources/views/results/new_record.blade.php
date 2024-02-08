@@ -26,7 +26,6 @@
                             Extra: {{$event->extra}} <br>
                             Gender: {{$event->gender}} <br>
                             Distance: {{$event->distance}} <br>
-                            IO: {{$event->io}} <br>
                         </div>
                         <div class="col-md-4">
                             Competitor: {{$competitor->name ?? ''}} <br>
@@ -55,7 +54,8 @@
                                     <label for="date" class=" form-control-label">Actual Date *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="date" id="date" name="date" class="form-control" value="{{$meeting->startDate ?? ''}}" required>
+                                    <input type="date" id="date" name="date" class="form-control"
+                                        value="{{$meeting->startDate ?? ''}}" required>
                                 </div>
                             </div>
                         </div>
@@ -65,7 +65,8 @@
                                     <label for="date2" class=" form-control-label">Display Date *</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="date2" name="date2" class="form-control" value="{{$meeting->startDate ?? ''}}" required>
+                                    <input type="text" id="date2" name="date2" class="form-control"
+                                        value="{{$meeting->startDate ?? ''}}" required>
                                 </div>
                             </div>
                         </div>
