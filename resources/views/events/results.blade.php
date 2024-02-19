@@ -117,7 +117,7 @@
                                     <td><input type="number" class="form-control" name="position"
                                             placeholder="Position">
                                     </td>
-                                    <td><input type="number" class="form-control" name="result" placeholder="Result">
+                                    <td><input type="text" class="form-control" name="result" placeholder="Result">
                                     </td>
                                     <td><input type="number" class="form-control" name="wind" placeholder="Wind"
                                             step="0.1"></td>

@@ -215,7 +215,7 @@
             }
         }
 
-        $('[name="distance"], [name="typeID"], [name="round"], [name="ageGroupID"], [name="gender"], [name="note"], [name="io"]').change(function () {
+        $('[name="distance"], [name="typeID"], [name="round"], [name="ageGroupID"], [name="gender"], [name="note"]').change(function () {
             updateEventData();
         });
         

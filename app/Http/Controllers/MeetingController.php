@@ -396,7 +396,7 @@ class MeetingController extends Controller
                     $data['name'] = '5 Miles';
                 } elseif ($data['distance'] == 16000) {
                     $data['name'] = '10 Miles';
-                } elseif ($data['io'] == 'R') {
+                } elseif ($data['typeID'] == 'R') {
                     $data['name'] = $data['distance'] / 1000 . 'km';
                 } else {
                     $data['name'] = $data['distance'] . 'm';

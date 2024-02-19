@@ -67,7 +67,7 @@
                                     <label for="result" class=" form-control-label">Result</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="result" name="result" step="0.01" class="form-control"
+                                    <input type="text" id="result" name="result" class="form-control"
                                         value="{{$result->result}}">
                                 </div>
                             </div>
