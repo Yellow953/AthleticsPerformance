@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/users" class="mb-3">
+    <a href="{{ route('users') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,7 @@
                 <strong>Update User</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/users/{{$user->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="{{ route('users.update', $user->id) }}" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row form-group">
@@ -68,7 +68,8 @@
                             <label for="new_password" class=" form-control-label">New Password *</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="password" id="new_password" name="new_password" placeholder="New Password" class="form-control">
+                            <input type="password" id="new_password" name="new_password" placeholder="New Password"
+                                class="form-control">
                         </div>
                     </div>
                     <div class="row form-group">
@@ -76,7 +77,8 @@
                             <label for="confirm_password" class=" form-control-label">Password Confirmation *</label>
                         </div>
                         <div class="col-12 col-md-9">
-                            <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm Password" class="form-control">
+                            <input type="password" id="confirm_password" name="confirm_password"
+                                placeholder="Confirm Password" class="form-control">
                         </div>
                     </div>
 

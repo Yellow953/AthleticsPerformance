@@ -36,9 +36,10 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <a href="/events/export" class="btn btn-primary mx-1 my-auto">Export Events</a>
+                        <a href="{{ route('events.export') }}" class="btn btn-primary mx-1 my-auto">Export Events</a>
                         @if (auth()->user()->role == 'admin')
-                        <a href="/events/upload" class="btn btn-primary mx-1 my-auto">Upload Events</a>
+                        <a href="{{ route('events.upload_all') }}" class="btn btn-primary mx-1 my-auto">Upload
+                            Events</a>
                         @endif
                         <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
@@ -49,7 +50,8 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="container">
-                                                <form action="/events" method="GET" enctype="multipart/form-data">
+                                                <form action="{{ route('events') }}" method="GET"
+                                                    enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
                                                         <input type="text" name="name" class="form-control"
@@ -100,7 +102,8 @@
                                                     </div>
 
                                                     <div class="actions d-flex justify-content-around">
-                                                        <a href="/events" class="btn btn-secondary">Reset</a>
+                                                        <a href="{{ route('events') }}"
+                                                            class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>
                                                     </div>
                                                 </form>
@@ -142,8 +145,8 @@
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="/events/{{$event->id}}/results" data-toggle="tooltip" data-placement="top"
-                                        title="Results">
+                                        href="{{ route('events.get_results') }}" data-toggle="tooltip"
+                                        data-placement="top" title="Results">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="dark"
                                             class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
                                             <path
@@ -153,8 +156,8 @@
                                     @if(auth()->user()->role == 'admin')
                                     @if (!$event->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
-                                        href="/events/upload/{{$event->id}}" data-toggle="tooltip" data-placement="top"
-                                        title="Upload">
+                                        href="{{ route('events.upload', $event->id) }}" data-toggle="tooltip"
+                                        data-placement="top" title="Upload">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-database-fill" viewBox="0 0 16 16">
                                             <path
@@ -168,11 +171,11 @@
                                         </svg>
                                     </a>
                                     @endif
-                                    <a class="item bg-warning" href="/events/{{$event->id}}/edit" data-toggle="tooltip"
-                                        data-placement="top" title="Edit">
+                                    <a class="item bg-warning" href="{{ route('events.edit', $event->id) }}"
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/events/{{$event->id}}/destroy">
+                                    <form method="GET" action="{{ route('events.destroy', $event->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

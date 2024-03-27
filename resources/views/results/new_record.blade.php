@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/records" class="mb-3">
+    <a href="{{ route('results') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -44,7 +44,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="card">
-                <form action="/results/{{$result->id}}/create_record" method="post" enctype="multipart/form-data"
+                <form action="{{ route('results.create_record') }}" method="post" enctype="multipart/form-data"
                     class="form-horizontal m-4">
                     @csrf
                     <div class="row">

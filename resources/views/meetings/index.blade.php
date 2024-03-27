@@ -40,10 +40,12 @@ $meeting_types = Helper::get_meeting_types();
                                 </div>
                             </div>
                         </div> --}}
-                        <a href="/meetings/new" class="btn btn-primary mx-1 my-auto">Create Meeting</a>
-                        <a href="/meetings/export" class="btn btn-primary mx-1 my-auto">Export Meetings</a>
+                        <a href="{{ route('meetings.new') }}" class="btn btn-primary mx-1 my-auto">Create Meeting</a>
+                        <a href="{{ route('meetings.export') }}" class="btn btn-primary mx-1 my-auto">Export
+                            Meetings</a>
                         @if (auth()->user()->role == 'admin')
-                        <a href="/meetings/upload" class="btn btn-primary mx-1 my-auto">Upload Meetings</a>
+                        <a href="{{ route('meetings.upload_all') }}" class="btn btn-primary mx-1 my-auto">Upload
+                            Meetings</a>
                         @endif
                         <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
@@ -54,7 +56,8 @@ $meeting_types = Helper::get_meeting_types();
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="container">
-                                                <form action="/meetings" method="GET" enctype="multipart/form-data">
+                                                <form action="{{ route('meetings') }}" method="GET"
+                                                    enctype="multipart/form-data">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -152,7 +155,8 @@ $meeting_types = Helper::get_meeting_types();
                                                     </div>
 
                                                     <div class="actions d-flex justify-content-around">
-                                                        <a href="/meetings" class="btn btn-secondary">Reset</a>
+                                                        <a href="{{ route('meetings') }}"
+                                                            class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>
                                                     </div>
                                                 </form>
@@ -209,7 +213,7 @@ $meeting_types = Helper::get_meeting_types();
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="/meetings/{{$meeting->id}}/events" data-toggle="tooltip"
+                                        href="{{ route('meetings.events', $meetings->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Events">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-cone-striped" viewBox="0 0 16 16">
@@ -221,7 +225,7 @@ $meeting_types = Helper::get_meeting_types();
                                     @if(auth()->user()->role == 'admin')
                                     @if (!$meeting->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
-                                        href="/meetings/upload/{{$meeting->id}}" data-toggle="tooltip"
+                                        href="{{ route('meetings.upload', $meeting->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Upload">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-database-fill" viewBox="0 0 16 16">
@@ -237,11 +241,11 @@ $meeting_types = Helper::get_meeting_types();
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="/meetings/{{$meeting->id}}/edit"
+                                    <a class="item bg-warning" href="{{ route('meetings.edit', $meeting->id) }}"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/meetings/{{$meeting->id}}/destroy">
+                                    <form method="GET" action="{{ route('meetings.destroy', $meeting->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

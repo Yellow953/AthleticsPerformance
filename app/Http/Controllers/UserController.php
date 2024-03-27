@@ -43,49 +43,32 @@ class UserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return redirect('/users')->with('success', 'User successfully created!');
+        return redirect()->route('users')->with('success', 'User successfully created!');
     }
 
-    public function edit($id)
+    public function edit(User $user)
     {
-        $user = User::findOrFail($id);
-
-        if (!$user) {
-            return redirect('/users')->with('danger', 'User not found!');
-        }
-
         return view('users.edit', compact('user'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255'],
         ]);
 
-        $user = User::findOrFail($id);
-
-        if (!$user) {
-            return redirect('/users')->with('danger', 'User not found!');
-        }
-
         $user->update(
             $request->all()
         );
 
-        return redirect('/users')->with('warning', 'User successfully updated!');
+        return redirect()->route('users')->with('warning', 'User successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        try {
-            User::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'User successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'User found in other Models!');
-        }
+        $user->delete();
+        return redirect()->back()->with('danger', 'User successfully deleted!');
     }
 
     public function password()
@@ -93,15 +76,13 @@ class UserController extends Controller
         return view('users.change_password');
     }
 
-    public function change_password(Request $request, $id)
+    public function change_password(Request $request, User $user)
     {
         $request->validate([
             'new_password' => ['required', 'string', 'min:6'],
             'confirm_password' => ['required', 'string', 'min:6'],
 
         ]);
-
-        $user = User::findOrFail($id);
 
         if ($request->new_password == $request->confirm_password) {
             $user->password = Hash::make($request->new_password);

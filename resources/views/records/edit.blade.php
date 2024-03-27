@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/records" class="mb-3">
+    <a href="{{ route('records') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,7 @@
                 <strong>Update Record</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/records/{{$record->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="{{ route('records.update', $record->id) }}" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

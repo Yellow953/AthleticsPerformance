@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/events" class="mb-3">
+    <a href="{{ route('events') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,8 @@
                 <strong>Create Event</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/events/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ route('events.create') }}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">

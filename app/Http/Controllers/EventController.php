@@ -121,9 +121,8 @@ class EventController extends Controller
         // return response()->json(['event' => $event]);
     }
 
-    public function edit($id)
+    public function edit(Event $event)
     {
-        $event = Event::findOrFail($id);
         $meetings = Meeting::select('id', 'shortName')->orderBy('created_at', 'DESC')->get();
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
@@ -135,7 +134,7 @@ class EventController extends Controller
         return view('events.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Event $event)
     {
         $request->validate([
             'typeID' => 'required',
@@ -143,8 +142,6 @@ class EventController extends Controller
             'round' => 'required',
             'gender' => 'required',
         ]);
-
-        $event = Event::findOrFail($id);
 
         $data = $request->except('extra');
         $data['extra'] = $request->extra ?? '';
@@ -204,15 +201,10 @@ class EventController extends Controller
         return redirect()->back()->with('warning', 'Event successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Event $event)
     {
-        try {
-            Event::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Event successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Event found in other Models!');
-        }
+        $event->delete();
+        return redirect()->back()->with('danger', 'Event successfully deleted!');
     }
 
     public function export()
@@ -256,9 +248,8 @@ class EventController extends Controller
         ]);
     }
 
-    public function results($id)
+    public function results(Event $event)
     {
-        $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
         $competitors = Competitor::select('id', 'name')->get();
 
@@ -331,11 +322,9 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Events uploaded successfully.');
     }
 
-    public function upload($eventID)
+    public function upload(Event $event)
     {
-        $event = Event::findOrFail($eventID);
-
-        if (!$event || $event->uploaded) {
+        if ($event->uploaded) {
             return redirect()->back()->with('warning', 'Event already Uploaded!');
         }
 
@@ -393,9 +382,8 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'Event uploaded successfully!');
     }
 
-    public function get_results($id)
+    public function get_results(Event $event)
     {
-        $event = Event::findOrFail($id);
         $results = Result::where('eventID', $event->id)->get();
         $competitors = Competitor::select('id', 'name')->get();
 

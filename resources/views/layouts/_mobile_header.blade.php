@@ -3,7 +3,7 @@
     <div class="header-mobile__bar">
         <div class="container-fluid">
             <div class="header-mobile-inner">
-                <a class="logo d-flex" href="/">
+                <a class="logo d-flex" href="{{ route('home') }}">
                     <img src="{{asset('assets/images/logo.png')}}" class="logo-nav" />
                     <h5 class="text-yellow my-auto">Athletics Performance</h5>
                 </a>
@@ -19,7 +19,7 @@
         <div class="container-fluid">
             <ul class="navbar-mobile__list list-unstyled bg-gray">
                 <li class="active">
-                    <a href="/" class="text-white d-flex">
+                    <a href="{{ route('home') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                             <path
@@ -29,7 +29,7 @@
                         </svg><span class="my-auto">Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="/meetings" class="text-white d-flex">
+                    <a href="{{ route('meetings') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
                             <path
@@ -39,7 +39,7 @@
                         </svg><span class="my-auto text-uppercase">Meetings</span></a>
                 </li>
                 <li>
-                    <a href="/events" class="text-white d-flex">
+                    <a href="{{ route('events') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-cone-striped" viewBox="0 0 16 16">
                             <path
@@ -47,7 +47,7 @@
                         </svg><span class="my-auto text-uppercase">Events</span></a>
                 </li>
                 <li>
-                    <a href="/athletes" class="text-white d-flex">
+                    <a href="{{ route('athletes') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-person-bounding-box mr-4 my-auto" viewBox="0 0 16 16">
                             <path
@@ -56,7 +56,7 @@
                         </svg><span class="my-auto text-uppercase">Athletes</span></a>
                 </li>
                 <li>
-                    <a href="/competitors" class="text-white d-flex">
+                    <a href="{{ route('competitors') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-person-square mr-4 my-auto" viewBox="0 0 16 16">
                             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
@@ -65,7 +65,7 @@
                         </svg><span class="my-auto text-uppercase">Competitors</span></a>
                 </li>
                 <li>
-                    <a href="/results" class="text-white d-flex">
+                    <a href="{{ route('results') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-clipboard2-check-fill" viewBox="0 0 16 16">
                             <path
@@ -75,7 +75,7 @@
                         </svg><span class="my-auto text-uppercase">Results</span></a>
                 </li>
                 <li>
-                    <a href="/records" class="text-white d-flex">
+                    <a href="{{ route('records') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
                             <path
@@ -83,7 +83,7 @@
                         </svg><span class="my-auto text-uppercase">Records</span></a>
                 </li>
                 <li>
-                    <a href="/reports" class="text-white d-flex">
+                    <a href="{{ route('reports') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                             <path
@@ -91,7 +91,7 @@
                         </svg><span class="my-auto text-uppercase">Reports</span></a>
                 </li>
                 <li>
-                    <a href="/users" class="text-white d-flex">
+                    <a href="{{ route('users') }}" class="text-white d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
                             <path

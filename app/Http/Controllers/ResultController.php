@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
 use App\Models\Competitor;
-use App\Models\CompetitorSecond;
 use App\Models\Result;
 use App\Models\ResultSecond;
 use App\Models\Meeting;
@@ -70,9 +69,8 @@ class ResultController extends Controller
         return redirect()->back()->with('success', 'Result successfully created!');
     }
 
-    public function edit($id)
+    public function edit(Result $result)
     {
-        $result = Result::findOrFail($id);
         $events = Event::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $competitors = Competitor::select('id', 'name')->orderBy('id', 'DESC')->get();
 
@@ -80,15 +78,13 @@ class ResultController extends Controller
         return view('results.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Result $result)
     {
         $request->validate([
             'competitor_id' => 'required',
             'position' => 'required',
             'result' => 'required',
         ]);
-
-        $result = Result::findOrFail($id);
 
         $data = $request->except('isHand', 'isActive');
         $data['isHand'] = $request->boolean('isHand');
@@ -99,23 +95,17 @@ class ResultController extends Controller
             $data
         );
 
-        return redirect('/results')->with('warning', 'Result successfully updated!');
+        return redirect()->route('results')->with('warning', 'Result successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Result $result)
     {
-        try {
-            Result::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Result successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Result found in other Models!');
-        }
+        $result->delete();
+        return redirect()->back()->with('danger', 'Result successfully deleted!');
     }
 
-    public function new_record($id)
+    public function new_record(Result $result)
     {
-        $result = Result::findOrFail($id);
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $event = Event::find($result->eventID);
         $competitor = Competitor::find($result->competitorID);
@@ -125,9 +115,8 @@ class ResultController extends Controller
         return view('results.new_record', $data);
     }
 
-    public function create_record($id, Request $request)
+    public function create_record(Result $result, Request $request)
     {
-        $result = Result::findOrFail($id);
         $event = Event::find($result->eventID);
         $competitor = Competitor::find($result->competitorID);
         $meeting = Meeting::find($event->meetingID);
@@ -206,11 +195,9 @@ class ResultController extends Controller
         ]);
     }
 
-    public function upload($id)
+    public function upload(Result $result)
     {
-        $result = Result::findOrFail($id);
-
-        if (!$result || $result->uploaded) {
+        if ($result->uploaded) {
             return redirect()->back()->with('warning', 'Result already uploaded!');
         }
 

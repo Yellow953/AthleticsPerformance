@@ -7,7 +7,7 @@ $has_results = $event->results->count() > 0;
 @endphp
 
 <div class="container">
-    <a href="/events" class="mb-3">
+    <a href="{{ route('events') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -18,7 +18,7 @@ $has_results = $event->results->count() > 0;
                 <strong>Update Event</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/events/{{$event->id}}/update" method="post" enctype="multipart/form-data"
+                <form action="{{ route('events.update', $event->id) }}" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

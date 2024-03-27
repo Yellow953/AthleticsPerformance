@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <a href="/competitors" class="mb-3">
+    <a href="{{ route('competitors') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -13,8 +13,8 @@
                 <strong>Create Competitor</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/competitors/create" method="post" enctype="multipart/form-data" class="form-horizontal"
-                    id="create_competitor_form">
+                <form action="{{ route('competitors.create') }}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal" id="create_competitor_form">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -55,7 +55,7 @@
                                             {{$athlete->firstName}}
                                             @if ($athlete->middleName)
                                             ({{$athlete->middleName}})
-                                            @endif 
+                                            @endif
                                             {{$athlete->lastName}}
                                         </li>
                                         @endforeach
@@ -72,8 +72,9 @@
                                     <label for="year" class=" form-control-label">Year*</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="year" name="year" value="{{ Helper::get_current_year() ?? old('year') }}"
-                                        class="form-control" required>
+                                    <input type="number" id="year" name="year"
+                                        value="{{ Helper::get_current_year() ?? old('year') }}" class="form-control"
+                                        required>
                                 </div>
                             </div>
                         </div>
@@ -85,7 +86,8 @@
                                 <div class="col-12 col-md-9">
                                     <select id="gender" name="gender" class="form-control" required>
                                         @foreach ($genders as $gender)
-                                        <option value="{{$gender->gender}}" {{ old('gender') == $gender->gender ? 'selected' : '' }}>{{$gender->gender}}</option>
+                                        <option value="{{$gender->gender}}" {{ old('gender')==$gender->gender ?
+                                            'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -102,7 +104,8 @@
                                     <select id="teamID" name="teamID" class="form-control" required>
                                         <option value=""></option>
                                         @foreach ($teams as $team)
-                                        <option value="{{$team->ID}}" {{ old('teamID') == $team->ID ? 'selected' : '' }}>{{$team->name}}</option>
+                                        <option value="{{$team->ID}}" {{ old('teamID')==$team->ID ? 'selected' : ''
+                                            }}>{{$team->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -117,7 +120,8 @@
                                     <select id="ageGroupID" name="ageGroupID" class="form-control" required>
                                         <option value=""></option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID') == $age_group->ID ? 'selected' : '' }}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID')==$age_group->ID ?
+                                            'selected' : '' }}>{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>

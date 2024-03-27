@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/users" class="mb-3">
+    <a href="{{ route('users') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,8 @@
                 <strong>Create User</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/users/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ route('users.create') }}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal">
                     @csrf
                     <div class="row form-group">
                         <div class="col col-md-3">
@@ -40,8 +41,8 @@
                         </div>
                         <div class="col-12 col-md-9">
                             <select name="role" id="role" class="form-control">
-                                <option value="user" {{old('role') == 'user' ? 'selected' : ''}}>User</option>
-                                <option value="admin" {{old('role') == 'admin' ? 'selected' : ''}}>Admin</option>
+                                <option value="user" {{old('role')=='user' ? 'selected' : '' }}>User</option>
+                                <option value="admin" {{old('role')=='admin' ? 'selected' : '' }}>Admin</option>
                             </select>
                         </div>
                     </div>

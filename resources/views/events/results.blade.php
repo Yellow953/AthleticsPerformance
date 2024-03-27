@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/events" class="mb-3">
+    <a href="{{ route('events') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -79,7 +79,7 @@
                                 <td>{{ $result->isHand != 0 ? 'true' : 'false' }}</td>
                                 <td>{{ $result->isActive != 0 ? 'true' : 'false' }}</td>
                                 <td class="my-auto text-center">
-                                    <a href="/results/{{$result->id}}/new_record"
+                                    <a href="{{ route('results.new_record', $result->id) }}"
                                         class="btn btn-primary py-1 px-2">+</a>
                                 </td>
                             </tr>

@@ -48,7 +48,7 @@
                 <div class="login-wrap bg-gray">
                     <div class="login-content">
                         <div class="login-logo">
-                            <a href="/" class="d-flex justify-content-center">
+                            <a href="{{ route('home') }}" class="d-flex justify-content-center">
                                 <img src="{{asset('assets/images/logo.png')}}" class="logo-nav">
                                 <h4 class="text-yellow my-auto">Athletics Performance</h4>
                             </a>

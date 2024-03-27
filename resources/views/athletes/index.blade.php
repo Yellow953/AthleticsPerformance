@@ -36,10 +36,12 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <a href="/athletes/new" class="btn btn-primary mx-1 my-auto">Create Athlete</a>
-                        <a href="/athletes/export" class="btn btn-primary mx-1 my-auto">Export Athletes</a>
+                        <a href="{{ route('athletes.new') }}" class="btn btn-primary mx-1 my-auto">Create Athlete</a>
+                        <a href="{{ route('athletes.export') }}" class="btn btn-primary mx-1 my-auto">Export
+                            Athletes</a>
                         @if (auth()->user()->role == 'admin')
-                        <a href="/athletes/upload" class="btn btn-primary mx-1 my-auto">Upload Athletes</a>
+                        <a href="{{ route('athletes.upload_all') }}" class="btn btn-primary mx-1 my-auto">Upload
+                            Athletes</a>
                         @endif
                         <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
@@ -50,7 +52,8 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="container">
-                                                <form action="/athletes" method="GET" enctype="multipart/form-data">
+                                                <form action="{{ route('athletes') }}" method="GET"
+                                                    enctype="multipart/form-data">
                                                     <div class="row">
                                                         <div class="col-md-6">
                                                             <div class="form-group">
@@ -88,7 +91,8 @@
                                                     </div>
 
                                                     <div class="actions d-flex justify-content-around">
-                                                        <a href="/athletes" class="btn btn-secondary">Reset</a>
+                                                        <a href="{{ route('athletes') }}"
+                                                            class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>
                                                     </div>
                                                 </form>
@@ -130,7 +134,7 @@
                                 <div class="table-data-feature">
                                     @if (!$athlete->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
-                                        href="/athletes/upload/{{$athlete->id}}" data-toggle="tooltip"
+                                        href="{{ route('athletes.upload', $athlete->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Upload">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-database-fill" viewBox="0 0 16 16">
@@ -146,11 +150,11 @@
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="/athletes/{{$athlete->id}}/edit"
+                                    <a class="item bg-warning" href="{{ route('athletes.edit', $athlete->id) }}"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/athletes/{{$athlete->id}}/destroy">
+                                    <form method="GET" action="{{ route('athletes.destroy', $athlete->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

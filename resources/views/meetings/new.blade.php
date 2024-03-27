@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/meetings" class="mb-3">
+    <a href="{{ route('meetings') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,8 @@
                 <strong>Create Meeting</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/meetings/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ route('meetings.create') }}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -41,7 +42,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="io" id="io" class="form-control">
                                         @foreach ($ios as $io)
-                                        <option value="{{$io->io}}" {{ old('io')==$io->io ?
+                                        <option value="{{$io->io}}" {{ $io->io == 'O' ? 'selected' : '' }} {{
+                                            old('io')==$io->io ?
                                             'selected' : '' }}>{{$io->io}}</option>
                                         @endforeach
                                     </select>
@@ -133,6 +135,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control" required>
+                                        <option value=""></option>
                                         @foreach ($meeting_types as $meeting_type)
                                         <option value="{{$meeting_type->ID}}" {{ old('typeID')==$meeting_type->ID ?
                                             'selected' : '' }}>{{$meeting_type->name}}</option>

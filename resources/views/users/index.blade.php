@@ -31,8 +31,8 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <a href="/users/new" class="btn btn-primary mx-1 my-auto">Create User</a>
-                        <a href="/users/export" class="btn btn-primary mx-1 my-auto">Export Users</a>
+                        <a href="{{ route('users.new') }}" class="btn btn-primary mx-1 my-auto">Create User</a>
+                        <a href="{{ route('users.export') }}" class="btn btn-primary mx-1 my-auto">Export Users</a>
                         <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
                                 <div class="account-item clearfix js-item-menu">
@@ -42,7 +42,8 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="container">
-                                                <form action="/users" method="GET" enctype="multipart/form-data">
+                                                <form action="{{ route('users') }}" method="GET"
+                                                    enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Name</label>
                                                         <input type="text" name="name" class="form-control"
@@ -66,7 +67,8 @@
                                                     </div>
 
                                                     <div class="actions d-flex justify-content-around">
-                                                        <a href="/users" class="btn btn-secondary">Reset</a>
+                                                        <a href="{{ route('users') }}"
+                                                            class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>
                                                     </div>
                                                 </form>
@@ -103,11 +105,11 @@
                             <td>{{$user->created_at}}</td>
                             <td>
                                 <div class="table-data-feature">
-                                    <a class="item bg-warning" href="/users/{{$user->id}}/edit" data-toggle="tooltip"
-                                        data-placement="top" title="Edit">
+                                    <a class="item bg-warning" href="{{ route('users.edit', $user->id) }}"
+                                        data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/users/{{$user->id}}/destroy">
+                                    <form method="GET" action="{{ route('users.destroy', $user->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

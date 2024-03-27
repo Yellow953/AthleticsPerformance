@@ -82,25 +82,20 @@ class MeetingController extends Controller
             $data
         );
 
-        return redirect('/meetings')->with('success', 'Meeting successfully created!');
+        return redirect()->route('meetings')->with('success', 'Meeting successfully created!');
     }
 
-    public function edit($id)
+    public function edit(Meeting $meeting)
     {
-        $meeting = Meeting::findOrFail($id);
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $meeting_types = MeetingTypeSecond::select('ID', 'name')->get();
         $ios = IOSecond::select('io')->get();
-
-        if (!$meeting) {
-            return redirect('/meetings')->with('danger', 'Meeting not found!');
-        }
 
         $data = compact('age_groups', 'meeting_types', 'meeting', 'ios');
         return view('meetings.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Meeting $meeting)
     {
         $request->validate([
             'ageGroupID' => 'required',
@@ -110,12 +105,6 @@ class MeetingController extends Controller
             'venue' => 'required',
             'country' => 'required',
         ]);
-
-        $meeting = Meeting::findOrFail($id);
-
-        if (!$meeting) {
-            return redirect('/meetings')->with('danger', 'Meeting not found!');
-        }
 
         $data = $request->except('isNew', 'isActive', 'image', 'image2', 'subgroup');
         $isActive = $request->boolean('isActive');
@@ -152,18 +141,13 @@ class MeetingController extends Controller
             $data
         );
 
-        return redirect('/meetings')->with('warning', 'Meeting successfully updated!');
+        return redirect()->route('meetings')->with('warning', 'Meeting successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Meeting $meeting)
     {
-        try {
-            Meeting::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Meeting successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Meeting found in other Models!');
-        }
+        $meeting->delete();
+        return redirect()->back()->with('danger', 'Meeting successfully deleted!');
     }
 
     public function export()
@@ -211,9 +195,8 @@ class MeetingController extends Controller
         ]);
     }
 
-    public function events($id)
+    public function events(Meeting $meeting)
     {
-        $meeting = Meeting::find($id);
         $events = Event::where('meetingID', $meeting->id)->get();
 
         $data = compact('meeting', 'events');
@@ -284,11 +267,9 @@ class MeetingController extends Controller
         return redirect()->back()->with('success', 'Meetings uploaded successfully.');
     }
 
-    public function upload($id)
+    public function upload(Meeting $meeting)
     {
-        $meeting = Meeting::findOrFail($id);
-
-        if (!$meeting || $meeting->uploaded) {
+        if ($meeting->uploaded) {
             return redirect()->back()->with('warning', 'Meeting already uploaded!');
         }
 

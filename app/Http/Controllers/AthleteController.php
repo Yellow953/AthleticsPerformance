@@ -53,23 +53,18 @@ class AthleteController extends Controller
             $data
         );
 
-        return redirect('/athletes')->with('success', 'Athlete successfully created!');
+        return redirect()->route('athletes')->with('success', 'Athlete successfully created!');
     }
 
-    public function edit($id)
+    public function edit(Athlete $athlete)
     {
-        $athlete = Athlete::findOrFail($id);
         $genders = GenderSecond::all();
-
-        if (!$athlete) {
-            return redirect('/athletes')->with('danger', 'Athlete not found!');
-        }
 
         $data = compact('athlete', 'genders');
         return view('athletes.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Athlete $athlete)
     {
         $request->validate([
             'firstName' => 'required',
@@ -82,28 +77,17 @@ class AthleteController extends Controller
         $data['exactDate'] = $request->boolean('exactDate');
         $data['uploaded'] = false;
 
-        $athlete = Athlete::findOrFail($id);
-
-        if (!$athlete) {
-            return redirect('/athletes')->with('danger', 'Athlete not found!');
-        }
-
         $athlete->update(
             $data
         );
 
-        return redirect('/athletes')->with('warning', 'Athlete successfully updated!');
+        return redirect()->route('athletes')->with('warning', 'Athlete successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Athlete $athlete)
     {
-        try {
-            Athlete::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Athlete successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Athlete found in other Models!');
-        }
+        $athlete->delete();
+        return redirect()->back()->with('danger', 'Athlete successfully deleted!');
     }
 
     public function export()
@@ -168,8 +152,7 @@ class AthleteController extends Controller
                 ]
             );
 
-            $athlete->uploaded = true;
-            $athlete->save();
+            $athlete->update(['uploaded' => true]);
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
@@ -177,12 +160,10 @@ class AthleteController extends Controller
         return redirect()->back()->with('success', 'Athletes uploaded successfully.');
     }
 
-    public function upload($id)
+    public function upload(Athlete $athlete)
     {
-        $athlete = Athlete::findOrFail($id);
-
-        if (!$athlete || $athlete->uploaded) {
-            return redirect()->back()->with('warning', 'Athlete is already up-to-date or not found.');
+        if ($athlete->uploaded) {
+            return redirect()->back()->with('warning', 'Athlete is already uploaded');
         }
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');

@@ -1,7 +1,7 @@
 <!-- MENU SIDEBAR-->
 <aside class="menu-sidebar d-none d-lg-block bg-black ">
     <div class="logo">
-        <a href="/" class="d-flex ">
+        <a href="{{ route('home') }}" class="d-flex ">
             <img src="{{asset('assets/images/logo.png')}}" class="logo-nav" />
             <h5 class="my-auto text-yellow">Athletics Performance</h5>
         </a>
@@ -10,7 +10,8 @@
         <nav class="navbar-sidebar">
             <ul class="list-unstyled navbar__list">
                 <li>
-                    <a href="/" class="{{ request()->is('/') ? 'text-primary' : 'text-white' }} d-flex">
+                    <a href="{{ route('home') }}"
+                        class="{{ request()->is('/') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-speedometer" viewBox="0 0 16 16">
                             <path
@@ -20,7 +21,7 @@
                         </svg><span class="my-auto text-uppercase">Dashboard</span></a>
                 </li>
                 <li>
-                    <a href="/athletes"
+                    <a href="{{ route('athletes') }}"
                         class="{{ request()->is('athletes', 'athletes/new', 'athletes/*/edit') ? 'text-primary' : 'text-white' }}  d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-person-bounding-box mr-4 my-auto" viewBox="0 0 16 16">
@@ -30,7 +31,7 @@
                         </svg><span class="my-auto text-uppercase">Athletes</span></a>
                 </li>
                 <li>
-                    <a href="/competitors"
+                    <a href="{{ route('competitors') }}"
                         class="{{ request()->is('competitors', 'competitors/new', 'competitors/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                             class="bi bi-person-square mr-4 my-auto" viewBox="0 0 16 16">
@@ -40,7 +41,7 @@
                         </svg><span class="my-auto text-uppercase">Competitors</span></a>
                 </li>
                 <li>
-                    <a href="/meetings"
+                    <a href="{{ route('meetings') }}"
                         class="{{ request()->is('meetings', 'meetings/new', 'meetings/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
@@ -51,7 +52,7 @@
                         </svg><span class="my-auto text-uppercase">Meetings</span></a>
                 </li>
                 <li>
-                    <a href="/events"
+                    <a href="{{ route('events') }}"
                         class="{{ request()->is('events', 'events/new', 'events/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-cone-striped" viewBox="0 0 16 16">
@@ -60,7 +61,7 @@
                         </svg><span class="my-auto text-uppercase">Events</span></a>
                 </li>
                 <li>
-                    <a href="/results"
+                    <a href="{{ route('results') }}"
                         class="{{ request()->is('results', 'results/new', 'results/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
@@ -69,7 +70,7 @@
                         </svg><span class="my-auto text-uppercase">Results</span></a>
                 </li>
                 <li>
-                    <a href="/records"
+                    <a href="{{ route('records') }}"
                         class="{{ request()->is('records', 'records/new', 'records/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-stars" viewBox="0 0 16 16">
@@ -78,7 +79,8 @@
                         </svg><span class="my-auto text-uppercase">Records</span></a>
                 </li>
                 <li>
-                    <a href="/reports" class="{{ request()->is('reports') ? 'text-primary' : 'text-white' }} d-flex">
+                    <a href="{{ route('reports') }}"
+                        class="{{ request()->is('reports') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-file-bar-graph-fill" viewBox="0 0 16 16">
                             <path
@@ -86,7 +88,7 @@
                         </svg><span class="my-auto text-uppercase">Reports</span></a>
                 </li>
                 <li>
-                    <a href="/users"
+                    <a href="{{ route('users') }}"
                         class="{{ request()->is('users', 'users/new', 'users/*/edit') ? 'text-primary' : 'text-white' }} d-flex">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" class="mr-4 my-auto"
                             fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">

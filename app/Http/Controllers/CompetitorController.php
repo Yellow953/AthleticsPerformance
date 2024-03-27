@@ -75,26 +75,21 @@ class CompetitorController extends Controller
 
         Competitor::create($request->all());
 
-        return redirect('/competitors')->with('success', 'Competitor successfully created!');
+        return redirect()->route('competitors')->with('success', 'Competitor successfully created!');
     }
 
-    public function edit($id)
+    public function edit(Competitor $competitor)
     {
-        $competitor = Competitor::findOrFail($id);
         $genders = GenderSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $teams = TeamSecond::select('ID', 'name')->get();
         $athletes = Athlete::select('ID', 'firstName', 'lastName', 'middleName', 'gender')->orderBy('ID', 'DESC')->get();
 
-        if (!$competitor) {
-            return redirect('/competitors')->with('danger', 'Competitor not found!');
-        }
-
         $data = compact('genders', 'age_groups', 'teams', 'athletes', 'competitor');
         return view('competitors.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Competitor $competitor)
     {
         $request->validate([
             'name' => 'required',
@@ -102,8 +97,6 @@ class CompetitorController extends Controller
             'teamID' => 'required',
             'year' => 'required|numeric|min:1900'
         ]);
-
-        $competitor = Competitor::findOrFail($id);
 
         if ($request->athleteID) {
             $athlete = Athlete::find($request->athleteID);
@@ -128,18 +121,13 @@ class CompetitorController extends Controller
             $data
         );
 
-        return redirect('/competitors')->with('warning', 'Competitor successfully updated!');
+        return redirect()->route('competitors')->with('warning', 'Competitor successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Competitor $competitor)
     {
-        try {
-            Competitor::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Competitor successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Competitor found in other Models!');
-        }
+        $competitor->delete();
+        return redirect()->back()->with('danger', 'Competitor successfully deleted!');
     }
 
     public function export()
@@ -230,11 +218,9 @@ class CompetitorController extends Controller
         return redirect()->back()->with('success', 'Competitors uploaded successfully.');
     }
 
-    public function upload($id)
+    public function upload(Competitor $competitor)
     {
-        $competitor = Competitor::findOrFail($id);
-
-        if (!$competitor || $competitor->uploaded) {
+        if ($competitor->uploaded) {
             return redirect()->back()->with('warning', 'Competitor already uploaded!');
         }
 

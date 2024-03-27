@@ -39,10 +39,11 @@
                                 </div>
                             </div>
                         </div> --}}
-                        <a href="/results/export" class="btn btn-primary mx-1 my-auto">Export Results</a>
+                        <a href="{{ route('results.export') }}" class="btn btn-primary mx-1 my-auto">Export Results</a>
                         @if (auth()->user()->role == 'admin')
-                        <a href="/results/upload" class="btn btn-primary mx-1 my-auto">Upload Results</a>
-                        <a href="/results/scoring" class="btn btn-primary mx-1 my-auto">Scoring</a>
+                        <a href="{{ route('results.upload_all') }}" class="btn btn-primary mx-1 my-auto">Upload
+                            Results</a>
+                        <a href="{{ route('results.scoring') }}" class="btn btn-primary mx-1 my-auto">Scoring</a>
                         @endif
                         <div class="header-button mx-1 my-auto">
                             <div class="account-wrap">
@@ -53,7 +54,8 @@
                                     <div class="account-dropdown js-dropdown bg-light-secondary">
                                         <div class="account-dropdown__body">
                                             <div class="container">
-                                                <form action="/results" method="GET" enctype="multipart/form-data">
+                                                <form action="{{ route('results') }}" method="GET"
+                                                    enctype="multipart/form-data">
                                                     <div class="form-group">
                                                         <label>Event</label>
                                                         <select name="eventID" class="form-control">
@@ -76,7 +78,8 @@
                                                     </div>
 
                                                     <div class="actions d-flex justify-content-around">
-                                                        <a href="/results" class="btn btn-secondary">Reset</a>
+                                                        <a href="{{ route('results') }}"
+                                                            class="btn btn-secondary">Reset</a>
                                                         <button type="submit" class="btn btn-primary">Apply</button>
                                                     </div>
                                                 </form>
@@ -130,7 +133,7 @@
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="/results/{{$result->id}}/new_record" data-toggle="tooltip"
+                                        href="{{ route('results.new_record', $result->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Create Record">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-stars" viewBox="0 0 16 16">
@@ -141,7 +144,7 @@
 
                                     @if (!$result->uploaded)
                                     <a class="item bg-success d-flex align-items-center justify-content-center"
-                                        href="/results/upload/{{$result->id}}" data-toggle="tooltip"
+                                        href="{{ route('records.upload', $result->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Upload">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-database-fill" viewBox="0 0 16 16">
@@ -157,11 +160,11 @@
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="/results/{{$result->id}}/edit"
+                                    <a class="item bg-warning" href="{{ route('results.edit', $result->id) }}"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
-                                    <form method="GET" action="/results/{{$result->id}}/destroy">
+                                    <form method="GET" action="{{ route('results.destroy', $result->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
                                             data-placement="top" title="Delete">

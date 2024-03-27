@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/records" class="mb-3">
+    <a href="{{ route('records') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
@@ -14,7 +14,8 @@
                 <strong>Create Record</strong>
             </div>
             <div class="card-body card-block">
-                <form action="/records/create" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="{{ route('records.create') }}" method="post" enctype="multipart/form-data"
+                    class="form-horizontal">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
@@ -34,7 +35,8 @@
                                     <label for="venue" class=" form-control-label">Venue</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="venue" name="venue" placeholder="Venue" class="form-control" value="{{ old('venue') }}">
+                                    <input type="text" id="venue" name="venue" placeholder="Venue" class="form-control"
+                                        value="{{ old('venue') }}">
                                 </div>
                             </div>
                         </div>
@@ -46,7 +48,8 @@
                                     <label for="date" class=" form-control-label">Actual Date</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="date" id="date" name="date" class="form-control" value="{{old('date')}}">
+                                    <input type="date" id="date" name="date" class="form-control"
+                                        value="{{old('date')}}">
                                 </div>
                             </div>
                         </div>
@@ -56,7 +59,8 @@
                                     <label for="date2" class=" form-control-label">Display Date</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="date2" name="date2" class="form-control" value="{{old('date2')}}">
+                                    <input type="text" id="date2" name="date2" class="form-control"
+                                        value="{{old('date2')}}">
                                 </div>
                             </div>
                         </div>
@@ -81,7 +85,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="athleteID" id="athleteID" class="form-control">
                                         @foreach ($athletes as $athlete)
-                                        <option value="{{$athlete->id}}" {{ old('athleteID') == $athlete->id ? 'selected' : '' }}>{{$athlete->firstName}} {{$athlete->lastName}}
+                                        <option value="{{$athlete->id}}" {{ old('athleteID')==$athlete->id ? 'selected'
+                                            : '' }}>{{$athlete->firstName}} {{$athlete->lastName}}
                                         </option>
                                         @endforeach
                                     </select>
@@ -99,7 +104,8 @@
                                     <select name="ageGroupID" id="ageGroupID" class="form-control" required>
                                         <option value=""></option>
                                         @foreach ($age_groups as $age_group)
-                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID') == $age_group->ID ? 'selected' : '' }}>{{$age_group->name}}</option>
+                                        <option value="{{$age_group->ID}}" {{ old('ageGroupID')==$age_group->ID ?
+                                            'selected' : '' }}>{{$age_group->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -113,7 +119,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="typeID" id="typeID" class="form-control">
                                         @foreach ($event_types as $event_type)
-                                        <option value="{{$event_type->ID}}" {{ old('typeID') == $event_type->ID ? 'selected' : '' }}>{{$event_type->name}}</option>
+                                        <option value="{{$event_type->ID}}" {{ old('typeID')==$event_type->ID ?
+                                            'selected' : '' }}>{{$event_type->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -130,7 +137,8 @@
                                     <select name="teamID" id="teamID" class="form-control">
                                         <option value=""></option>
                                         @foreach ($teams as $team)
-                                        <option value="{{$team->ID}}" {{ old('teamID') == $team->ID ? 'selected' : '' }}>{{$team->name}}</option>
+                                        <option value="{{$team->ID}}" {{ old('teamID')==$team->ID ? 'selected' : ''
+                                            }}>{{$team->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -144,7 +152,8 @@
                                 <div class="col-12 col-md-9">
                                     <select name="gender" id="gender" class="form-control">
                                         @foreach ($genders as $gender)
-                                        <option value="{{$gender->gender}}" {{ old('gender') == $gender->gender ? 'selected' : '' }}>{{$gender->gender}}</option>
+                                        <option value="{{$gender->gender}}" {{ old('gender')==$gender->gender ?
+                                            'selected' : '' }}>{{$gender->gender}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -169,7 +178,8 @@
                                     <label for="note" class=" form-control-label">Note</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="note" name="note" placeholder="Note" class="form-control" value="{{old('note')}}">
+                                    <input type="text" id="note" name="note" placeholder="Note" class="form-control"
+                                        value="{{old('note')}}">
                                 </div>
                             </div>
                         </div>
@@ -182,7 +192,8 @@
                                     <label for="distance" class=" form-control-label">Distance</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="distance" name="distance" class="form-control" value="{{old('distance')}}">
+                                    <input type="number" id="distance" name="distance" class="form-control"
+                                        value="{{old('distance')}}">
                                 </div>
                             </div>
                         </div>
@@ -192,7 +203,8 @@
                                     <label for="result" class=" form-control-label">Result</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="result" name="result" step="0.01" class="form-control" value="{{old('result')}}">
+                                    <input type="number" id="result" name="result" step="0.01" class="form-control"
+                                        value="{{old('result')}}">
                                 </div>
                             </div>
                         </div>
@@ -204,7 +216,8 @@
                                     <label for="points" class=" form-control-label">Points</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="points" name="points" class="form-control" value="{{old('points')}}">
+                                    <input type="number" id="points" name="points" class="form-control"
+                                        value="{{old('points')}}">
                                 </div>
                             </div>
                         </div>
@@ -214,7 +227,8 @@
                                     <label for="resultValue" class=" form-control-label">Result Value</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="number" id="resultValue" name="resultValue" class="form-control" value="old('resultValue')">
+                                    <input type="number" id="resultValue" name="resultValue" class="form-control"
+                                        value="old('resultValue')">
                                 </div>
                             </div>
                         </div>
@@ -226,7 +240,8 @@
                                     <label for="extra" class=" form-control-label">Extra</label>
                                 </div>
                                 <div class="col-12 col-md-9">
-                                    <input type="text" id="extra" name="extra" placeholder="Extra" class="form-control" value="{{old('extra')}}">
+                                    <input type="text" id="extra" name="extra" placeholder="Extra" class="form-control"
+                                        value="{{old('extra')}}">
                                 </div>
                             </div>
                         </div>
@@ -235,7 +250,8 @@
                         <div class="col-md-3">
                             <div class="checkbox">
                                 <label for="current" class="form-check-label ">
-                                    <input type="checkbox" id="current" name="current" class="form-check-input" {{old('current') ? 'checked' : ''}}>Current
+                                    <input type="checkbox" id="current" name="current" class="form-check-input"
+                                        {{old('current') ? 'checked' : '' }}>Current
                                 </label>
                             </div>
                         </div>

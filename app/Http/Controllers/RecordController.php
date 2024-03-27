@@ -73,12 +73,11 @@ class RecordController extends Controller
             $data
         );
 
-        return redirect('/records')->with('success', 'Record successfully created!');
+        return redirect()->route('records')->with('success', 'Record successfully created!');
     }
 
-    public function edit($id)
+    public function edit(Record $record)
     {
-        $record = Record::findOrFail($id);
         $ios = IOSecond::all();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
         $genders = GenderSecond::all();
@@ -87,27 +86,17 @@ class RecordController extends Controller
         $results = Result::select('id')->orderBy('created_at', 'DESC')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
 
-        if (!$record) {
-            return redirect('/records')->with('danger', 'Record not found!');
-        }
-
         $data = compact('ios', 'age_groups', 'genders', 'teams', 'athletes', 'results', 'record', 'event_types');
         return view('records.edit', $data);
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Record $record)
     {
         $request->validate([
             // 'title' => 'required|max:255',
             // 'date' => 'required|date',
             // 'location' => 'required|max:255',
         ]);
-
-        $record = Record::findOrFail($id);
-
-        if (!$record) {
-            return redirect('/records')->with('danger', 'Record not found!');
-        }
 
         $data = $request->except('current', 'extra');
         $data['current'] = $request->boolean('current');
@@ -118,26 +107,20 @@ class RecordController extends Controller
             $data
         );
 
-        return redirect('/records')->with('warning', 'Record successfully updated!');
+        return redirect()->route('records')->with('warning', 'Record successfully updated!');
     }
 
-    public function destroy($id)
+    public function destroy(Record $record)
     {
-        try {
-            Record::findOrFail($id)->delete();
-
-            return redirect()->back()->with('danger', 'Record successfully deleted!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('danger', 'Record found in other Models!');
-        }
+        $record->delete();
+        return redirect()->back()->with('danger', 'Record successfully deleted!');
     }
 
-    public function copy($id)
+    public function copy(Record $record)
     {
-        $old_record = Record::findOrFail($id);
-        $record_attributes = $old_record->getAttributes();
+        $record_attributes = $record->getAttributes();
         unset($record_attributes['id']);
-        $new_record = Record::create($record_attributes);
+        Record::create($record_attributes);
 
         return redirect()->back()->with('success', 'Record duplicated successfully!');
     }
@@ -192,11 +175,9 @@ class RecordController extends Controller
         ]);
     }
 
-    public function upload($id)
+    public function upload(Record $record)
     {
-        $record = Record::findOrFail($id);
-
-        if (!$record || $record->uploaded) {
+        if ($record->uploaded) {
             return redirect()->back()->with('warning', 'Record already uploaded!');
         }
 

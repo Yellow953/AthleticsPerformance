@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="/meetings" class="mb-3">
+    <a href="{{ route('meetings') }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
