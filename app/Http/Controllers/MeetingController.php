@@ -352,6 +352,7 @@ class MeetingController extends Controller
             case '08':
             case '10':
             case '1H':
+            case '24':
             case 'BT':
             case 'DT':
             case 'HJ':

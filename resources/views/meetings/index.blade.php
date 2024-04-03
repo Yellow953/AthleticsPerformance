@@ -62,8 +62,8 @@ $meeting_types = Helper::get_meeting_types();
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label>Name</label>
-                                                                <input type="text" name="name" class="form-control"
-                                                                    placeholder="Name..."
+                                                                <input type="text" name="name" disabled
+                                                                    class="form-control" placeholder="Name..."
                                                                     value="{{request()->query('name')}}">
                                                             </div>
                                                         </div>
@@ -213,7 +213,7 @@ $meeting_types = Helper::get_meeting_types();
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="{{ route('meetings.events', $meetings->id) }}" data-toggle="tooltip"
+                                        href="{{ route('meetings.events', $meeting->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Events">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="black"
                                             class="bi bi-cone-striped" viewBox="0 0 16 16">

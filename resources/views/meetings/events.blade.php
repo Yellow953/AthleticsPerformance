@@ -168,6 +168,7 @@
                 case '08':
                 case '10':
                 case '1H':
+                case '24':
                 case 'BT':
                 case 'DT':
                 case 'HJ':
@@ -224,7 +225,7 @@
 
             var formData = new FormData($('#createEventForm')[0]);
             $.ajax({
-                url: '/meetings/event_create',
+                url: {{ route('meetings.event_create') }},
                 method: 'POST',
                 data: formData,
                 processData: false,
