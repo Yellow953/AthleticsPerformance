@@ -108,15 +108,19 @@
                     <tbody>
                         @forelse ($results as $result)
                         <tr class="tr-shadow">
-                            <td>
+                            <td class="width-1">
                                 {{$result->event->meeting->shortName}} <br>
                                 {{ $result->event->meeting->startDate }}
                                 @if ($result->event->meeting->endDate)
                                 -> {{ $result->event->meeting->endDate }}
                                 @endif
                             </td>
-                            <td>{{$result->event->name}}</td>
-                            <td>
+                            <td class="width-1">
+                                {{ucwords($result->event->name)}} {{$result->event->type->name}}
+                                {{ Helper::get_io_name($result->event->meeting->io) }} {{
+                                Helper::find_round($result->event->round)->name }}
+                            </td>
+                            <td class="width-1">
                                 @if ($result->competitor)
                                 {{ $result->competitor->name }} <br>
                                 @if ($result->competitor->team)
@@ -124,13 +128,13 @@
                                 @endif
                                 @endif
                             </td>
-                            <td>
+                            <td class="width-1">
                                 Position: {{$result->position}} <br>
                                 Result: {{$result->result}} <br>
                                 Points: {{$result->points}}
                             </td>
                             @if(auth()->user()->role == 'admin')
-                            <td>
+                            <td class="width-1">
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
                                         href="{{ route('results.new_record', $result->id) }}" data-toggle="tooltip"

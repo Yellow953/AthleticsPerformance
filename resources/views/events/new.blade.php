@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="name" name="name" placeholder="Name" class="form-control"
-                                        value="{{old('name')}}">
+                                        value="{{old('name')}}" disabled>
                                 </div>
                             </div>
                         </div>

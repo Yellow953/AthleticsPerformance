@@ -310,6 +310,11 @@ class Helper
         return RoundSecond::select('ID', 'name')->get();
     }
 
+    public static function find_round($id)
+    {
+        return RoundSecond::find($id);
+    }
+
     public static function get_event_types()
     {
         return EventTypeSecond::select('ID', 'name')->get();
@@ -323,6 +328,16 @@ class Helper
     public static function get_ios()
     {
         return IOSecond::select('io')->get();
+    }
+
+    public static function get_io_name($io)
+    {
+        switch ($io) {
+            case 'I':
+                return 'Indoor';
+            case 'O':
+                return 'Outdoor';
+        }
     }
 
     public static function get_country_name($id)

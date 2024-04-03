@@ -245,6 +245,7 @@ $meeting_types = Helper::get_meeting_types();
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
+                                    @if($meeting->can_delete())
                                     <form method="GET" action="{{ route('meetings.destroy', $meeting->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
@@ -252,6 +253,7 @@ $meeting_types = Helper::get_meeting_types();
                                             <i class="zmdi zmdi-delete text-dark"></i>
                                         </button>
                                     </form>
+                                    @endif
                                     @endif
                                 </div>
                             </td>

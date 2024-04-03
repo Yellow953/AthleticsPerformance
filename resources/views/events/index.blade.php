@@ -129,7 +129,11 @@
                     <tbody>
                         @forelse ($events as $event)
                         <tr class="tr-shadow">
-                            <td>{{ucwords($event->name)}} {{$event->type->name}}</td>
+                            <td>
+                                {{ucwords($event->name)}} {{$event->type->name}}
+                                {{ Helper::get_io_name($event->meeting->io) }} {{
+                                Helper::find_round($event->round)->name }}
+                            </td>
                             <td>
                                 <span class="block-email">{{ucwords($event->meeting->shortName ?? '')}}</span> <br>
 
@@ -140,12 +144,13 @@
                             </td>
                             <td>
                                 AgeGroup: {{$event->ageGroup->name}} <br>
-                                Gender: {{ $event->gender }}
+                                Gender: {{ $event->gender }} <br>
+                                IO: {{ $event->meeting->io }}
                             </td>
                             <td>
                                 <div class="table-data-feature">
                                     <a class="item bg-primary d-flex align-items-center justify-content-center"
-                                        href="{{ route('events.get_results') }}" data-toggle="tooltip"
+                                        href="{{ route('events.results', $event->id) }}" data-toggle="tooltip"
                                         data-placement="top" title="Results">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="dark"
                                             class="bi bi-bar-chart-fill" viewBox="0 0 16 16">
@@ -175,6 +180,7 @@
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>
+                                    @if($event->can_delete())
                                     <form method="GET" action="{{ route('events.destroy', $event->id) }}">
                                         @csrf
                                         <button class="item bg-danger show_confirm" type="submit" data-toggle="tooltip"
@@ -182,6 +188,7 @@
                                             <i class="zmdi zmdi-delete text-dark"></i>
                                         </button>
                                     </form>
+                                    @endif
                                     @endif
                                 </div>
                             </td>

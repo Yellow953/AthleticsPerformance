@@ -16,11 +16,11 @@
                     <div class="row mt-3 text-dark">
                         <div class="col-md-3">
                             <div><span class="text-white">Name:</span> {{$event->name ?? 'NULL'}}</div>
+                            <div><span class="text-white">Type:</span> {{$event->type->name}}</div>
                         </div>
                         <div class="col-md-3">
                             <div><span class="text-white">Meeting:</span> {{$event->meeting->shortName ?? ''}}</div>
                             <div><span class="text-white">Age Group:</span> {{$event->ageGroup->name}}</div>
-                            <div><span class="text-white">Type:</span> {{$event->type->name}}</div>
                         </div>
                         <div class="col-md-3">
                             <div><span class="text-white">Gender:</span> {{$event->gender ?? 'NULL'}}</div>
@@ -67,7 +67,7 @@
                                     @if ($result->competitor)
                                     {{ $result->competitor->name }}
                                     @if ($result->competitor->team)
-                                    {{ $result->competitor->team->name }}
+                                    ({{ $result->competitor->team->name }})
                                     @endif
                                     @endif
                                 </td>
@@ -109,7 +109,11 @@
                                         </div>
                                         <ul class="combobox-dropdown" id="competitors-combobox">
                                             @foreach ($competitors as $competitor)
-                                            <li data-value="{{$competitor->id}}">{{$competitor->name}}</li>
+                                            <li data-value="{{$competitor->id}}">{{$competitor->name}}
+                                                @if ($competitor->team)
+                                                ({{ $competitor->team->name }})
+                                                @endif
+                                            </li>
                                             @endforeach
                                         </ul>
                                         <input type="hidden" id="competitorID" name="competitorID">

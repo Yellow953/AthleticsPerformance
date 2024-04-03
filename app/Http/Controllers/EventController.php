@@ -41,10 +41,9 @@ class EventController extends Controller
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
-        $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
-        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'ios', 'genders');
+        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'genders');
         return view('events.new', $data);
     }
 
@@ -100,7 +99,7 @@ class EventController extends Controller
                     $data['name'] = '5 Miles';
                 } elseif ($data['distance'] == 16000) {
                     $data['name'] = '10 Miles';
-                } elseif ($data['io'] == 'R') {
+                } elseif ($data['typeID'] == 'R') {
                     $data['name'] = $data['distance'] / 1000 . 'km';
                 } else {
                     $data['name'] = $data['distance'] . 'm';
@@ -128,10 +127,9 @@ class EventController extends Controller
         $rounds = RoundSecond::select('ID', 'name')->get();
         $event_types = EventTypeSecond::select('ID', 'name')->get();
         $age_groups = AgeGroupSecond::select('ID', 'name')->orderBy('name')->get();
-        $ios = IOSecond::all();
         $genders = GenderSecond::all();
 
-        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'ios', 'genders', 'event');
+        $data = compact('meetings', 'rounds', 'event_types', 'age_groups', 'genders', 'event');
         return view('events.edit', $data);
     }
 
@@ -188,7 +186,7 @@ class EventController extends Controller
                     $data['name'] = '5 Miles';
                 } elseif ($data['distance'] == 16000) {
                     $data['name'] = '10 Miles';
-                } elseif ($data['io'] == 'R') {
+                } elseif ($data['typeID'] == 'R') {
                     $data['name'] = $data['distance'] / 1000 . 'km';
                 } else {
                     $data['name'] = $data['distance'] . 'm';
@@ -211,7 +209,7 @@ class EventController extends Controller
 
     public function export()
     {
-        $data = Event::select('id', 'name', 'typeID', 'extra', 'round', 'ageGroupID', 'gender', 'meetingID', 'wind', 'note', 'distance', 'io', 'heat', 'created_at')->get();
+        $data = Event::select('id', 'name', 'typeID', 'extra', 'round', 'ageGroupID', 'gender', 'meetingID', 'wind', 'note', 'distance', 'heat', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -253,7 +251,7 @@ class EventController extends Controller
     public function results(Event $event)
     {
         $results = Result::where('eventID', $event->id)->get();
-        $competitors = Competitor::select('id', 'name')->get();
+        $competitors = Competitor::select('id', 'name', 'teamID')->get();
 
         $data = compact('event', 'results', 'competitors');
         return view('events.results', $data);

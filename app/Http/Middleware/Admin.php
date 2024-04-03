@@ -12,14 +12,13 @@ class Admin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()) {
-            if (Auth::user()->role == "admin") {
+            if (Auth::user()->role == 'admin') {
                 return $next($request);
             } else {
                 return redirect()->back()->with('danger', 'You are not allowed to access this page!');
             }
         } else {
-            return redirect('/login')->with('danger', 'You are not logged in!');
+            return redirect()->route('login')->with('danger', 'You are not logged in!');
         }
-
     }
 }

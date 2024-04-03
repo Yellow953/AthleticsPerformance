@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="col-12 col-md-9">
                                     <input type="text" id="venue" name="venue" placeholder="Venue" class="form-control"
-                                        value="{{$record->vemue}}">
+                                        value="{{$record->venue}}">
                                 </div>
                             </div>
                         </div>

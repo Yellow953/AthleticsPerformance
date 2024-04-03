@@ -83,8 +83,8 @@
                                 @csrf
                                 <input type="hidden" name="meetingID" value="{{$meeting->id}}">
                                 <tr>
-                                    <td><input type="text" class="form-control" name="name" placeholder="Name"
-                                            {{auth()->user()->role != 'admin' ? 'disabled' : ''}}></td>
+                                    <td><input type="text" class="form-control" name="name" placeholder="Name" disabled>
+                                    </td>
                                     <td>
                                         <select name="typeID" class="form-control" required>
                                             <option value=""></option>
@@ -225,7 +225,7 @@
 
             var formData = new FormData($('#createEventForm')[0]);
             $.ajax({
-                url: {{ route('meetings.event_create') }},
+                url: "{{ route('meetings.event_create') }}",
                 method: 'POST',
                 data: formData,
                 processData: false,

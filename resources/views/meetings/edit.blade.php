@@ -14,7 +14,7 @@
                 <strong>Update Meeting</strong>
             </div>
             <div class="card-body card-block">
-                <form action="{{ route('meetings.create') }}" method="post" enctype="multipart/form-data"
+                <form action="{{ route('meetings.update', $meeting->id) }}" method="post" enctype="multipart/form-data"
                     class="form-horizontal">
                     @csrf
                     <div class="row">

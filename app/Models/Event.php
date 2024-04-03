@@ -33,6 +33,12 @@ class Event extends Model
         return $this->hasMany(Result::class, 'eventID');
     }
 
+    // Permissions
+    public function can_delete()
+    {
+        return $this->results->count() == 0;
+    }
+
     // Filter
     public function scopeFilter($q)
     {

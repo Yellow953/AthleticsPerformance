@@ -35,5 +35,4 @@ class Athlete extends Model
 
         return $q;
     }
-
 }

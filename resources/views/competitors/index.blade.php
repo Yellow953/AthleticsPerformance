@@ -169,7 +169,7 @@
                                     </a>
                                     @endif
 
-                                    <a class="item bg-warning" href="{{ route('competitors.edit') }}"
+                                    <a class="item bg-warning" href="{{ route('competitors.edit', $competitor->id) }}"
                                         data-toggle="tooltip" data-placement="top" title="Edit">
                                         <i class="zmdi zmdi-edit text-dark"></i>
                                     </a>

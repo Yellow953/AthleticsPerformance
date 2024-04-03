@@ -248,7 +248,7 @@ $has_results = $event->results->count() > 0;
             }
         }
 
-        $('#distance, #typeID, #round, #ageGroupID, #gender, #note, #io').change(function () {
+        $('#distance, #typeID, #round, #ageGroupID, #gender, #note').change(function () {
             updateEventData();
         });
     });

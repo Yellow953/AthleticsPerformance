@@ -24,6 +24,17 @@ class Meeting extends Model
         return $this->belongsTo(MeetingTypeSecond::class, 'typeID', 'ID');
     }
 
+    public function events()
+    {
+        return $this->hasMany(Event::class, 'meetingID');
+    }
+
+    // Permissions
+    public function can_delete()
+    {
+        return $this->events->count() == 0;
+    }
+
     // Filter
     public function scopeFilter($q)
     {
