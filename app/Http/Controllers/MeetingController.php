@@ -152,7 +152,7 @@ class MeetingController extends Controller
 
     public function export()
     {
-        $data = Meeting::select('id', 'IDSecond', 'ageGroupID', 'name', 'shortName', 'startDate', 'endDate', 'venue', 'country', 'typeID', 'subgroup', 'picture', 'picture2', 'isActive', 'isNew', 'created_at')->get();
+        $data = Meeting::select('id', 'IDSecond', 'ageGroupID', 'name', 'shortName', 'startDate', 'endDate', 'venue', 'country', 'typeID', 'subgroup', 'picture', 'picture2', 'isActive', 'isNew', 'io', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -185,7 +185,7 @@ class MeetingController extends Controller
             $rows++;
         }
 
-        $fileName = "Meeting.xls";
+        $fileName = "Meetings.xls";
         $writer = new Xls($spreadsheet);
         $writer->save($fileName);
 

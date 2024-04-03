@@ -127,7 +127,7 @@ class RecordController extends Controller
 
     public function export()
     {
-        $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'record', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();
+        $data = Record::select('id', 'date', 'venue', 'io', 'ageGroupID', 'gender', 'typeID', 'name', 'extra', 'competitor', 'teamID', 'result', 'note', 'wind', 'date2', 'current', 'distance', 'athleteID', 'points', 'resultValue', 'resultID', 'created_at')->get();
 
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
@@ -147,7 +147,7 @@ class RecordController extends Controller
                 $d->typeID,
                 $d->name,
                 $d->extra,
-                $d->record,
+                $d->competitor,
                 $d->teamID,
                 $d->result,
                 $d->note,
