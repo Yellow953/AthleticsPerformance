@@ -394,17 +394,40 @@ class EventController extends Controller
     {
         $request->validate([
             'competitorID' => 'required',
-            'position' => 'required',
             'result' => 'required',
         ]);
 
-        $data = $request->except('isHand', 'isActive');
+        $data = $request->except('isHand', 'isActive', 'position');
+        switch ($request->result) {
+            case '-':
+                $data['position'] = 30000;
+                break;
+            case 'DNF':
+                $data['position'] = 30001;
+                break;
+            case 'DNS':
+                $data['position'] = 30002;
+                break;
+            case 'NM':
+                $data['position'] = 30002;
+                break;
+            case 'DO':
+                $data['position'] = 30003;
+                break;
+            case 'FS':
+                $data['position'] = 30003;
+                break;
+
+            default:
+                $data['position'] = $request->position;
+                break;
+        }
         $data['isHand'] = $request->boolean('isHand');
         $data['isActive'] = $request->boolean('isActive');
         if (Result::where('uploaded', false)->count() == 0) {
             $data['id'] = ResultSecond::orderBy('ID', 'DESC')->first()->ID + 1;
         } else {
-            $data['id'] = Result::orderBy('ID', 'DESC')->first()->id + 1;
+            $data['id'] = Result::orderBy('id', 'DESC')->first()->id + 1;
         }
 
         $result = Result::create(

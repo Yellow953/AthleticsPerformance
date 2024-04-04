@@ -204,7 +204,7 @@
             
             var formData = new FormData($('#createResultForm')[0]);
             $.ajax({
-                url: '/events/result_create',
+                url: "{{ route('events.result_create') }}",
                 method: 'POST',
                 data: formData,
                 processData: false,

@@ -49,11 +49,36 @@ class ResultController extends Controller
     {
         $request->validate([
             'competitor_id' => 'required',
-            'position' => 'required',
             'result' => 'required',
         ]);
 
-        $data = $request->except('isHand', 'isActive');
+        $data = $request->except('isHand', 'isActive', 'result', 'position');
+        switch ($request->result) {
+            case '-':
+                $data['position'] = 30000;
+                break;
+            case 'DNF':
+                $data['position'] = 30001;
+                break;
+            case 'DNS':
+                $data['position'] = 30002;
+                break;
+            case 'NM':
+                $data['position'] = 30002;
+                break;
+            case 'DO':
+                $data['position'] = 30003;
+                break;
+            case 'FS':
+                $data['position'] = 30003;
+                break;
+
+            default:
+                $data['result'] = $request->result;
+                $data['position'] = $request->position;
+                break;
+        }
+
         $data['isHand'] = $request->boolean('isHand');
         $data['isActive'] = $request->boolean('isActive');
         if (Result::where('uploaded', false)->count() == 0) {
