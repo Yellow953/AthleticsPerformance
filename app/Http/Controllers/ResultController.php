@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AgeGroupSecond;
 use App\Models\Competitor;
+use App\Models\CompetitorSecond;
 use App\Models\Result;
 use App\Models\ResultSecond;
 use App\Models\Meeting;
@@ -352,7 +353,7 @@ class ResultController extends Controller
 
         $athlete = $this->uploadAthlete($competitor->athleteID);
 
-        EventSecond::updateOrInsert(
+        CompetitorSecond::updateOrInsert(
             ['ID' => $competitor->id],
             [
                 'ID' => $competitor->id,
