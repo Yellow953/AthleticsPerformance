@@ -107,7 +107,7 @@ class ResultController extends Controller
     public function update(Request $request, Result $result)
     {
         $request->validate([
-            'competitor_id' => 'required',
+            'competitorID' => 'required',
             'position' => 'required',
             'result' => 'required',
         ]);

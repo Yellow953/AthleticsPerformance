@@ -392,6 +392,10 @@ class MeetingController extends Controller
             $data['id'] = Event::orderBy('ID', 'DESC')->first()->id + 1;
         }
 
+        if ($request->name) {
+            $data['name'] = $request->name;
+        }
+
         $event = Event::create($data);
 
         return response()->json(['event' => $event]);

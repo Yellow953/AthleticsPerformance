@@ -52,11 +52,11 @@
                         <thead>
                             <tr>
                                 <th>Name</th>
-                                <th>Type</th>
+                                <th>Type *</th>
                                 <th>Extra</th>
-                                <th>Round</th>
-                                <th>Age Group</th>
-                                <th>Gender</th>
+                                <th>Round *</th>
+                                <th>Age Group *</th>
+                                <th>Gender *</th>
                                 <th>Note</th>
                                 <th>Distance</th>
                             </tr>
@@ -83,7 +83,8 @@
                                 @csrf
                                 <input type="hidden" name="meetingID" value="{{$meeting->id}}">
                                 <tr>
-                                    <td><input type="text" class="form-control" name="name" placeholder="Name" disabled>
+                                    <td><input type="text" class="form-control" name="name" placeholder="Name" {{
+                                            auth()->user()->role != 'admin' ? 'disabled' : '' }}>
                                     </td>
                                     <td>
                                         <select name="typeID" class="form-control" required>

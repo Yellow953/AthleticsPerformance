@@ -11,7 +11,8 @@
                     <div class="account-wrap">
                         <div class="account-item clearfix js-item-menu">
                             <div class="image bg-white">
-                                <img src="{{asset('assets/images/default_profile.png')}}" />
+                                <img src="{{asset('assets/images/default_profile.png')}}" loading="lazy"
+                                    alt="default profile picture" />
                             </div>
                             <div class="content">
                                 <a class="js-acc-btn text-white" href="{{ route('home') }}">{{auth()->user()->name}}</a>
@@ -20,7 +21,7 @@
                                 <div class="info clearfix">
                                     <div class="image">
                                         <a href="#">
-                                            <img src="{{asset('assets/images/default_profile.png')}}" />
+                                            <img src="{{asset('assets/images/default_profile.png')}}" loading="lazy" />
                                         </a>
                                     </div>
                                     <div class="content">

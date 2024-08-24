@@ -93,7 +93,7 @@
 
     <div class="row mt-5">
         <div class="col-md-3 my-auto">
-            <img src="{{asset('assets/images/logo.png')}}" alt="" class="dashboard-logo">
+            <img src="{{asset('assets/images/logo.png')}}" alt="" loading="lazy" class="dashboard-logo">
         </div>
         <div class="col-md-9 my-auto">
             <h2 class="text-yellow">Athletics Performance</h2>

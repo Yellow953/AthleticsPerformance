@@ -185,7 +185,8 @@ $meeting_types = Helper::get_meeting_types();
                             <td>
                                 <div class="row">
                                     <div class="col-3 my-auto">
-                                        <img src="{{asset($meeting->image ?? '/assets/images/no_img.png')}}" alt="">
+                                        <img src="{{asset($meeting->image ?? '/assets/images/no_img.png')}}"
+                                            loading="lazy" alt="">
                                     </div>
                                     <div class="col-9 my-auto">
                                         {{ucwords($meeting->shortName)}}<br>

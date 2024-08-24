@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="header-mobile-inner">
                 <a class="logo d-flex" href="{{ route('home') }}">
-                    <img src="{{asset('assets/images/logo.png')}}" class="logo-nav" />
+                    <img src="{{asset('assets/images/logo.png')}}" loading="lazy" class="logo-nav" />
                     <h5 class="text-yellow my-auto">Athletics Performance</h5>
                 </a>
                 <button class="hamburger hamburger--slider" type="button">
