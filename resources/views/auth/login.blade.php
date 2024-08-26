@@ -33,14 +33,14 @@
     <link href="{{asset('assets/css/theme.css')}}" rel="stylesheet" media="all">
 
     {{-- Favicon --}}
-    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.ico')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('assets/images/logo.png')}}" load="lazy">
 
     {{-- Custom Css --}}
     <link rel="stylesheet" href="{{asset('assets/css/custom.css')}}">
 
 </head>
 
-<body class="animsition">
+<body>
     <div class="page-wrapper p-0">
         <div class="page-content--bge5 bg-black">
             <br><br><br>

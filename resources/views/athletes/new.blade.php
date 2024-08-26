@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="container">
-    <a href="{{ route('athletes') }}" class="mb-3">
+    <a href="{{ url()->previous() }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>

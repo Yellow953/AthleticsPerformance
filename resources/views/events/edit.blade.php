@@ -7,7 +7,7 @@ $has_results = $event->results->count() > 0;
 @endphp
 
 <div class="container">
-    <a href="{{ route('events') }}" class="mb-3">
+    <a href="{{ url()->previous() }}" class="mb-3">
         <h3 class="text-white">
             < Back</h3>
     </a>
